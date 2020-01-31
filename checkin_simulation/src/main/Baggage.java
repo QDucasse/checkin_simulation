@@ -29,4 +29,6 @@ public class Baggage {
     public int getWeight() {
         return weight;
     }
+
+    public int getVolume() { return length*width*height; }
 }
