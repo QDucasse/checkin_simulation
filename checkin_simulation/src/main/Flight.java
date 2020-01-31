@@ -18,14 +18,14 @@ public class Flight {
         this.maxWeight = maxWeight;
         this.maxVolume = maxVolume;
         this.flightRef = flightRef;
-        this.passengerList = new ArrayList<Passenger>;
+        this.passengerList = new ArrayList<Passenger>();
     }
 
-    public java.lang.String getDestination() {
+    public String getDestination() {
         return destination;
     }
 
-    public java.lang.String getCarrier() {
+    public String getCarrier() {
         return carrier;
     }
 
@@ -41,7 +41,7 @@ public class Flight {
         return maxVolume;
     }
 
-    public java.lang.String getFlightRef() {
+    public String getFlightRef() {
         return flightRef;
     }
 
