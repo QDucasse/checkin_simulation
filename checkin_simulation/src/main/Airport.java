@@ -7,7 +7,7 @@ public class Airport {
     private ArrayList<Flight> flightList;
 
     public String outputReport(){
-        String globalReport = "";
+        StringBuilder globalReport = new StringBuilder();
         for (Flight flight : flightList){
             String flightReport;
             flightReport = String.format("========================\n" +
@@ -23,8 +23,8 @@ public class Airport {
             if (!flight.checkWeight()) flightReport += "The weight is exceeded!\n";
             if (!flight.checkVolume()) flightReport += "The volume is exceeded!\n";
             flightReport = flightReport + "========================\n";
-            globalReport += flightReport;
+            globalReport.append(flightReport);
         }
-        return globalReport;
+        return globalReport.toString();
     }
 }
