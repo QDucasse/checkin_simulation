@@ -21,6 +21,8 @@ public class Flight {
         this.passengerList = new ArrayList<Passenger>();
     }
 
+    /* ACCESSORS */
+
     public String getDestination() {
         return destination;
     }
@@ -65,6 +67,10 @@ public class Flight {
         return total;
     }
 
+    public int totalPassengers(){
+        return (passengerList.size());
+    }
+
     public boolean checkWeight(){
         return (totalWeight() <= maxWeight);
     }
@@ -76,4 +82,6 @@ public class Flight {
     public boolean checkPassengers(){
         return (passengerList.size() <= maxPassengers);
     }
+
+
 }

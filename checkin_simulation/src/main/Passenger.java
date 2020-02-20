@@ -25,7 +25,7 @@ public class Passenger {
     }
 
     public synchronized CheckinResult checkIn(String flightReference, Baggage baggage) {
-        if (checkedIn == true)
+        if (checkedIn)
             // Check in is already done, abort her
             return CheckinResult.WARNING_ALREADY_DONE;
 
