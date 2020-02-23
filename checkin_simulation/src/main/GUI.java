@@ -24,6 +24,7 @@ public class GUI extends JFrame implements ActionListener{
     JButton checkIn;
     JTextArea displayList;
     JScrollPane scrollList;
+    boolean match = false;
 
 
     public GUI(ArrayList<Passenger> passengerList) {
@@ -87,19 +88,22 @@ public class GUI extends JFrame implements ActionListener{
 
     private void checkIn() {
         try {
+
+
             int bWeight= Integer.parseInt(baggageWeight.getText().trim());
             int bLength= Integer.parseInt(baggageLength.getText().trim());
             int bWidth= Integer.parseInt(baggageWidth.getText().trim());
             int bHeight= Integer.parseInt(baggageHeight.getText().trim());
-            String searchString=bookingRef.getText().trim();
-            String searchString2=passengerName.getText();
+            String bRef=bookingRef.getText().trim();
+            String pName=passengerName.getText().trim();
             for (Passenger passenger: passengerList) {
                 String name = passenger.getName();
                 String bookingRef = passenger.getBookingReference();
 
 
-                if (name.equals(searchString2) && bookingRef.equals(searchString)){
+                if (name.equals(pName) && bookingRef.equals(bRef)){
                     boolean checkIn = passenger.isCheckedIn();
+                    match = true;
                     if (checkIn == true) {
                         displayList.setText(displayList.getText() + "Check-In status: " + checkIn + "\n");
                         displayList.setText(displayList.getText() + "This passenger is already checked-in." + "\n");
@@ -113,13 +117,19 @@ public class GUI extends JFrame implements ActionListener{
                     }
                 }
             }
-        }catch(StringIndexOutOfBoundsException e) {
+
+            if (match == false)
+            {
+                displayList.setText(displayList.getText() + "Booking reference and passenger name don't match." + "\n");
+            }
+
+        }catch(NumberFormatException e) {
             System.out.println(e.getMessage());
+            displayList.setText(displayList.getText() + "Please insert valid values. "+ "\n");
         }
     }
 
     public void actionPerformed(ActionEvent e) {
-
         if (e.getSource()==checkIn) {
             checkIn();
         }
