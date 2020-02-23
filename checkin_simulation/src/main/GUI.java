@@ -114,6 +114,18 @@ public class GUI extends JFrame implements ActionListener{
                         boolean checkIn2 = passenger.isCheckedIn();
                         displayList.setText(displayList.getText() + "Check-In status:" + checkIn2 + "\n");
                         displayList.setText(displayList.getText() + "This passenger is now checked-in with his baggage." + "\n");
+                        if (bWeight>20 && (bLength>20 || bHeight>20 || bWidth>20) )
+                        {
+                            displayList.setText(displayList.getText() + "Dimension & weight excess : +60£" + "\n");
+                        }
+                        else if (bWeight>20)
+                        {
+                            displayList.setText(displayList.getText() + "Weight excess : +30£" + "\n");
+                        }
+                        else if (bLength>20 || bHeight>20 || bWidth>20)
+                        {
+                            displayList.setText(displayList.getText() + "Dimension excess : +30£" + "\n");
+                        }
                     }
                 }
             }
