@@ -83,5 +83,9 @@ public class Flight {
         return (passengerList.size() <= maxPassengers);
     }
 
+    public void showGUI(){
+        GUI gui = new GUI(passengerList);
+        gui.setVisible(true);
+    }
 
 }
