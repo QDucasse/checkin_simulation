@@ -54,6 +54,14 @@ public class Passenger {
         return baggage;
     }
 
+    public void setBaggage(Baggage baggage) {
+        this.baggage = baggage;
+    }
+
+    public void setCheckIn(boolean checkedIn) {
+        this.checkedIn = checkedIn;
+    }
+
     public enum CheckinResult {
         DONE,
         ERR_FLIGHT_REFERENCE,
@@ -61,5 +69,7 @@ public class Passenger {
         ERR_BAGGAGE_DIMENSIONS,
         WARNING_ALREADY_DONE
     }
+
+
 
 }
