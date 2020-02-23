@@ -43,7 +43,7 @@ public class GUI extends JFrame implements ActionListener{
         searchPanel.add(new JLabel("Booking ref: "));
         bookingRef = new JTextField(5);
         searchPanel.add(bookingRef);
-        searchPanel.add(new JLabel("Passenger name: "));
+        searchPanel.add(new JLabel("Passenger  last name: "));
         passengerName = new JTextField(5);
         searchPanel.add(passengerName);
         JPanel northPanel=new JPanel();
@@ -88,20 +88,19 @@ public class GUI extends JFrame implements ActionListener{
 
     private void checkIn() {
         try {
-
-
             int bWeight= Integer.parseInt(baggageWeight.getText().trim());
             int bLength= Integer.parseInt(baggageLength.getText().trim());
             int bWidth= Integer.parseInt(baggageWidth.getText().trim());
             int bHeight= Integer.parseInt(baggageHeight.getText().trim());
             String bRef=bookingRef.getText().trim();
             String pName=passengerName.getText().trim();
+
             for (Passenger passenger: passengerList) {
                 String name = passenger.getName();
+                String lastName = passenger.getLastName(name);
                 String bookingRef = passenger.getBookingReference();
 
-
-                if (name.equals(pName) && bookingRef.equals(bRef)){
+                if (lastName.equals(pName) && bookingRef.equals(bRef)){
                     boolean checkIn = passenger.isCheckedIn();
                     match = true;
                     if (checkIn == true) {
