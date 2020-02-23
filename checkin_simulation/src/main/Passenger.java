@@ -58,6 +58,13 @@ public class Passenger {
         this.baggage = baggage;
     }
 
+    public String getLastName(String fullName)
+    {
+       int separator2 = fullName.lastIndexOf(' ');
+       String lastName = fullName.substring(separator2 + 1);
+       return lastName;
+    }
+
     public void setCheckIn(boolean checkedIn) {
         this.checkedIn = checkedIn;
     }
