@@ -2,6 +2,8 @@ package main;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -35,6 +37,15 @@ public class GUI extends JFrame implements ActionListener{
         setupSouthPanel();
         pack();
         setVisible(true);
+
+        // Closing event
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                // Exit the program
+                System.exit(0);
+            }
+        });
     }
 
     private void setupNorthPanel() {

@@ -1,5 +1,7 @@
 package main;
 
+import java.io.IOException;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -14,9 +16,8 @@ public class Main {
         passenger2.setBaggage(baggage2);
         f1.addPassenger(passenger1);
         f1.addPassenger(passenger2);
-        f1.showGUI();
         airport.addFlight(f1);
-        //f1.showGUI();
+        f1.showGUI();
         try {
             Serializer.airportToFile(airport, "output.json");
         } catch (IOException e) {
