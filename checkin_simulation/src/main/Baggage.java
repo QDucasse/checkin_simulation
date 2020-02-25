@@ -30,5 +30,5 @@ public class Baggage {
         return weight;
     }
 
-    public int getVolume() { return length*width*height; }
+    public int getVolume() { return length*width*height/1000; }
 }

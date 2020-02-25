@@ -8,25 +8,27 @@ public class Passenger {
     public static final int EXCESS_FEE = 12;
     public static final int ERR_FLIGHT_REF = -1;
 
-    private final String name;
-    private final Airport airport;
+    private String name;
     private String flightReference;
     private String bookingReference;
     private boolean checkedIn;
     private Baggage baggage;
 
-    public Passenger(Airport airport, String name, String flightReference, String bookingReference, boolean checkedIn) {
-        this.airport = airport;
+    public Passenger(String name, String flightReference, String bookingReference, Baggage baggage, boolean checkedIn) {
         this.name = name;
         this.flightReference = flightReference;
         this.bookingReference = bookingReference;
+        this.baggage = baggage;
         this.checkedIn = checkedIn;
-        this.baggage = null;
+    }
+
+    public Passenger(String name, String flightReference, String bookingReference, boolean checkedIn) {
+        new Passenger(name,flightReference,bookingReference,null,checkedIn);
     }
 
     public synchronized CheckinResult checkIn(String flightReference, Baggage baggage) {
         if (checkedIn)
-            // Check in is already done, abort her
+            // Check in is already done
             return CheckinResult.WARNING_ALREADY_DONE;
 
         if (!this.flightReference.equalsIgnoreCase(flightReference))

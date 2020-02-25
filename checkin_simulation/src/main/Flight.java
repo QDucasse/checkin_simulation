@@ -9,15 +9,17 @@ public class Flight {
     private int maxWeight;
     private int maxVolume;
     private String flightRef;
+    private int baggageMaxWeight;
     private ArrayList<Passenger> passengerList;
 
-    public Flight(String destination, String carrier, int maxPassengers, int maxWeight, int maxVolume, String flightRef) {
+    public Flight(String destination, String carrier, int maxPassengers, int maxWeight, int maxVolume, String flightRef, int baggageMaxWeight) {
         this.destination = destination;
         this.carrier = carrier;
         this.maxPassengers = maxPassengers;
         this.maxWeight = maxWeight;
         this.maxVolume = maxVolume;
         this.flightRef = flightRef;
+        this.baggageMaxWeight = baggageMaxWeight;
         this.passengerList = new ArrayList<Passenger>();
     }
 
@@ -45,6 +47,10 @@ public class Flight {
 
     public String getFlightRef() {
         return flightRef;
+    }
+
+    public int getBaggageMaxWeight() {
+        return baggageMaxWeight;
     }
 
     public void addPassenger(Passenger newPassenger){
