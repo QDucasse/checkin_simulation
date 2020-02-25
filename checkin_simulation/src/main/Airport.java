@@ -10,6 +10,7 @@ public class Airport {
         INSTANCE VARIABLES
     ======================= */
 
+
     private ArrayList<Passenger> passengerList;
     private ArrayList<Flight> flightList;
 

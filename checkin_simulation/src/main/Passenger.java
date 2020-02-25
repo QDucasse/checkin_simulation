@@ -69,8 +69,7 @@ public class Passenger {
         this.baggage = baggage;
     }
 
-    public String getLastName()
-    {
+    public String getLastName() {
         int separator2 = name.lastIndexOf(' ');
         String lastName = name.substring(separator2 + 1);
         return lastName;

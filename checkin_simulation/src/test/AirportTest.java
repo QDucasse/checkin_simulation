@@ -3,14 +3,14 @@ package test;
 import org.junit.*;
 
 public class AirportTest {
+
     @BeforeClass
-    public void setupBeforeClass() {
+    public static void setupBeforeClass() {
 
     }
 
     @AfterClass
-    public void tearDownAfterClass() {
-
+    public static void tearDownAfterClass() {
     }
 
     @Before
@@ -19,7 +19,6 @@ public class AirportTest {
 
     @After
     public void tearDown() {
-
     }
 
     @Test

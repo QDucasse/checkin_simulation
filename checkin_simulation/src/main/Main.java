@@ -1,5 +1,7 @@
 package main;
 
+import java.io.IOException;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -17,7 +19,14 @@ public class Main {
         System.out.println(f1.totalWeight());
         System.out.println(f1.totalVolume());
         System.out.println(f1.totalPassengers());
+        airport.addFlight(f1);
         //f1.showGUI();
+        try {
+            Serializer.airportToFile(airport, "output.json");
+        } catch (IOException e) {
+            System.err.println("An error occurred when savings details");
+           // e.printStackTrace();
+        }
     }
 
 }
