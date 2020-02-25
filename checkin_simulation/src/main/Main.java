@@ -1,7 +1,5 @@
 package main;
 
-import java.io.IOException;
-
 public class Main {
 
     public static void main(String[] args) {
@@ -16,9 +14,7 @@ public class Main {
         passenger2.setBaggage(baggage2);
         f1.addPassenger(passenger1);
         f1.addPassenger(passenger2);
-        System.out.println(f1.totalWeight());
-        System.out.println(f1.totalVolume());
-        System.out.println(f1.totalPassengers());
+        f1.showGUI();
         airport.addFlight(f1);
         //f1.showGUI();
         try {
