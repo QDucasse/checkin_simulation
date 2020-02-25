@@ -5,7 +5,7 @@ public class Main {
     public static void main(String[] args) {
 
         Airport airport = new Airport();
-        Flight f1 = new Flight("destination", "carrier", 8, 100, 100, "EH145",10);
+        Flight f1 = new Flight("destination", "carrier", 8, 100, 100, "EH145");
         Passenger passenger1 = new Passenger("name", "EH145", "1225", true);
         Passenger passenger2 = new Passenger("joan", "EH146", "1244", false);
         Baggage baggage1 = new Baggage(10, 20, 30, 9);

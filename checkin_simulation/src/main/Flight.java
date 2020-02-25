@@ -3,6 +3,11 @@ package main;
 import java.util.ArrayList;
 
 public class Flight {
+
+    /* =======================
+        INSTANCE VARIABLES
+    ======================= */
+
     private String destination;
     private String carrier;
     private int maxPassengers;
@@ -10,9 +15,16 @@ public class Flight {
     private int maxVolume;
     private String flightRef;
     private int baggageMaxWeight;
+    private int baggageMaxVolume;
+    private int excessFee;
     private ArrayList<Passenger> passengerList;
 
-    public Flight(String destination, String carrier, int maxPassengers, int maxWeight, int maxVolume, String flightRef, int baggageMaxWeight) {
+    /* =======================
+           CONSTRUCTORS
+    ======================= */
+
+    public Flight(String destination, String carrier, int maxPassengers, int maxWeight, int maxVolume, String flightRef,
+                  int baggageMaxWeight, int baggageMaxVolume, int excessFee) {
         this.destination = destination;
         this.carrier = carrier;
         this.maxPassengers = maxPassengers;
@@ -20,10 +32,18 @@ public class Flight {
         this.maxVolume = maxVolume;
         this.flightRef = flightRef;
         this.baggageMaxWeight = baggageMaxWeight;
+        this.baggageMaxVolume = baggageMaxVolume;
+        this.excessFee = excessFee;
         this.passengerList = new ArrayList<Passenger>();
     }
 
-    /* ACCESSORS */
+    public Flight(String destination, String carrier, int maxPassengers, int maxWeight, int maxVolume, String flightRef) {
+        this(destination,carrier,maxPassengers,maxWeight,maxVolume,flightRef,30,23,30);
+    }
+
+    /* =======================
+            ACCESSORS
+    ======================= */
 
     public String getDestination() {
         return destination;
@@ -52,6 +72,14 @@ public class Flight {
     public int getBaggageMaxWeight() {
         return baggageMaxWeight;
     }
+
+    public int getBaggageMaxVolume() {
+        return baggageMaxVolume;
+    }
+
+    /* =======================
+             METHODS
+    ======================= */
 
     public void addPassenger(Passenger newPassenger){
         passengerList.add(newPassenger);

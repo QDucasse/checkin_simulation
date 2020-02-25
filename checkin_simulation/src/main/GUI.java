@@ -97,7 +97,7 @@ public class GUI extends JFrame implements ActionListener{
 
             for (Passenger passenger: passengerList) {
                 String name = passenger.getName();
-                String lastName = passenger.getLastName(name);
+                String lastName = passenger.getLastName();
                 String bookingRef = passenger.getBookingReference();
 
                 if (lastName.equals(pName) && bookingRef.equals(bRef)){

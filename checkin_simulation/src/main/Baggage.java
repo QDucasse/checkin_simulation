@@ -2,10 +2,18 @@ package main;
 
 public class Baggage {
 
+    /* =======================
+        INSTANCE VARIABLES
+    ======================= */
+
     private final int length;
     private final int height;
     private final int width;
     private final int weight;
+
+    /* =======================
+           CONSTRUCTORS
+    ======================= */
 
     public Baggage(int length, int height, int width, int weight) {
         this.length = length;
@@ -13,6 +21,10 @@ public class Baggage {
         this.width = width;
         this.weight = weight;
     }
+
+    /* =======================
+            ACCESSORS
+    ======================= */
 
     public int getLength() {
         return length;

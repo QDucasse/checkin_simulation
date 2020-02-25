@@ -5,6 +5,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 
 public class Serializer {
+
+    /* =======================
+        INSTANCE VARIABLES
+    ======================= */
+
     private Airport airport;
 
     public String airportToReport(){

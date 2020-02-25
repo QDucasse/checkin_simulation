@@ -16,7 +16,7 @@ public class FlightTest extends TestCase {
 
     @Before
     public void setUp() {
-        dummyFlight = new Flight("Edinburgh", "RyanAir", 2, 100, 100, "EH145", 10);
+        dummyFlight = new Flight("Edinburgh", "RyanAir", 2, 100, 100, "EH145");
         dummyBaggage1 = new Baggage(10, 20, 30, 9);
         dummyBaggage2 = new Baggage(20, 10, 30, 11);
         dummyPassenger1 = new Passenger( "John Doe", "EH145", "1225", true);
