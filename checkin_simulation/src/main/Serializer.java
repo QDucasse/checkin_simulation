@@ -11,9 +11,8 @@ import java.nio.file.Paths;
 public class Serializer {
 
     /* =======================
-        INSTANCE VARIABLES
+            METHODS
     ======================= */
-
 
     public static void airportToFile(Airport airport, String outputFilename) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -36,5 +35,9 @@ public class Serializer {
             System.out.println(e);
         }
         return null;
+    }
+
+    public void checkObjects(Airport airport){
+        airport.checkObjects();
     }
 }

@@ -6,10 +6,12 @@ import java.util.ArrayList;
 
 public class Airport {
 
+    private static final String PATTERN_FLIGHT = "(?<![A-Z])[A-Z]{2}\\d{3}(?!\\d)";
+    private static final String PATTERN_BOOKING = "(?<![A-Z])[A-Z]{2}\\d{1}[A-Z]{2}\\d{1}(?!\\d)";
+
     /* =======================
         INSTANCE VARIABLES
     ======================= */
-
 
     private ArrayList<Passenger> passengerList;
     private ArrayList<Flight> flightList;
@@ -68,5 +70,18 @@ public class Airport {
             globalReport.append(flightReport);
         }
         return globalReport.toString();
+    }
+
+    public void checkObjects(){
+        for (Flight flight : flightList){
+            if (!flight.getFlightRef().matches(PATTERN_FLIGHT)){
+                flightList.remove(flight);
+            }
+        }
+        for (Passenger passenger : passengerList){
+            if (!passenger.getBookingReference().matches(PATTERN_BOOKING)){
+                passengerList.remove(passenger);
+            }
+        }
     }
 }
