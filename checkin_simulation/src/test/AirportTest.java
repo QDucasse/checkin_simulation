@@ -48,9 +48,6 @@ public class AirportTest extends TestCase {
         dummyAirport.addFlight(dummyFlight2);
     }
 
-    @Rule
-    public final ExpectedException exception = ExpectedException.none();
-
     @Test
     public void testGetFlightRefFound() throws FlightNotFoundException {
         assertEquals(dummyFlight2,dummyAirport.getFlightFromRef("FR145"));
