@@ -15,6 +15,11 @@ import javax.swing.JTextField;
 
 public class GUI extends JFrame implements ActionListener{
 
+
+    /**
+     * Instance variables
+     */
+
    private ArrayList<Passenger> passengerList;
 
     JTextField bookingRef;
@@ -29,6 +34,12 @@ public class GUI extends JFrame implements ActionListener{
     boolean match = false;
 
 
+    /**
+     * GUI constructor
+     * Call methods to create the interface.
+     * @param passengerList
+     */
+
     public GUI(ArrayList<Passenger> passengerList) {
         this.passengerList=passengerList;
         setTitle("Check-in GUI");
@@ -38,7 +49,9 @@ public class GUI extends JFrame implements ActionListener{
         pack();
         setVisible(true);
 
-        // Closing event
+        /**
+         * Closing Event
+         */
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -47,6 +60,15 @@ public class GUI extends JFrame implements ActionListener{
             }
         });
     }
+
+    /* =======================
+      INTERFACE CONSTRUCTION
+    ======================= */
+
+    /**
+     * Method to set up the interface using Swing
+     * North part of the interface asking passenger information.
+     */
 
     private void setupNorthPanel() {
         JPanel searchPanel = new JPanel();
@@ -63,6 +85,11 @@ public class GUI extends JFrame implements ActionListener{
         this.add(northPanel, BorderLayout.NORTH);
     }
 
+    /**
+     * Method to set up the GUI using Swing
+     * South part of the panel to display information about the check-in and baggage fees.
+     */
+
     private void setupSouthPanel() {
         displayList = new JTextArea(10,10);
         displayList.setFont(new Font (Font.MONOSPACED, Font.PLAIN,14));
@@ -71,6 +98,11 @@ public class GUI extends JFrame implements ActionListener{
         this.add(scrollList,BorderLayout.SOUTH);
     }
 
+    /**
+     * Method to set up the GUI using Swing
+     * Middle part of the GUI asking for baggage information.
+     * Check-in button
+     */
     private void setupCenterPanel() {
         JPanel bagagePanel = new JPanel();
         bagagePanel.setLayout(new GridLayout(1,2));
@@ -96,6 +128,11 @@ public class GUI extends JFrame implements ActionListener{
     }
 
 
+    /**
+     * Method used for the checkIn button
+     * Set the check-in value to true if the passenger last name and booking reference match.
+     * Set a baggage for a passenger, display excess fee if applied.
+     */
 
     private void checkIn() {
         try {
@@ -124,7 +161,7 @@ public class GUI extends JFrame implements ActionListener{
                         boolean checkIn2 = passenger.isCheckedIn();
                         displayList.setText(displayList.getText() + "Check-In status:" + checkIn2 + "\n");
                         displayList.setText(displayList.getText() + "This passenger is now checked-in with his baggage." + "\n");
-                        if (bWeight>20 && (bLength>20 || bHeight>20 || bWidth>20) )
+                        if (bWeight>30 && (bLength>23 || bHeight>23 || bWidth>23) )
                         {
                             displayList.setText(displayList.getText() + "Dimension & weight excess : +60£" + "\n");
                         }
@@ -150,6 +187,12 @@ public class GUI extends JFrame implements ActionListener{
             displayList.setText(displayList.getText() + "Please insert valid values. "+ "\n");
         }
     }
+
+    /**
+     * Method for the button interaction.
+     * Call the checkIn method if the checkIn button is pressed on.
+     * @param e
+     */
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource()==checkIn) {
