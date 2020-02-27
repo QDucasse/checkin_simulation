@@ -11,6 +11,33 @@ import java.nio.file.Paths;
 public class Serializer {
 
     /* =======================
+        INSTANCE VARIABLES
+    ======================= */
+
+    private Airport airport;
+
+    /* =======================
+           CONSTRUCTORS
+    ======================= */
+
+    public Serializer(Airport airport){
+        this.airport = airport;
+    }
+
+    public Serializer(String filename) {
+        Airport airport = fileToAirport(filename);
+        this.airport = airport;
+    }
+
+    /* =======================
+           ACCESSORS
+    ======================= */
+
+    public Airport getAirport(){
+        return airport;
+    }
+
+    /* =======================
             METHODS
     ======================= */
 
@@ -37,7 +64,7 @@ public class Serializer {
         return null;
     }
 
-    public void checkObjects(Airport airport){
-        airport.checkObjects();
+    public void checkLists(Airport airport){
+        airport.checkLists();
     }
 }

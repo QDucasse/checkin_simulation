@@ -77,6 +77,8 @@ public class Flight {
         return baggageMaxVolume;
     }
 
+    public int getExcessFee() { return excessFee; }
+
     /* =======================
              METHODS
     ======================= */
@@ -115,11 +117,6 @@ public class Flight {
 
     public boolean checkPassengers(){
         return (passengerList.size() <= maxPassengers);
-    }
-
-    public void showGUI(){
-        GUI gui = new GUI(passengerList);
-        gui.setVisible(true);
     }
 
 }

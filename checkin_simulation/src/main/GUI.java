@@ -1,4 +1,7 @@
 package main;
+import main.exceptions.BookingRefAndNameNoMatchException;
+import main.exceptions.FlightNotFoundException;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,22 +18,29 @@ import javax.swing.JTextField;
 
 public class GUI extends JFrame implements ActionListener{
 
-   private ArrayList<Passenger> passengerList;
+    /* =======================
+        INSTANCE VARIABLES
+    ======================= */
 
-    JTextField bookingRef;
-    JTextField passengerName;
-    JTextField baggageWeight;
-    JTextField baggageWidth;
-    JTextField baggageHeight;
-    JTextField baggageLength;
-    JButton checkIn;
-    JTextArea displayList;
-    JScrollPane scrollList;
-    boolean match = false;
+    private Serializer serializer;
 
+    private JTextField bookingRef;
+    private JTextField passengerName;
+    private JTextField baggageWeight;
+    private JTextField baggageWidth;
+    private JTextField baggageHeight;
+    private JTextField baggageLength;
+    private JButton checkIn;
+    private JTextArea displayList;
+    private JScrollPane scrollList;
+    private boolean match = false;
 
-    public GUI(ArrayList<Passenger> passengerList) {
-        this.passengerList=passengerList;
+    /* =======================
+          CONSTRUCTORS
+    ======================= */
+
+    public GUI(Serializer serializer, String filename) {
+        this.serializer = serializer;
         setTitle("Check-in GUI");
         setupNorthPanel();
         setupCenterPanel();
@@ -38,15 +48,27 @@ public class GUI extends JFrame implements ActionListener{
         pack();
         setVisible(true);
 
+        this.serializer.fileToAirport(filename);
+
         // Closing event
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 // Exit the program
+                e.getWindow().dispose();
                 System.exit(0);
+
             }
         });
     }
+
+    public GUI(String filename) {
+        this(new Serializer(filename), filename);
+    }
+
+    /* =======================
+            METHODS
+    ======================= */
 
     private void setupNorthPanel() {
         JPanel searchPanel = new JPanel();
@@ -95,55 +117,87 @@ public class GUI extends JFrame implements ActionListener{
         this.add(centerPanel,BorderLayout.CENTER);
     }
 
-
-
     private void checkIn() {
         try {
             int bWeight= Integer.parseInt(baggageWeight.getText().trim());
             int bLength= Integer.parseInt(baggageLength.getText().trim());
             int bWidth= Integer.parseInt(baggageWidth.getText().trim());
             int bHeight= Integer.parseInt(baggageHeight.getText().trim());
+            Baggage inputBaggage = new Baggage(bLength,bHeight,bWidth,bWeight);
             String bRef=bookingRef.getText().trim();
             String pName=passengerName.getText().trim();
 
-            for (Passenger passenger: passengerList) {
-                String name = passenger.getName();
-                String lastName = passenger.getLastName();
-                String bookingRef = passenger.getBookingReference();
+            Passenger targetPassenger;
+            Airport airport = serializer.getAirport();
 
-                if (lastName.equals(pName) && bookingRef.equals(bRef)){
-                    boolean checkIn = passenger.isCheckedIn();
-                    match = true;
-                    if (checkIn == true) {
-                        displayList.setText(displayList.getText() + "Check-In status: " + checkIn + "\n");
-                        displayList.setText(displayList.getText() + "This passenger is already checked-in." + "\n");
-                    }else {
-                        Baggage baggage = new Baggage(bLength, bHeight, bWidth, bWeight);
-                        passenger.setBaggage(baggage);
-                        passenger.setCheckIn(true);
-                        boolean checkIn2 = passenger.isCheckedIn();
-                        displayList.setText(displayList.getText() + "Check-In status:" + checkIn2 + "\n");
+            try {
+                targetPassenger = airport.getPassengerFromBookingRefAndName(bRef,pName);
+                targetPassenger.setBaggage(inputBaggage);
+                Passenger.CheckinResult checkInResult = targetPassenger.checkIn(airport);
+                Flight targetFlight = airport.getFlightFromRef(targetPassenger.getFlightReference());
+                String fee = Integer.toString(targetFlight.getExcessFee());
+                switch(checkInResult){
+                    case DONE:
                         displayList.setText(displayList.getText() + "This passenger is now checked-in with his baggage." + "\n");
-                        if (bWeight>20 && (bLength>20 || bHeight>20 || bWidth>20) )
-                        {
-                            displayList.setText(displayList.getText() + "Dimension & weight excess : +60£" + "\n");
-                        }
-                        else if (bWeight>20)
-                        {
-                            displayList.setText(displayList.getText() + "Weight excess : +30£" + "\n");
-                        }
-                        else if (bLength>20 || bHeight>20 || bWidth>20)
-                        {
-                            displayList.setText(displayList.getText() + "Dimension excess : +30£" + "\n");
-                        }
-                    }
+                        break;
+                    case ERR_FLIGHT_REFERENCE:
+                        displayList.setText(displayList.getText() + "This flight reference associated to this passenger does not exist." + "\n");
+                        break;
+                    case WARNING_ALREADY_DONE:
+                        displayList.setText(displayList.getText() + "This passenger is already checked-in." + "\n");
+                        break;
+                    case WARNING_BAGGAGE_VOLUME:
+                        displayList.setText(displayList.getText() + "The dimensions are exceeded, the passenger has to pay: " + fee + "\n");
+                        break;
+                    case WARNING_BAGGAGE_WEIGHT:
+                        displayList.setText(displayList.getText() + "The weight is exceeded, the passenger has to pay: " + fee + "\n");
+                        break;
                 }
+            } catch (BookingRefAndNameNoMatchException e) {
+                displayList.setText(displayList.getText() + "This booking reference and name do not match" + "\n");;
+            } catch (FlightNotFoundException e) {
+                displayList.setText(displayList.getText() + "This flight reference associated to this passenger does not exist." + "\n");;
             }
 
-            if (match == false)
-            {
-                displayList.setText(displayList.getText() + "Booking reference and passenger name don't match." + "\n");
-            }
+
+//            for (Passenger passenger: passengerList) {
+//                String name = passenger.getName();
+//                String lastName = passenger.getLastName();
+//                String bookingRef = passenger.getBookingReference();
+//
+//                if (lastName.equals(pName) && bookingRef.equals(bRef)){
+//                    boolean checkIn = passenger.getCheckedIn();
+//                    match = true;
+//                    if (checkIn == true) {
+//                        displayList.setText(displayList.getText() + "Check-In status: " + checkIn + "\n");
+//                        displayList.setText(displayList.getText() + "This passenger is already checked-in." + "\n");
+//                    }else {
+//                        Baggage baggage = new Baggage(bLength, bHeight, bWidth, bWeight);
+//                        passenger.setBaggage(baggage);
+//                        passenger.setCheckIn(true);
+//                        boolean checkIn2 = passenger.getCheckedIn();
+//                        displayList.setText(displayList.getText() + "Check-In status:" + checkIn2 + "\n");
+//                        displayList.setText(displayList.getText() + "This passenger is now checked-in with his baggage." + "\n");
+//                        if (bWeight>20 && (bLength>20 || bHeight>20 || bWidth>20) )
+//                        {
+//                            displayList.setText(displayList.getText() + "Dimension & weight excess : +60£" + "\n");
+//                        }
+//                        else if (bWeight>20)
+//                        {
+//                            displayList.setText(displayList.getText() + "Weight excess : +30£" + "\n");
+//                        }
+//                        else if (bLength>20 || bHeight>20 || bWidth>20)
+//                        {
+//                            displayList.setText(displayList.getText() + "Dimension excess : +30£" + "\n");
+//                        }
+//                    }
+//                }
+//            }
+//
+//            if (match == false)
+//            {
+//                displayList.setText(displayList.getText() + "Booking reference and passenger name don't match." + "\n");
+//            }
 
         }catch(NumberFormatException e) {
             System.out.println(e.getMessage());

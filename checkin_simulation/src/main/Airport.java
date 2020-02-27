@@ -1,5 +1,6 @@
 package main;
 
+import main.exceptions.BookingRefAndNameNoMatchException;
 import main.exceptions.FlightNotFoundException;
 
 import java.util.ArrayList;
@@ -38,6 +39,15 @@ public class Airport {
         throw new FlightNotFoundException("Flight reference not found");
     }
 
+    public Passenger getPassengerFromBookingRefAndName(String bookingReference, String lastName) throws BookingRefAndNameNoMatchException {
+        for (Passenger passenger : passengerList){
+            if (passenger.getBookingReference() == bookingReference && passenger.getLastName() == lastName) {
+                return passenger;
+            }
+        }
+        throw new BookingRefAndNameNoMatchException("Booking reference and name do not match");
+    }
+
     /* =======================
              METHODS
     ======================= */
@@ -72,7 +82,7 @@ public class Airport {
         return globalReport.toString();
     }
 
-    public void checkObjects(){
+    public void checkLists(){
         for (Flight flight : flightList){
             if (!flight.getFlightRef().matches(PATTERN_FLIGHT)){
                 flightList.remove(flight);

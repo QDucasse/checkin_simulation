@@ -57,10 +57,6 @@ public class Passenger {
         return bookingReference;
     }
 
-    public boolean isCheckedIn() {
-        return checkedIn;
-    }
-
     public Baggage getBaggage() {
         return baggage;
     }
@@ -69,14 +65,18 @@ public class Passenger {
         this.baggage = baggage;
     }
 
+    public boolean getCheckedIn() {
+        return checkedIn;
+    }
+    
+    public void setCheckIn(boolean checkedIn) {
+        this.checkedIn = checkedIn;
+    }
+
     public String getLastName() {
         int separator2 = name.lastIndexOf(' ');
         String lastName = name.substring(separator2 + 1);
         return lastName;
-    }
-
-    public void setCheckIn(boolean checkedIn) {
-        this.checkedIn = checkedIn;
     }
 
     /* =======================
@@ -104,6 +104,7 @@ public class Passenger {
             // Flight reference is wrong -> Abort
             return CheckinResult.ERR_FLIGHT_REFERENCE;
         }
+
         return CheckinResult.DONE;
     }
 }
