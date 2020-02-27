@@ -1,6 +1,7 @@
 package main;
 import main.exceptions.BookingRefAndNameNoMatchException;
 import main.exceptions.FlightNotFoundException;
+import main.exceptions.NullDimensionException;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -161,7 +162,7 @@ public class GUI extends JFrame implements ActionListener{
                 displayList.setText(displayList.getText() + "This flight reference associated to this passenger does not exist." + "\n");;
             }
 
-        } catch(NumberFormatException e) {
+        } catch(NumberFormatException | NullDimensionException e) {
             System.out.println(e.getMessage());
             displayList.setText(displayList.getText() + "Please insert valid values. "+ "\n");
         }

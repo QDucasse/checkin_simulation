@@ -1,5 +1,7 @@
 package main;
 
+import main.exceptions.NullDimensionException;
+
 public class Baggage {
 
     /* =======================
@@ -15,11 +17,15 @@ public class Baggage {
            CONSTRUCTORS
     ======================= */
 
-    public Baggage(int length, int height, int width, int weight) {
-        this.length = length;
-        this.height = height;
-        this.width = width;
-        this.weight = weight;
+    public Baggage(int length, int height, int width, int weight) throws NullDimensionException {
+        if (length == 0 || height == 0 || width == 0){
+            throw new NullDimensionException("Dimensions cannot be 0");
+        } else {
+            this.length = length;
+            this.height = height;
+            this.width = width;
+            this.weight = weight;
+        }
     }
 
     /* =======================
