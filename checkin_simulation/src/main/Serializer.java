@@ -73,6 +73,7 @@ public class Serializer {
 
             String text = new String(Files.readAllBytes(Paths.get(filename)), StandardCharsets.UTF_8);
             airport = gson.fromJson(text, Airport.class);
+            airport.checkLists();
             return airport;
         }
         catch(IOException e) {
