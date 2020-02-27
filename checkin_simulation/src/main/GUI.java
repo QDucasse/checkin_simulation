@@ -8,6 +8,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -55,6 +59,13 @@ public class GUI extends JFrame implements ActionListener{
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
+            	//Print file to logs
+				try {
+					String text = new String(Files.readAllBytes(Paths.get(filename)), StandardCharsets.UTF_8);
+					System.out.println(text);
+				} catch (IOException e1) {
+					System.err.println("Something went wrong while reading the file");
+				}
                 // Exit the program
                 e.getWindow().dispose();
                 System.exit(0);

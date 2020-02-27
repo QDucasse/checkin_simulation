@@ -59,7 +59,7 @@ public class Serializer {
             return airport;
         }
         catch(IOException e) {
-            System.out.println(e);
+        	System.err.println("Something went wrong while reading the file");
         }
         return null;
     }
