@@ -7,6 +7,7 @@ import main.Flight;
 import main.Passenger;
 import main.exceptions.BookingRefAndNameNoMatchException;
 import main.exceptions.FlightNotFoundException;
+import main.exceptions.NullDimensionException;
 import org.junit.*;
 import org.junit.rules.ExpectedException;
 
@@ -25,7 +26,7 @@ public class AirportTest extends TestCase {
      *
      */
     @Before
-    public void setUp() {
+    public void setUp() throws NullDimensionException {
         dummyBaggage1 = new Baggage(10, 20, 30, 9);
         dummyPassenger1 = new Passenger("John Doe", "EH145", "AB1CD2", true);
         dummyPassenger1.setBaggage(dummyBaggage1);

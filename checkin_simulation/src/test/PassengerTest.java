@@ -5,6 +5,7 @@ import main.Airport;
 import main.Baggage;
 import main.Flight;
 import main.Passenger;
+import main.exceptions.NullDimensionException;
 import org.junit.*;
 
 public class PassengerTest extends TestCase {
@@ -24,7 +25,7 @@ public class PassengerTest extends TestCase {
      *
      */
     @Before
-    public void setUp() {
+    public void setUp() throws NullDimensionException {
         // Case 1: Already checked in
         dummyBaggage1 = new Baggage(10, 20, 30, 9);
         dummyPassenger1 = new Passenger("John Doe", "EH145", "1225", true);

@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 import main.Baggage;
 import main.Flight;
 import main.Passenger;
+import main.exceptions.NullDimensionException;
 import org.junit.*;
 
 public class FlightTest extends TestCase {
@@ -18,7 +19,7 @@ public class FlightTest extends TestCase {
      *
      */
     @Before
-    public void setUp() {
+    public void setUp() throws NullDimensionException {
         dummyFlight = new Flight("Edinburgh", "RyanAir", 2, 100, 100, "EH145");
         dummyBaggage1 = new Baggage(10, 20, 30, 9);
         dummyBaggage2 = new Baggage(20, 10, 30, 11);
@@ -66,7 +67,7 @@ public class FlightTest extends TestCase {
      * 
      */
     @Test
-    public void testCheckWeightFalse() {
+    public void testCheckWeightFalse() throws NullDimensionException {
         Baggage dummyBaggage3 = new Baggage(1000, 1000, 1000, 300);
         Passenger dummyPassenger3 = new Passenger( "Bill Murray", "EH146", "1233", true);
         dummyPassenger3.setBaggage(dummyBaggage3);
@@ -86,7 +87,7 @@ public class FlightTest extends TestCase {
      * 
      */
     @Test
-    public void testCheckVolumeFalse() {
+    public void testCheckVolumeFalse() throws NullDimensionException {
         Baggage dummyBaggage3 = new Baggage(1000, 1000, 1000, 300);
         Passenger dummyPassenger3 = new Passenger( "Bill Murray", "EH146", "1233", true);
         dummyPassenger3.setBaggage(dummyBaggage3);
@@ -106,8 +107,8 @@ public class FlightTest extends TestCase {
      * 
      */
     @Test
-    public void testCheckPassengerseFalse() {
-        Baggage dummyBaggage3 = new Baggage(1000, 1000, 1000, 300);
+    public void testCheckPassengerseFalse() throws NullDimensionException {
+        Baggage dummyBaggage3 = new Baggage(10, 20, 30, 9);
         Passenger dummyPassenger3 = new Passenger( "Bill Murray", "EH146", "1233", true);
         dummyPassenger3.setBaggage(dummyBaggage3);
         dummyFlight.addPassenger(dummyPassenger3);

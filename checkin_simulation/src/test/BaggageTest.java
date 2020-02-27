@@ -2,6 +2,7 @@ package test;
 
 import junit.framework.TestCase;
 import main.Baggage;
+import main.exceptions.NullDimensionException;
 import org.junit.*;
 
 public class BaggageTest extends TestCase {
@@ -12,7 +13,7 @@ public class BaggageTest extends TestCase {
      *
      */
     @Before
-    public void setUp() {
+    public void setUp() throws NullDimensionException {
         dummyBaggage = new Baggage(10,20,30,11);
     }
 
