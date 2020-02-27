@@ -11,16 +11,16 @@ public class Airport {
     private static final String PATTERN_BOOKING = "(?<![A-Z])[A-Z]{2}\\d{1}[A-Z]{2}\\d{1}(?!\\d)";
 
     /* =======================
-        INSTANCE VARIABLES
-    ======================= */
+    INSTANCE VARIABLES
+	======================= */
 
     private ArrayList<Passenger> passengerList;
     private ArrayList<Flight> flightList;
-
+  
     /* =======================
-           CONSTRUCTORS
-    ======================= */
-
+    CONSTRUCTORS
+	======================= */
+    
     public Airport(){
         this.passengerList = new ArrayList<Passenger>();
         this.flightList = new ArrayList<Flight>();
@@ -30,14 +30,26 @@ public class Airport {
             ACCESSORS
     ======================= */
 
+    /**
+     * @return
+     */
     public ArrayList<Flight> getFlightList() {
         return flightList;
     }
 
+    /**
+     * @return
+     */
     public ArrayList<Passenger> getPassengerList() {
         return passengerList;
     }
 
+    
+    /**
+     * @param flightReference
+     * @return
+     * @throws FlightNotFoundException
+     */
     public Flight getFlightFromRef(String flightReference) throws FlightNotFoundException {
         for (Flight flight : flightList){
             if (flight.getFlightRef().equals(flightReference)) {
@@ -47,6 +59,12 @@ public class Airport {
         throw new FlightNotFoundException("Flight reference not found");
     }
 
+    /**
+     * @param bookingReference
+     * @param lastName
+     * @return
+     * @throws BookingRefAndNameNoMatchException
+     */
     public Passenger getPassengerFromBookingRefAndName(String bookingReference, String lastName) throws BookingRefAndNameNoMatchException {
         for (Passenger passenger : passengerList){
             if (passenger.getBookingReference().equals(bookingReference) && passenger.getLastName().equals(lastName)) {
@@ -60,14 +78,23 @@ public class Airport {
              METHODS
     ======================= */
 
+    /**
+     * @param passenger
+     */
     public void addPassenger(Passenger passenger){
         passengerList.add(passenger);
     }
 
+    /**
+     * @param flight
+     */
     public void addFlight(Flight flight){
         flightList.add(flight);
     }
 
+    /**
+     * @return
+     */
     public String outputReport(){
         StringBuilder globalReport = new StringBuilder();
         for (Flight flight : flightList){
@@ -90,6 +117,9 @@ public class Airport {
         return globalReport.toString();
     }
 
+    /**
+     * 
+     */
     public void checkLists(){
         for (Flight flight : flightList){
             if (!flight.getFlightRef().matches(PATTERN_FLIGHT)){

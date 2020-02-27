@@ -29,6 +29,13 @@ public class Passenger {
            CONSTRUCTORS
     ======================= */
 
+    /**
+     * @param name
+     * @param flightReference
+     * @param bookingReference
+     * @param baggage
+     * @param checkedIn
+     */
     public Passenger(String name, String flightReference, String bookingReference, Baggage baggage, boolean checkedIn) {
         this.name = name;
         this.flightReference = flightReference;
@@ -37,6 +44,12 @@ public class Passenger {
         this.checkedIn = checkedIn;
     }
 
+    /**
+     * @param name
+     * @param flightReference
+     * @param bookingReference
+     * @param checkedIn
+     */
     public Passenger(String name, String flightReference, String bookingReference, boolean checkedIn) {
         this(name,flightReference,bookingReference,null,checkedIn);
     }
@@ -45,34 +58,58 @@ public class Passenger {
             ACCESSORS
     ======================= */
 
+    /**
+     * @return
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * @return
+     */
     public String getFlightReference() {
         return flightReference;
     }
 
+    /**
+     * @return
+     */
     public String getBookingReference() {
         return bookingReference;
     }
 
+    /**
+     * @return
+     */
     public Baggage getBaggage() {
         return baggage;
     }
 
+    /**
+     * @param baggage
+     */
     public void setBaggage(Baggage baggage) {
         this.baggage = baggage;
     }
 
+    /**
+     * @return
+     */
     public boolean getCheckedIn() {
         return checkedIn;
     }
     
+    /**
+     * @param checkedIn
+     */
     public void setCheckIn(boolean checkedIn) {
         this.checkedIn = checkedIn;
     }
 
+    /**
+     * @return
+     */
     public String getLastName() {
         int separator2 = name.lastIndexOf(' ');
         String lastName = name.substring(separator2 + 1);
@@ -83,6 +120,10 @@ public class Passenger {
              METHODS
     ======================= */
 
+    /**
+     * @param airport
+     * @return
+     */
     public synchronized CheckinResult checkIn(Airport airport) {
         Flight targetFlight;
 

@@ -8,11 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -43,9 +38,9 @@ public class GUI extends JFrame implements ActionListener{
     /**
      * GUI constructor
      * Call methods to create the interface.
-     * @param passengerList
+     * @param serializer
+     * @param filename
      */
-
     public GUI(Serializer serializer, String filename) {
         this.serializer = serializer;
         setTitle("Check-in GUI");
@@ -65,12 +60,7 @@ public class GUI extends JFrame implements ActionListener{
             @Override
             public void windowClosing(WindowEvent e) {
             	//Print file to logs
-				try {
-					String text = new String(Files.readAllBytes(Paths.get(filename)), StandardCharsets.UTF_8);
-					System.out.println(text);
-				} catch (IOException e1) {
-					System.err.println("Something went wrong while reading the file");
-				}
+				System.out.println(getSerializer().getAirport().outputReport());
                 // Exit the program
                 e.getWindow().dispose();
                 System.exit(0);
@@ -78,19 +68,17 @@ public class GUI extends JFrame implements ActionListener{
         });
     }
 
+    /**
+     * @param filename
+     */
     public GUI(String filename) {
         this(new Serializer(filename), filename);
     }
 
-    /* =======================
-    INTERFACE CONSTRUCTION
-  ======================= */
-
-  /**
-   * Method to set up the interface using Swing
-   * North part of the interface asking passenger information.
-   */
-
+    /**
+     * Method to set up the interface using Swing
+     * North part of the interface asking passenger information.
+     */
     private void setupNorthPanel() {
         JPanel searchPanel = new JPanel();
         searchPanel.setLayout(new GridLayout(2,3));
@@ -110,7 +98,6 @@ public class GUI extends JFrame implements ActionListener{
      * Method to set up the GUI using Swing
      * South part of the panel to display information about the check-in and baggage fees.
      */
-
     private void setupSouthPanel() {
         displayList = new JTextArea(10,10);
         displayList.setFont(new Font (Font.MONOSPACED, Font.PLAIN,14));
@@ -124,7 +111,6 @@ public class GUI extends JFrame implements ActionListener{
      * Middle part of the GUI asking for baggage information.
      * Check-in button
      */
-    
     private void setupCenterPanel() {
         JPanel bagagePanel = new JPanel();
         bagagePanel.setLayout(new GridLayout(1,2));
@@ -154,7 +140,6 @@ public class GUI extends JFrame implements ActionListener{
      * Set the check-in value to true if the passenger last name and booking reference match.
      * Set a baggage for a passenger, display excess fee if applied.
      */
-    
     private void checkIn() {
         try {
             // Baggage creation
@@ -211,11 +196,17 @@ public class GUI extends JFrame implements ActionListener{
      * Call the checkIn method if the checkIn button is pressed on.
      * @param e
      */
-    
     public void actionPerformed(ActionEvent e) {
         if (e.getSource()==checkIn) {
             checkIn();
         }
+    }
+    
+    /**
+     * @return
+     */
+    public Serializer getSerializer() {
+    	return serializer;
     }
 }
 

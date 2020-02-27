@@ -20,10 +20,16 @@ public class Serializer {
            CONSTRUCTORS
     ======================= */
 
+    /**
+     * @param airport
+     */
     public Serializer(Airport airport){
         this.airport = airport;
     }
 
+    /**
+     * @param filename
+     */
     public Serializer(String filename) {
         Airport airport = fileToAirport(filename);
         this.airport = airport;
@@ -33,6 +39,9 @@ public class Serializer {
            ACCESSORS
     ======================= */
 
+    /**
+     * @return
+     */
     public Airport getAirport(){
         return airport;
     }
@@ -41,6 +50,10 @@ public class Serializer {
             METHODS
     ======================= */
 
+    /**
+     * @param outputFilename
+     * @throws IOException
+     */
     public void airportToFile(String outputFilename) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         FileOutputStream stream = new FileOutputStream(new File(outputFilename));
@@ -49,6 +62,10 @@ public class Serializer {
         stream.close();
     }
 
+    /**
+     * @param filename
+     * @return
+     */
     public Airport fileToAirport(String filename){
         try {
             Airport airport = null;
@@ -64,6 +81,9 @@ public class Serializer {
         return null;
     }
 
+    /**
+     * @param airport
+     */
     public void checkLists(Airport airport){
         airport.checkLists();
     }
