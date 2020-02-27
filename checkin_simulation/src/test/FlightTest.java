@@ -14,6 +14,9 @@ public class FlightTest extends TestCase {
     private Baggage dummyBaggage1;
     private Baggage dummyBaggage2;
 
+    /**
+     *
+     */
     @Before
     public void setUp() {
         dummyFlight = new Flight("Edinburgh", "RyanAir", 2, 100, 100, "EH145");
@@ -27,26 +30,41 @@ public class FlightTest extends TestCase {
         dummyFlight.addPassenger(dummyPassenger2);
     }
 
+    /**
+     * 
+     */
     @Test
     public void testTotalWeight() {
         assertEquals(dummyFlight.totalWeight(),20);
     }
 
+    /**
+     * 
+     */
     @Test
     public void testTotalVolume() {
         assertEquals(dummyFlight.totalVolume(),12);
     }
 
+    /**
+     * 
+     */
     @Test
     public void testTotalPassengers() {
         assertEquals(dummyFlight.totalPassengers(),2);
     }
 
+    /**
+     * 
+     */
     @Test
     public void testCheckWeightTrue() {
         assertTrue(dummyFlight.checkWeight());
     }
 
+    /**
+     * 
+     */
     @Test
     public void testCheckWeightFalse() {
         Baggage dummyBaggage3 = new Baggage(1000, 1000, 1000, 300);
@@ -56,11 +74,17 @@ public class FlightTest extends TestCase {
         assertFalse(dummyFlight.checkWeight());
     }
 
+    /**
+     * 
+     */
     @Test
     public void testCheckVolumeTrue() {
         assertTrue(dummyFlight.checkVolume());
     }
 
+    /**
+     * 
+     */
     @Test
     public void testCheckVolumeFalse() {
         Baggage dummyBaggage3 = new Baggage(1000, 1000, 1000, 300);
@@ -70,11 +94,17 @@ public class FlightTest extends TestCase {
         assertFalse(dummyFlight.checkVolume());
     }
 
+    /**
+     * 
+     */
     @Test
     public void testCheckPassengersTrue() {
         assertTrue(dummyFlight.checkPassengers());
     }
 
+    /**
+     * 
+     */
     @Test
     public void testCheckPassengerseFalse() {
         Baggage dummyBaggage3 = new Baggage(1000, 1000, 1000, 300);

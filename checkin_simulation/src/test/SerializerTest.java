@@ -13,6 +13,9 @@ public class SerializerTest {
     private static final String FILE_NAME = "test.json";
 
 
+    /**
+     * 
+     */
     @BeforeClass
     public static void setupBeforeClass() {
         File f = new File(FILE_NAME);
@@ -20,15 +23,24 @@ public class SerializerTest {
             f.delete();
     }
 
+    /**
+     * 
+     */
     @AfterClass
     public void tearDownAfterClass() {
 
     }
 
+    /**
+     * 
+     */
     @Before
     public void setUp() {
     }
 
+    /**
+     * 
+     */
     @After
     public void tearDown() {
         File f = new File(FILE_NAME);
@@ -36,17 +48,26 @@ public class SerializerTest {
             f.delete();
     }
 
+    /**
+     * 
+     */
     @Test
     void testAirportToFile() {
 
     }
 
+    /**
+     * 
+     */
     @Test
     void testFileToAirport() {
 
 
     }
 
+    /**
+     * @return
+     */
     private Airport createAirport() {
         Airport airport = new Airport();
         Flight f1 = new Flight("destinatio", "carrier", 8, 100, 100, "EH145");

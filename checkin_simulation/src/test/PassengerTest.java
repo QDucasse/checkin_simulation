@@ -20,6 +20,9 @@ public class PassengerTest extends TestCase {
     private Flight dummyFlight1;
     private Flight dummyFlight2;
 
+    /**
+     *
+     */
     @Before
     public void setUp() {
         // Case 1: Already checked in
@@ -53,31 +56,49 @@ public class PassengerTest extends TestCase {
     }
 
 
+    /**
+     * 
+     */
     @Test
     public void testLastName() {
         assertEquals("Doe",dummyPassenger1.getLastName());
     }
 
+    /**
+     * 
+     */
     @Test
     public void testCheckInAlreadyDone() {
         assertEquals(Passenger.CheckinResult.WARNING_ALREADY_DONE,dummyPassenger1.checkIn(dummyAirport));
     }
 
+    /**
+     * 
+     */
     @Test
     public void testCheckInFlightReferenceError() {
         assertEquals(Passenger.CheckinResult.ERR_FLIGHT_REFERENCE,dummyPassenger2.checkIn(dummyAirport));
     }
 
+    /**
+     * 
+     */
     @Test
     public void testCheckInBaggageWeightWarning() {
         assertEquals(Passenger.CheckinResult.WARNING_BAGGAGE_WEIGHT,dummyPassenger3.checkIn(dummyAirport));
     }
 
+    /**
+     * 
+     */
     @Test
     public void testCheckInBaggageVolumeWarning() {
         assertEquals(Passenger.CheckinResult.WARNING_BAGGAGE_VOLUME,dummyPassenger4.checkIn(dummyAirport));
     }
 
+    /**
+     * 
+     */
     @Test
     public void testCheckInDone() {
         assertEquals(Passenger.CheckinResult.DONE,dummyPassenger5.checkIn(dummyAirport));

@@ -21,6 +21,9 @@ public class AirportTest extends TestCase {
     private Flight dummyFlight1;
     private Flight dummyFlight2;
 
+    /**
+     *
+     */
     @Before
     public void setUp() {
         dummyBaggage1 = new Baggage(10, 20, 30, 9);
@@ -49,11 +52,17 @@ public class AirportTest extends TestCase {
         dummyAirport.addFlight(dummyFlight2);
     }
 
+    /**
+     * @throws FlightNotFoundException
+     */
     @Test
     public void testGetFlightRefFound() throws FlightNotFoundException {
         assertEquals(dummyFlight2,dummyAirport.getFlightFromRef("FR145"));
     }
 
+    /**
+     * @throws FlightNotFoundException
+     */
     @Test
     public void testGetFlightRefNotFound() throws FlightNotFoundException {
         try{
@@ -63,11 +72,17 @@ public class AirportTest extends TestCase {
         }
     }
 
+    /**
+     * @throws BookingRefAndNameNoMatchException
+     */
     @Test
     public void testGetPassengerMatch() throws BookingRefAndNameNoMatchException {
         assertEquals(dummyPassenger1,dummyAirport.getPassengerFromBookingRefAndName("AB1CD2","Doe"));
     }
 
+    /**
+     * @throws BookingRefAndNameNoMatchException
+     */
     @Test
     public void testGetPassengerNoMatch() throws BookingRefAndNameNoMatchException {
         try{
@@ -77,6 +92,9 @@ public class AirportTest extends TestCase {
         }
     }
 
+    /**
+     * 
+     */
     @Test
     public void testReport() {
         String expected = "========================\n" +
