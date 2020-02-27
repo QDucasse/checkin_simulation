@@ -5,6 +5,7 @@ import main.Airport;
 import main.Baggage;
 import main.Flight;
 import main.Passenger;
+import main.exceptions.BookingRefAndNameNoMatchException;
 import main.exceptions.FlightNotFoundException;
 import org.junit.*;
 import org.junit.rules.ExpectedException;
@@ -59,6 +60,20 @@ public class AirportTest extends TestCase {
             dummyAirport.getFlightFromRef("AA000");
         } catch(FlightNotFoundException e){
             assertEquals("Flight reference not found",e.getMessage());
+        }
+    }
+
+    @Test
+    public void testGetPassengerMatch() throws BookingRefAndNameNoMatchException {
+        assertEquals(dummyPassenger1,dummyAirport.getPassengerFromBookingRefAndName("AB1CD2","Doe"));
+    }
+
+    @Test
+    public void testGetPassengerNoMatch() throws BookingRefAndNameNoMatchException {
+        try{
+            dummyAirport.getPassengerFromBookingRefAndName("AA0AA0","Doe");
+        } catch(BookingRefAndNameNoMatchException e) {
+            assertEquals("Booking reference and name do not match",e.getMessage());
         }
     }
 

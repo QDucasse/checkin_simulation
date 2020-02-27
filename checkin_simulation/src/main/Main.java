@@ -5,25 +5,35 @@ import java.io.IOException;
 public class Main {
 
     public static void main(String[] args) {
+        /* ====================
+             FILE CREATION
+        ==================== */
+        Passenger dummyPassenger1 = new Passenger("John Doe", "EH145", "AB1CD2", true);
+        Passenger dummyPassenger2 = new Passenger( "Jane Doe", "FR145", "AA0BB0", false);
+        Passenger dummyPassenger3 = new Passenger( "Bill Murray", "FR145", "AA1BB1", false);
 
-        Airport airport = new Airport();
-        Flight f1 = new Flight("destination", "carrier", 8, 100, 100, "EH145");
-        Passenger passenger1 = new Passenger("name", "EH145", "1225", true);
-        Passenger passenger2 = new Passenger("joan", "EH146", "1244", false);
-        Baggage baggage1 = new Baggage(10, 20, 30, 9);
-        Baggage baggage2 = new Baggage(20, 10, 30, 11);
-        passenger1.setBaggage(baggage1);
-        passenger2.setBaggage(baggage2);
-        f1.addPassenger(passenger1);
-        f1.addPassenger(passenger2);
-        airport.addFlight(f1);
-        f1.showGUI();
+        Flight dummyFlight1 = new Flight("Edinburgh", "RyanAir", 2, 100, 100, "EH145");
+        Flight dummyFlight2 = new Flight("Paris", "RyanAir", 2, 100, 100, "FR145");
+
+        Airport dummyAirport = new Airport();
+        dummyAirport.addPassenger(dummyPassenger1);
+        dummyAirport.addPassenger(dummyPassenger2);
+        dummyAirport.addPassenger(dummyPassenger3);
+        dummyAirport.addFlight(dummyFlight1);
+        dummyAirport.addFlight(dummyFlight2);
+
         try {
-            Serializer.airportToFile(airport, "output.json");
+            Serializer serializer = new Serializer(dummyAirport);
+            serializer.airportToFile("airport.json");
         } catch (IOException e) {
             System.err.println("An error occurred when savings details");
-           // e.printStackTrace();
         }
+
+        /* ====================
+             GUI LAUNCH
+        ==================== */
+        GUI mainWindow = new GUI("airport.json");
+        mainWindow.setVisible(true);
     }
 
 }

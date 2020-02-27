@@ -30,9 +30,17 @@ public class Airport {
             ACCESSORS
     ======================= */
 
+    public ArrayList<Flight> getFlightList() {
+        return flightList;
+    }
+
+    public ArrayList<Passenger> getPassengerList() {
+        return passengerList;
+    }
+
     public Flight getFlightFromRef(String flightReference) throws FlightNotFoundException {
         for (Flight flight : flightList){
-            if (flight.getFlightRef() == flightReference) {
+            if (flight.getFlightRef().equals(flightReference)) {
                 return flight;
             }
         }
@@ -41,7 +49,7 @@ public class Airport {
 
     public Passenger getPassengerFromBookingRefAndName(String bookingReference, String lastName) throws BookingRefAndNameNoMatchException {
         for (Passenger passenger : passengerList){
-            if (passenger.getBookingReference() == bookingReference && passenger.getLastName() == lastName) {
+            if (passenger.getBookingReference().equals(bookingReference) && passenger.getLastName().equals(lastName)) {
                 return passenger;
             }
         }

@@ -84,19 +84,25 @@ public class Passenger {
     ======================= */
 
     public synchronized CheckinResult checkIn(Airport airport) {
+        Flight targetFlight;
+
         if (checkedIn) {
             // Check in is already done -> Abort
             return CheckinResult.WARNING_ALREADY_DONE;
         }
 
         try {
-            Flight targetFlight = airport.getFlightFromRef(flightReference);
+            targetFlight = airport.getFlightFromRef(flightReference);
             // Baggage weight is exceeded -> Fee
             if (baggage.getWeight() > targetFlight.getBaggageMaxWeight()){
+                targetFlight.addPassenger(this);
+                checkedIn = true;
                 return CheckinResult.WARNING_BAGGAGE_WEIGHT;
             }
             // Baggage volume is exceeded -> Fee
             if (baggage.getVolume() > targetFlight.getBaggageMaxVolume()){
+                targetFlight.addPassenger(this);
+                checkedIn = true;
                 return CheckinResult.WARNING_BAGGAGE_VOLUME;
             }
         }
@@ -105,6 +111,8 @@ public class Passenger {
             return CheckinResult.ERR_FLIGHT_REFERENCE;
         }
 
+        targetFlight.addPassenger(this);
+        checkedIn = true;
         return CheckinResult.DONE;
     }
 }

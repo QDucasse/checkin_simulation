@@ -41,7 +41,7 @@ public class Serializer {
             METHODS
     ======================= */
 
-    public static void airportToFile(Airport airport, String outputFilename) throws IOException {
+    public void airportToFile(String outputFilename) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         FileOutputStream stream = new FileOutputStream(new File(outputFilename));
         String toWrite = gson.toJson(airport);
@@ -49,7 +49,7 @@ public class Serializer {
         stream.close();
     }
 
-    public static Airport fileToAirport(String filename){
+    public Airport fileToAirport(String filename){
         try {
             Airport airport = null;
             Gson gson = new Gson();

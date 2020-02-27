@@ -1,0 +1,48 @@
+{
+  "passengerList": [
+    {
+      "name": "John Doe",
+      "flightReference": "EH145",
+      "bookingReference": "AB1CD2",
+      "checkedIn": true
+    },
+    {
+      "name": "Jane Doe",
+      "flightReference": "FR145",
+      "bookingReference": "AA0BB0",
+      "checkedIn": false
+    },
+    {
+      "name": "Bill Murray",
+      "flightReference": "FR145",
+      "bookingReference": "AA1BB1",
+      "checkedIn": false
+    }
+  ],
+  "flightList": [
+    {
+      "destination": "Edinburgh",
+      "carrier": "RyanAir",
+      "maxPassengers": 2,
+      "maxWeight": 100,
+      "maxVolume": 100,
+      "flightRef": "EH145",
+      "baggageMaxWeight": 30,
+      "baggageMaxVolume": 23,
+      "excessFee": 30,
+      "passengerList": []
+    },
+    {
+      "destination": "Paris",
+      "carrier": "RyanAir",
+      "maxPassengers": 2,
+      "maxWeight": 100,
+      "maxVolume": 100,
+      "flightRef": "FR145",
+      "baggageMaxWeight": 30,
+      "baggageMaxVolume": 23,
+      "excessFee": 30,
+      "passengerList": []
+    }
+  ]
+}
