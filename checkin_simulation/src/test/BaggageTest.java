@@ -24,4 +24,14 @@ public class BaggageTest extends TestCase {
     public void testVolume() {
         assertEquals(dummyBaggage.getVolume(),6);
     }
+
+    @Test
+    public void testInitializationRaisesException() {
+        try{
+            Baggage nullBaggage = new Baggage(0,0,0,1);
+        } catch (NullDimensionException e) {
+            assertEquals("Dimensions cannot be 0",e.getMessage());
+        }
+
+    }
 }
