@@ -18,8 +18,6 @@ public class AirportView extends JFrame implements ActionListener {
         INSTANCE VARIABLES
 	======================= */
 
-    private Serializer serializer;
-
     private JTextField bookingRef;
     private JTextField passengerName;
     private JTextField baggageWeight;
@@ -29,24 +27,22 @@ public class AirportView extends JFrame implements ActionListener {
     private JButton checkIn;
     private JTextArea displayList;
     private JScrollPane scrollList;
-    private boolean match = false;
+
+    private Airport airport;
 
     /**
      * GUI constructor
      * Call methods to create the interface.
-     * @param serializer
      * @param filename
      */
-    public AirportView(Serializer serializer, String filename) {
-        this.serializer = serializer;
+    public AirportView(String filename) {
         setTitle("Check-in GUI");
         setupNorthPanel();
         setupCenterPanel();
         setupSouthPanel();
         pack();
         setVisible(true);
-
-        this.serializer.fileToAirport(filename);
+        this.airport = Serializer.defaultFileToAirport();
 
         /**
          * Closing Event
@@ -56,19 +52,12 @@ public class AirportView extends JFrame implements ActionListener {
             @Override
             public void windowClosing(WindowEvent e) {
             	//Print file to logs
-				System.out.println(getSerializer().getAirport().outputReport());
+				System.out.println(getAirport().outputReport());
                 // Exit the program
                 e.getWindow().dispose();
                 System.exit(0);
             }
         });
-    }
-
-    /**
-     * @param filename
-     */
-    public AirportView(String filename) {
-        this(new Serializer(filename), filename);
     }
 
     /**
@@ -148,7 +137,6 @@ public class AirportView extends JFrame implements ActionListener {
             String bRef=bookingRef.getText().trim();
             String pName=passengerName.getText().trim();
             Passenger targetPassenger;
-            Airport airport = serializer.getAirport();
 
             try {
                 targetPassenger = airport.getPassengerFromBookingRefAndName(bRef,pName);
@@ -201,8 +189,8 @@ public class AirportView extends JFrame implements ActionListener {
     /**
      * @return
      */
-    public Serializer getSerializer() {
-    	return serializer;
+    public Airport getAirport() {
+    	return airport;
     }
 
     // ADD LISTENERS
