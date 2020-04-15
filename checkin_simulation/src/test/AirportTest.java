@@ -7,9 +7,10 @@ import main.Flight;
 import main.Passenger;
 import main.exceptions.BookingRefAndNameNoMatchException;
 import main.exceptions.FlightNotFoundException;
+import main.exceptions.NegativeDimensionException;
 import main.exceptions.NullDimensionException;
-import org.junit.*;
-import org.junit.rules.ExpectedException;
+import org.junit.Before;
+import org.junit.Test;
 
 public class AirportTest extends TestCase {
     private Airport dummyAirport;
@@ -27,16 +28,28 @@ public class AirportTest extends TestCase {
      */
     @Before
     public void setUp() throws NullDimensionException {
-        dummyBaggage1 = new Baggage(10, 20, 30, 9);
-        dummyPassenger1 = new Passenger("John Doe", "EH145", "AB1CD2", true);
+        try {
+            dummyBaggage1 = new Baggage(10, 20, 30, 9);
+        } catch (NegativeDimensionException e) {
+            e.printStackTrace();
+        }
+        dummyPassenger1 = new Passenger("John", "Doe", "EH145", "AB1CD2", true);
         dummyPassenger1.setBaggage(dummyBaggage1);
 
-        dummyBaggage2 = new Baggage(40, 40, 40, 30);
-        dummyPassenger2 = new Passenger( "Jane Doe", "FR145", "AA0BB0", false);
+        try {
+            dummyBaggage2 = new Baggage(40, 40, 40, 30);
+        } catch (NegativeDimensionException e) {
+            e.printStackTrace();
+        }
+        dummyPassenger2 = new Passenger( "Jane", "Doe", "FR145", "AA0BB0", false);
         dummyPassenger2.setBaggage(dummyBaggage2);
 
-        dummyBaggage3 = new Baggage(10, 20, 30, 80);
-        dummyPassenger3 = new Passenger( "Bill Murray", "FR145", "12345", false);
+        try {
+            dummyBaggage3 = new Baggage(10, 20, 30, 80);
+        } catch (NegativeDimensionException e) {
+            e.printStackTrace();
+        }
+        dummyPassenger3 = new Passenger( "Bill", "Murray", "FR145", "12345", false);
         dummyPassenger3.setBaggage(dummyBaggage3);
 
         dummyFlight1 = new Flight("Edinburgh", "RyanAir", 2, 100, 100, "EH145");
@@ -94,7 +107,7 @@ public class AirportTest extends TestCase {
     }
 
     /**
-     * 
+     *
      */
     @Test
     public void testReport() {

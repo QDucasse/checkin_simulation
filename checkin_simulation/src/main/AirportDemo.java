@@ -2,18 +2,18 @@ package main;
 
 import java.io.IOException;
 
-public class Main {
+public class AirportDemo {
 
     /**
-     * @param args
+     * Main class, sets up an example file then launches the demo.
      */
     public static void main(String[] args) {
         /* ====================
              FILE CREATION
         ==================== */
-        Passenger dummyPassenger1 = new Passenger("John Doe", "EH145", "AB1CD2", true);
-        Passenger dummyPassenger2 = new Passenger( "Jane Doe", "FR145", "AA0BB0", false);
-        Passenger dummyPassenger3 = new Passenger( "Bill Murray", "FR145", "AA1BB1", false);
+        Passenger dummyPassenger1 = new Passenger("John",  "Doe", "EH145", "AB1CD2", true);
+        Passenger dummyPassenger2 = new Passenger( "Jane", "Doe", "FR145", "AA0BB0", false);
+        Passenger dummyPassenger3 = new Passenger( "Bill","Murray", "FR145", "AA1BB1", false);
 
         Flight dummyFlight1 = new Flight("Edinburgh", "RyanAir", 2, 100, 100, "EH145");
         Flight dummyFlight2 = new Flight("Paris", "RyanAir", 2, 100, 100, "FR145");
@@ -35,8 +35,15 @@ public class Main {
         /* ====================
              GUI LAUNCH
         ==================== */
-        GUI mainWindow = new GUI("airport.json");
+        AirportView mainWindow = new AirportView("airport.json");
         mainWindow.setVisible(true);
-    }
 
+        /* ====================
+             DEMO LAUNCH
+        ==================== */
+//        Airport model = new Airport();                                      // Model
+//        AirportView view  = new AirportView(model);                         // View
+//        AirportController controller = new AirportController(model, view);  // Controller
+//        view.setVisible(true);
+    }
 }

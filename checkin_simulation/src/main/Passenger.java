@@ -3,15 +3,34 @@ package main;
 
 import main.exceptions.FlightNotFoundException;
 
-import java.io.Serializable;
-
 public class Passenger {
-
+    /**
+     * Different results the check-in operation can output.
+     */
     public enum CheckinResult {
+        /**
+         * Check-in passed without issues.
+         */
         DONE,
+
+        /**
+         * Flight reference is erroneous.
+         */
         ERR_FLIGHT_REFERENCE,
+
+        /**
+         * Baggage weight exceeds the maximum set by the flight.
+         */
         WARNING_BAGGAGE_WEIGHT,
+
+        /**
+         * Baggage volume exceeds the maximum set by the flight
+         */
         WARNING_BAGGAGE_VOLUME,
+
+        /**
+         * Check-in is already done.
+         */
         WARNING_ALREADY_DONE
     }
 
@@ -19,7 +38,8 @@ public class Passenger {
         INSTANCE VARIABLES
     ======================= */
 
-    private String name;
+    private String firstName;
+    private String lastName;
     private String flightReference;
     private String bookingReference;
     private Baggage baggage;
@@ -30,28 +50,32 @@ public class Passenger {
     ======================= */
 
     /**
-     * @param name
+     * Passenger class holding name (as first name and last name) flight reference, booking reference and an indication
+     * on the check-in status.
+     * @param firstName
+     *    The first name of the passenger.
+     * @param lastName
+     *    The last name of the passenger.
      * @param flightReference
+     *    The flight reference of the flight the passenger wish to take.
      * @param bookingReference
+     *    The booking reference associated with the passenger (<Capitalised Letter> <Capitalised Letter> <Digit> <Capitalised Letter> <Capitalised Letter> <Digit>).
      * @param baggage
+     *    The baggage the passenger travels with.
      * @param checkedIn
+     *    Status of the check-in operation (done or not).
      */
-    public Passenger(String name, String flightReference, String bookingReference, Baggage baggage, boolean checkedIn) {
-        this.name = name;
+    public Passenger( String firstName, String lastName, String flightReference, String bookingReference, Baggage baggage, boolean checkedIn) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.flightReference = flightReference;
         this.bookingReference = bookingReference;
         this.baggage = baggage;
         this.checkedIn = checkedIn;
     }
 
-    /**
-     * @param name
-     * @param flightReference
-     * @param bookingReference
-     * @param checkedIn
-     */
-    public Passenger(String name, String flightReference, String bookingReference, boolean checkedIn) {
-        this(name,flightReference,bookingReference,null,checkedIn);
+    public Passenger( String firstName, String lastName, String flightReference, String bookingReference, boolean checkedIn) {
+        this(firstName,lastName,flightReference,bookingReference,null,checkedIn);
     }
 
     /* =======================
@@ -59,61 +83,67 @@ public class Passenger {
     ======================= */
 
     /**
-     * @return
+     * Getter of the first name.
+     * @return firstName
+     *    The first name of the passenger.
      */
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
     /**
-     * @return
+     * Getter of the last name.
+     * @return lastName
+     *    The last name of the passenger.
+     */
+    public String getLastName() {
+        return lastName;
+    }
+
+
+    /**
+     * Getter of the flight reference.
+     * @return flightReference
+     *    The flight reference of the passenger.
      */
     public String getFlightReference() {
         return flightReference;
     }
 
     /**
-     * @return
+     * Getter of the booking reference.
+     * @return bookingReference
+     *    The booking reference of the passenger.
      */
     public String getBookingReference() {
         return bookingReference;
     }
 
     /**
-     * @return
+     * Getter of the baggage.
+     * @return baggage
+     *    The baggage of the passenger.
      */
     public Baggage getBaggage() {
         return baggage;
     }
 
     /**
+     * Setter of the baggage.
      * @param baggage
+     *    The baggage to be set to the passenger.
      */
     public void setBaggage(Baggage baggage) {
         this.baggage = baggage;
     }
 
     /**
-     * @return
+     * Getter of the check-in status
+     * @return checkedIn
+     *    The status of the check-in operation (done or not).
      */
     public boolean getCheckedIn() {
         return checkedIn;
-    }
-    
-    /**
-     * @param checkedIn
-     */
-    public void setCheckIn(boolean checkedIn) {
-        this.checkedIn = checkedIn;
-    }
-
-    /**
-     * @return
-     */
-    public String getLastName() {
-        int separator2 = name.lastIndexOf(' ');
-        String lastName = name.substring(separator2 + 1);
-        return lastName;
     }
 
     /* =======================
@@ -121,8 +151,11 @@ public class Passenger {
     ======================= */
 
     /**
+     * Check-in operation performed by the passenger in a given airport.
      * @param airport
-     * @return
+     *    The airport the passenger wishes to check-in.
+     * @return checkInResult
+     *    The result of the check-in operation (enumeration above).
      */
     public synchronized CheckinResult checkIn(Airport airport) {
         Flight targetFlight;

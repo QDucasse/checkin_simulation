@@ -2,8 +2,10 @@ package test;
 
 import junit.framework.TestCase;
 import main.Baggage;
+import main.exceptions.NegativeDimensionException;
 import main.exceptions.NullDimensionException;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 public class BaggageTest extends TestCase {
 
@@ -14,7 +16,11 @@ public class BaggageTest extends TestCase {
      */
     @Before
     public void setUp() throws NullDimensionException {
-        dummyBaggage = new Baggage(10,20,30,11);
+        try {
+            dummyBaggage = new Baggage(10,20,30,11);
+        } catch (NegativeDimensionException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -29,8 +35,8 @@ public class BaggageTest extends TestCase {
     public void testInitializationRaisesException() {
         try{
             Baggage nullBaggage = new Baggage(0,0,0,1);
-        } catch (NullDimensionException e) {
-            assertEquals("Dimensions cannot be 0",e.getMessage());
+        } catch (NullDimensionException | NegativeDimensionException e) {
+            assertEquals("Attributes cannot be 0",e.getMessage());
         }
 
     }

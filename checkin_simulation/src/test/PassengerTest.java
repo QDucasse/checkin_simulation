@@ -5,8 +5,10 @@ import main.Airport;
 import main.Baggage;
 import main.Flight;
 import main.Passenger;
+import main.exceptions.NegativeDimensionException;
 import main.exceptions.NullDimensionException;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 public class PassengerTest extends TestCase {
     private Airport dummyAirport;
@@ -27,23 +29,35 @@ public class PassengerTest extends TestCase {
     @Before
     public void setUp() throws NullDimensionException {
         // Case 1: Already checked in
-        dummyBaggage1 = new Baggage(10, 20, 30, 9);
-        dummyPassenger1 = new Passenger("John Doe", "EH145", "1225", true);
+        try {
+            dummyBaggage1 = new Baggage(10, 20, 30, 9);
+        } catch (NegativeDimensionException e) {
+            e.printStackTrace();
+        }
+        dummyPassenger1 = new Passenger("John", "Doe", "EH145", "1225", true);
         dummyPassenger1.setBaggage(dummyBaggage1);
         // Case 2: Wrong flight reference
-        dummyPassenger2 = new Passenger( "Jane Doe", "AA000", "1226", false);
+        dummyPassenger2 = new Passenger( "Jane", "Doe", "AA000", "1226", false);
         dummyPassenger2.setBaggage(dummyBaggage1);
         // Case 3: Warning weight
-        dummyBaggage2 = new Baggage(10, 20, 30, 100);
-        dummyPassenger3 = new Passenger( "Bill Murray", "EH145", "1227", false);
+        try {
+            dummyBaggage2 = new Baggage(10, 20, 30, 100);
+        } catch (NegativeDimensionException e) {
+            e.printStackTrace();
+        }
+        dummyPassenger3 = new Passenger( "Bill", "Murray", "EH145", "1227", false);
         dummyPassenger3.setBaggage(dummyBaggage2);
         // Case 4: Warning volume
-        dummyBaggage3 = new Baggage(100, 100, 100, 9);
-        dummyPassenger4 = new Passenger( "George Clooney", "EH145", "1228", false);
+        try {
+            dummyBaggage3 = new Baggage(100, 100, 100, 9);
+        } catch (NegativeDimensionException e) {
+            e.printStackTrace();
+        }
+        dummyPassenger4 = new Passenger( "George", "Clooney", "EH145", "1228", false);
         dummyPassenger4.setBaggage(dummyBaggage3);
         // Case 5: Working fine
 
-        dummyPassenger5 = new Passenger( "Brad Pitt", "EH145", "1229", false);
+        dummyPassenger5 = new Passenger( "Brad", "Pitt", "EH145", "1229", false);
         dummyPassenger5.setBaggage(dummyBaggage1);
 
         dummyFlight1 = new Flight("Edinburgh", "RyanAir", 2, 100, 100, "EH145");

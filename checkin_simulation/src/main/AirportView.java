@@ -1,26 +1,22 @@
 package main;
+
 import main.exceptions.BookingRefAndNameNoMatchException;
 import main.exceptions.FlightNotFoundException;
+import main.exceptions.NegativeDimensionException;
 import main.exceptions.NullDimensionException;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
-public class GUI extends JFrame implements ActionListener{
+public class AirportView extends JFrame implements ActionListener {
 
-	/**
-     * Instance variables
-     */
+    /* =======================
+        INSTANCE VARIABLES
+	======================= */
 
     private Serializer serializer;
 
@@ -41,7 +37,7 @@ public class GUI extends JFrame implements ActionListener{
      * @param serializer
      * @param filename
      */
-    public GUI(Serializer serializer, String filename) {
+    public AirportView(Serializer serializer, String filename) {
         this.serializer = serializer;
         setTitle("Check-in GUI");
         setupNorthPanel();
@@ -71,7 +67,7 @@ public class GUI extends JFrame implements ActionListener{
     /**
      * @param filename
      */
-    public GUI(String filename) {
+    public AirportView(String filename) {
         this(new Serializer(filename), filename);
     }
 
@@ -185,7 +181,7 @@ public class GUI extends JFrame implements ActionListener{
                 displayList.setText(displayList.getText() + "This flight reference associated to this passenger does not exist." + "\n");;
             }
 
-        } catch(NumberFormatException | NullDimensionException e) {
+        } catch(NumberFormatException | NullDimensionException | NegativeDimensionException e) {
             System.out.println(e.getMessage());
             displayList.setText(displayList.getText() + "Please insert valid values. "+ "\n");
         }
@@ -208,6 +204,10 @@ public class GUI extends JFrame implements ActionListener{
     public Serializer getSerializer() {
     	return serializer;
     }
+
+    // ADD LISTENERS
+    //
+
 }
 
 
