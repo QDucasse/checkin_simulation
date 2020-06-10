@@ -4,6 +4,7 @@ import main.exceptions.BookingRefAndNameNoMatchException;
 import main.exceptions.FlightNotFoundException;
 import main.exceptions.NegativeDimensionException;
 import main.exceptions.NullDimensionException;
+import java.util.Random;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,6 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import javax.swing.SwingUtilities.*;
 
 public class AirportView extends JFrame implements ActionListener {
 
@@ -27,8 +30,11 @@ public class AirportView extends JFrame implements ActionListener {
     private JButton checkIn;
     private JTextArea displayList;
     private JScrollPane scrollList;
+    private JLabel flighRef;
 
     private Airport airport;
+    private ArrayList<Passenger> passengerList;
+
 
     /**
      * GUI constructor
@@ -43,6 +49,8 @@ public class AirportView extends JFrame implements ActionListener {
         pack();
         setVisible(true);
         this.airport = Serializer.defaultFileToAirport();
+        this.passengerList = airport.getPassengerList();
+
 
         /**
          * Closing Event
@@ -65,6 +73,7 @@ public class AirportView extends JFrame implements ActionListener {
      * North part of the interface asking passenger information.
      */
     private void setupNorthPanel() {
+        /*
         JPanel searchPanel = new JPanel();
         searchPanel.setLayout(new GridLayout(2,3));
         searchPanel.add(new JLabel("Booking ref: "));
@@ -77,6 +86,9 @@ public class AirportView extends JFrame implements ActionListener {
         northPanel.setLayout(new GridLayout(2,1));
         northPanel.add(searchPanel);
         this.add(northPanel, BorderLayout.NORTH);
+         */
+
+
     }
     
     /**
@@ -84,11 +96,13 @@ public class AirportView extends JFrame implements ActionListener {
      * South part of the panel to display information about the check-in and baggage fees.
      */
     private void setupSouthPanel() {
+        /*
         displayList = new JTextArea(10,10);
         displayList.setFont(new Font (Font.MONOSPACED, Font.PLAIN,14));
         displayList.setEditable(false);
         scrollList = new JScrollPane(displayList);
         this.add(scrollList,BorderLayout.SOUTH);
+         */
     }
 
     /**
@@ -97,6 +111,8 @@ public class AirportView extends JFrame implements ActionListener {
      * Check-in button
      */
     private void setupCenterPanel() {
+        /*
+
         JPanel bagagePanel = new JPanel();
         bagagePanel.setLayout(new GridLayout(1,2));
         bagagePanel.add(new JLabel("Baggage height: "));
@@ -118,6 +134,8 @@ public class AirportView extends JFrame implements ActionListener {
         centerPanel.setLayout(new GridLayout(5,7));
         centerPanel.add(bagagePanel);
         this.add(centerPanel,BorderLayout.CENTER);
+
+         */
     }
 
     /**
@@ -127,6 +145,7 @@ public class AirportView extends JFrame implements ActionListener {
      */
     private void checkIn() {
         try {
+
             // Baggage creation
             int bWeight= Integer.parseInt(baggageWeight.getText().trim());
             int bLength= Integer.parseInt(baggageLength.getText().trim());
@@ -193,8 +212,33 @@ public class AirportView extends JFrame implements ActionListener {
     	return airport;
     }
 
-    // ADD LISTENERS
-    //
+
+    /**
+     * Method to associate random baggage dimension to every passenger in the passenger list
+     * Dimensions are included between 1 and 200
+     * @throws NegativeDimensionException
+     * @throws NullDimensionException
+     */
+    public void randomBaggageToPassenger() throws NegativeDimensionException, NullDimensionException {
+
+        Random random = new Random();
+
+        for (Passenger passenger: passengerList) {
+
+            int bWeight = random.nextInt(200);
+            bWeight += 1;
+            int bLength = random.nextInt(200);
+            bLength += 1;
+            int bWidth = random.nextInt(200);
+            bWidth += 1;
+            int bHeight = random.nextInt(200);
+            bHeight += 1;
+
+            Baggage inputBaggage = new Baggage(bLength, bHeight, bWidth, bWeight);
+            passenger.setBaggage(inputBaggage);
+        }
+
+    }
 
 }
 
