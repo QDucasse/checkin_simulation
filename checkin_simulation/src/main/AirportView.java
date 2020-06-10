@@ -20,7 +20,7 @@ public class AirportView extends JFrame implements ActionListener {
     /* =======================
         INSTANCE VARIABLES
 	======================= */
-
+    /*
     private JTextField bookingRef;
     private JTextField passengerName;
     private JTextField baggageWeight;
@@ -30,10 +30,13 @@ public class AirportView extends JFrame implements ActionListener {
     private JButton checkIn;
     private JTextArea displayList;
     private JScrollPane scrollList;
+
+     */
     private JLabel flighRef;
 
     private Airport airport;
     private ArrayList<Passenger> passengerList;
+    private ArrayList<Flight> flightList;
 
 
     /**
@@ -50,6 +53,7 @@ public class AirportView extends JFrame implements ActionListener {
         setVisible(true);
         this.airport = Serializer.defaultFileToAirport();
         this.passengerList = airport.getPassengerList();
+        this.flightList = airport.getFlightList();
 
 
         /**
@@ -143,10 +147,13 @@ public class AirportView extends JFrame implements ActionListener {
      * Set the check-in value to true if the passenger last name and booking reference match.
      * Set a baggage for a passenger, display excess fee if applied.
      */
+    /*
     private void checkIn() {
         try {
 
             // Baggage creation
+
+
             int bWeight= Integer.parseInt(baggageWeight.getText().trim());
             int bLength= Integer.parseInt(baggageLength.getText().trim());
             int bWidth= Integer.parseInt(baggageWidth.getText().trim());
@@ -199,11 +206,15 @@ public class AirportView extends JFrame implements ActionListener {
      * Call the checkIn method if the checkIn button is pressed on.
      * @param e
      */
+
+
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource()==checkIn) {
+        /*if (e.getSource()==checkIn) {
             checkIn();
-        }
+        }*/
     }
+
+
     
     /**
      * @return
