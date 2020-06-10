@@ -1,16 +1,49 @@
 package main;
+
 import java.io.IOException;
-import java.util.Date;
-import java.util.logging.Level;
+import java.util.logging.FileHandler;
 import java.util.logging.Logger;
-import java.util.logging.*;
+import java.util.logging.SimpleFormatter;
 
+/**
+ * Logger class
+ */
 public class Log {
-    private final static Logger logger = Logger.getLogger(Log.class.getName());
+    private final static Logger log = Logger.getLogger(Log.class.getName());
 
-    public static void main(String[] args)
-    {
-        logger.info("INFO message");
+    /**
+     * Main method + write log to file using FileHandler
+     *
+     * @param args
+     * @throws IOException
+     * @throws SecurityException
+     */
+    public static void main(String[] args) throws IOException {
+        FileHandler fh;
+        try {
+            fh = new FileHandler("logFile.log");
+            log.addHandler(fh);
+            SimpleFormatter formatter = new SimpleFormatter();
+            fh.setFormatter(formatter);
+
+            log.info("INFO log");
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        catch (SecurityException e)
+        {
+            e.printStackTrace();
+        }
+
+        log.info("INFO message");
+
+
+        /**To remove console handler */
+        //log.setUseParentHandlers(false);
     }
+
+
 
 }
