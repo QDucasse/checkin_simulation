@@ -60,16 +60,16 @@ public class AirportView extends JFrame implements ActionListener {
          * Closing Event
          */
         
-        this.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-            	//Print file to logs
-				System.out.println(getAirport().outputReport());
-                // Exit the program
-                e.getWindow().dispose();
-                System.exit(0);
-            }
-        });
+//        this.addWindowListener(new WindowAdapter() {
+//            @Override
+//            public void windowClosing(WindowEvent e) {
+//            	//Print file to logs
+//				System.out.println(getAirport().outputReport());
+//                // Exit the program
+//                e.getWindow().dispose();
+//                System.exit(0);
+//            }
+//        });
     }
 
     /**

@@ -26,8 +26,7 @@ public class AirportDemo {
         dummyAirport.addFlight(dummyFlight2);
 
         try {
-            Serializer serializer = new Serializer(dummyAirport);
-            serializer.airportToFile("airport.json");
+            Serializer.defaultAirportToFile(dummyAirport);
         } catch (IOException e) {
             System.err.println("An error occurred when savings details");
         }
