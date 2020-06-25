@@ -43,7 +43,7 @@ public class AirportView extends JFrame implements ActionListener {
 
     /**
      * GUI constructor
-     * Call methods to create the interface.
+     * Creates and configures main panel and closing event.
      * @param filename
      */
     public AirportView(String filename) {
@@ -60,7 +60,6 @@ public class AirportView extends JFrame implements ActionListener {
         contentPane.add(setupFlightPanel(), BorderLayout.SOUTH);
         //pack();
         setSize(500,600);
-        //setLocation(10,20);
         setVisible(true);
 
         /**
@@ -82,9 +81,9 @@ public class AirportView extends JFrame implements ActionListener {
     }
 
     /**
-     * Method to set up the interface using Swing
-     * North part of the interface asking passenger information.
-     * @return
+     * Method setting up the client panel (north panel) using Swing.
+     * Part of the view dedicated to customers management (waiting clients, flight and baggage information).
+     * @return clientPanel
      */
     private JPanel setupClientPanel() {
         /*
@@ -123,9 +122,9 @@ public class AirportView extends JFrame implements ActionListener {
     }
     
     /**
-     * Method to set up the GUI using Swing
-     * South part of the panel to display information about the check-in and baggage fees.
-     * @return
+     * Method setting up the flight panel (south panel) using Swing
+     * Part of the view dedicated to flight check-in management.
+     * @return flightPanel
      */
     private JPanel setupFlightPanel() {
 
@@ -152,10 +151,9 @@ public class AirportView extends JFrame implements ActionListener {
     }
 
     /**
-     * Method to set up the GUI using Swing
-     * Middle part of the GUI asking for baggage information.
-     * Check-in button
-     * @return
+     * Method setting up the desk panel (center panel) using Swing
+     * Part of the view dedicated to passenger check-in management.
+     * @return deskPanel
      */
     private JPanel setupDeskPanel() {
 
@@ -277,12 +275,6 @@ public class AirportView extends JFrame implements ActionListener {
 
 
 
-    /**
-     * @return
-     */
-    public Airport getAirport() {
-    	return airport;
-    }
 
 
     /**
