@@ -1,19 +1,15 @@
 package main;
 
-import main.exceptions.BookingRefAndNameNoMatchException;
-import main.exceptions.FlightNotFoundException;
 import main.exceptions.NegativeDimensionException;
 import main.exceptions.NullDimensionException;
+
+import java.awt.*;
 import java.util.Random;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-import javax.swing.SwingUtilities.*;
 
 public class AirportView extends JFrame implements ActionListener {
 
@@ -32,7 +28,13 @@ public class AirportView extends JFrame implements ActionListener {
     private JScrollPane scrollList;
 
      */
-    private JLabel flighRef;
+
+    private JButton startSimulation;
+    private JTextArea [] desks;
+    private JTextArea [] flights;
+    private JTextArea clients;
+
+
 
     private Airport airport;
     private ArrayList<Passenger> passengerList;
@@ -45,20 +47,27 @@ public class AirportView extends JFrame implements ActionListener {
      * @param filename
      */
     public AirportView(String filename) {
-        setTitle("Check-in GUI");
-        setupNorthPanel();
-        setupCenterPanel();
-        setupSouthPanel();
-        pack();
-        setVisible(true);
+
+        setTitle("Airport view");
+
         this.airport = Serializer.defaultFileToAirport();
         this.passengerList = airport.getPassengerList();
         this.flightList = airport.getFlightList();
 
+        Container contentPane = getContentPane();
+        contentPane.add(setupClientPanel(), BorderLayout.NORTH);
+        contentPane.add(setupDeskPanel(), BorderLayout.CENTER);
+        contentPane.add(setupFlightPanel(), BorderLayout.SOUTH);
+        //pack();
+        setSize(500,600);
+        //setLocation(10,20);
+        setVisible(true);
 
         /**
          * Closing Event
          */
+
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         
 //        this.addWindowListener(new WindowAdapter() {
 //            @Override
@@ -75,8 +84,9 @@ public class AirportView extends JFrame implements ActionListener {
     /**
      * Method to set up the interface using Swing
      * North part of the interface asking passenger information.
+     * @return
      */
-    private void setupNorthPanel() {
+    private JPanel setupClientPanel() {
         /*
         JPanel searchPanel = new JPanel();
         searchPanel.setLayout(new GridLayout(2,3));
@@ -92,14 +102,33 @@ public class AirportView extends JFrame implements ActionListener {
         this.add(northPanel, BorderLayout.NORTH);
          */
 
+        /*startSimulation = new JButton("Start Simulation");
+        JPanel northPanel = new JPanel();
+        northPanel.add(startSimulation);
+        return northPanel;*/
+
+        JPanel clientPanel = new JPanel(new GridLayout(1,1));
+
+        clients = new JTextArea();
+
+            clients =new JTextArea(10,20);
+            clients.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
+            clients.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, Color.LIGHT_GRAY));
+            clientPanel.add(clients);
+
+
+        return clientPanel;
+
 
     }
     
     /**
      * Method to set up the GUI using Swing
      * South part of the panel to display information about the check-in and baggage fees.
+     * @return
      */
-    private void setupSouthPanel() {
+    private JPanel setupFlightPanel() {
+
         /*
         displayList = new JTextArea(10,10);
         displayList.setFont(new Font (Font.MONOSPACED, Font.PLAIN,14));
@@ -107,14 +136,29 @@ public class AirportView extends JFrame implements ActionListener {
         scrollList = new JScrollPane(displayList);
         this.add(scrollList,BorderLayout.SOUTH);
          */
+
+        JPanel flightPanel = new JPanel(new GridLayout(1,3));
+        flights = new JTextArea[3];
+        for (int i=0; i<3; i++)
+        {
+            flights[i]=new JTextArea(10,20);
+            flights[i].setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
+            flights [i].setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, Color.LIGHT_GRAY));
+            flightPanel.add(flights[i]);
+
+        }
+        return flightPanel;
+
     }
 
     /**
      * Method to set up the GUI using Swing
      * Middle part of the GUI asking for baggage information.
      * Check-in button
+     * @return
      */
-    private void setupCenterPanel() {
+    private JPanel setupDeskPanel() {
+
         /*
 
         JPanel bagagePanel = new JPanel();
@@ -140,6 +184,20 @@ public class AirportView extends JFrame implements ActionListener {
         this.add(centerPanel,BorderLayout.CENTER);
 
          */
+
+        JPanel deskPanel = new JPanel(new GridLayout(1,3));
+        desks = new JTextArea[3];
+        for (int i=0; i<3; i++)
+        {
+            desks[i]=new JTextArea(10,20);
+            desks[i].setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
+            desks [i].setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, Color.LIGHT_GRAY));
+            deskPanel.add(desks[i]);
+
+        }
+        return deskPanel;
+
+
     }
 
     /**
@@ -215,7 +273,10 @@ public class AirportView extends JFrame implements ActionListener {
     }
 
 
-    
+
+
+
+
     /**
      * @return
      */
