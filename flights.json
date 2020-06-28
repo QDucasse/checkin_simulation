@@ -1,0 +1,26 @@
+[
+  {
+    "destination": "Edinburgh",
+    "carrier": "RyanAir",
+    "maxPassengers": 2,
+    "maxWeight": 100,
+    "maxVolume": 100,
+    "flightRef": "EH145",
+    "baggageMaxWeight": 30,
+    "baggageMaxVolume": 23,
+    "excessFee": 30,
+    "passengerList": []
+  },
+  {
+    "destination": "Paris",
+    "carrier": "RyanAir",
+    "maxPassengers": 2,
+    "maxWeight": 100,
+    "maxVolume": 100,
+    "flightRef": "FR145",
+    "baggageMaxWeight": 30,
+    "baggageMaxVolume": 23,
+    "excessFee": 30,
+    "passengerList": []
+  }
+]

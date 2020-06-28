@@ -1,0 +1,23 @@
+[
+  {
+    "firstName": "John",
+    "lastName": "Doe",
+    "flightReference": "EH145",
+    "bookingReference": "AB1CD2",
+    "checkedIn": true
+  },
+  {
+    "firstName": "Jane",
+    "lastName": "Doe",
+    "flightReference": "FR145",
+    "bookingReference": "AA0BB0",
+    "checkedIn": false
+  },
+  {
+    "firstName": "Bill",
+    "lastName": "Murray",
+    "flightReference": "FR145",
+    "bookingReference": "AA1BB1",
+    "checkedIn": false
+  }
+]

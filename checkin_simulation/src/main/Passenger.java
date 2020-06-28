@@ -102,6 +102,13 @@ public class Passenger {
 
 
     /**
+     * Getter of the last name.
+     * @return fullName
+     *    The full name of the passenger (first name + last name).
+     */
+    public String getFullName() { return firstName + " " + lastName; }
+
+    /**
      * Getter of the flight reference.
      * @return flightReference
      *    The flight reference of the passenger.

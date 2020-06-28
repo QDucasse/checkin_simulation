@@ -21,14 +21,14 @@ public class Airport extends Observable implements Runnable {
     private static final String PATTERN_BOOKING = "(?<![A-Z])[A-Z]{2}\\d{1}[A-Z]{2}\\d{1}(?!\\d)";
 
     /* =======================
-    INSTANCE VARIABLES
+        INSTANCE VARIABLES
 	======================= */
 
     private ArrayList<Passenger> passengerList;
     private ArrayList<Flight> flightList;
   
     /* =======================
-    CONSTRUCTORS
+          CONSTRUCTORS
 	======================= */
 
     /**
