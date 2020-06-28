@@ -22,6 +22,18 @@ public class PassengerQueue {
            CONSTRUCTORS
     ======================= */
 
+    /**
+     * Structure of the passengers waiting in the airport with an order. This object's first passenger is a shared object
+     * between the Desk (consumer) and WaitingLine (producer).
+     * @param passengerList
+     *      The list of the passengers present in the airport
+     * @param desksFull
+     *      True if all the desks are occupied, false otherwise
+     * @param done
+     *      True if the resource is not being used by a thread, false otherwise
+     * @throws EmptyPassengerListException
+     *      The list given to the constructor cannot be empty
+     */
     public PassengerQueue(ArrayList<Passenger> passengerList, boolean desksFull, boolean done) throws EmptyPassengerListException {
         if ((passengerList == null) && (passengerList.isEmpty())){
             throw new EmptyPassengerListException("Passenger list cannot be empty");
@@ -41,11 +53,33 @@ public class PassengerQueue {
             ACCESSORS
     ======================= */
 
+    /**
+     * Sets the status of the queue to true. This means there are no more passengers in the queue.
+     */
+    public void setDone() {
+        done = true;
+    }
+
+    /**
+     * Returns the state of the queue. done is set to true when there are no more passengers in the queue, false
+     * otherwise.
+     * @return done
+     *      State of the queue
+     */
+    public boolean getDone() {
+        return done;
+    }
+
      /* =======================
              METHODS
     ======================= */
 
-    // Shared object "get" equivalent (for the consumer)
+    /**
+     * While the desks are occupied, waits. When one desk is free, the first passenger is accepted to check-in.
+     * This method works as the shared object "get" equivalent (for the consumer).
+     * @return firstPassenger
+     *      The first passenger in the line (the shared object between Desk and WaitingLine)
+     */
     public synchronized Passenger acceptNewPassenger() {
         while (desksFull) {
             try {
@@ -60,7 +94,11 @@ public class PassengerQueue {
         return firstPassenger;
     }
 
-    // Shared object "put" equivalent (for the producer)
+    /**
+     * While one desk is free, waits. When all the desks are occupied, a new first passenger is proposed to check-in.
+     * This is done by putting the first passenger in the queue as the shared object.
+     * This method works as the shared object "put" equivalent (for the consumer).
+     */
     public synchronized void proposeNewPassenger() {
         while (!desksFull) {
             try {
@@ -74,14 +112,6 @@ public class PassengerQueue {
         desksFull = false;
         notifyAll();
         this.firstPassenger = passengerToCheckIn;
-    }
-
-    public void setDone() {
-        done = true;
-    }
-
-    public boolean getDone() {
-        return done;
     }
 
 }
