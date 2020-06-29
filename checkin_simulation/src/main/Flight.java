@@ -1,6 +1,7 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Flight {
 
@@ -221,4 +222,53 @@ public class Flight {
         return (passengerList.size() <= maxPassengers);
     }
 
+    /* =======================
+       OVERRIDDEN METHODS
+   ======================= */
+
+    /**
+     * Returns the textual representation of a flight.
+     * @return string
+     *      Textual representation of a flight.
+     */
+    @Override
+    public String toString(){
+        String output = "Flight number " + flightRef;
+        output += " going to " + destination + " with carrier " + carrier;
+        return output;
+    }
+
+    /**
+     * Test equality between a flight and another object by comparing their attributes.
+     * @param o
+     *      The object to compare to the instance
+     * @return
+     *      True if they are the same, false otherwise.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Flight flight = (Flight) o;
+        return maxPassengers == flight.maxPassengers &&
+                maxWeight == flight.maxWeight &&
+                maxVolume == flight.maxVolume &&
+                baggageMaxWeight == flight.baggageMaxWeight &&
+                baggageMaxVolume == flight.baggageMaxVolume &&
+                excessFee == flight.excessFee &&
+                Objects.equals(destination, flight.destination) &&
+                Objects.equals(carrier, flight.carrier) &&
+                Objects.equals(flightRef, flight.flightRef) &&
+                Objects.equals(passengerList, flight.passengerList);
+    }
+
+    /**
+     * Generates a correct hashcode with the object attributes.
+     * @return hash
+     *      The hashcode of the object
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(destination, carrier, maxPassengers, maxWeight, maxVolume, flightRef, baggageMaxWeight, baggageMaxVolume, excessFee, passengerList);
+    }
 }

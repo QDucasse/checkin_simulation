@@ -3,6 +3,8 @@ package main;
 
 import main.exceptions.FlightNotFoundException;
 
+import java.util.Objects;
+
 public class Passenger {
     /**
      * Different results the check-in operation can output.
@@ -65,7 +67,7 @@ public class Passenger {
      * @param checkedIn
      *    Status of the check-in operation (done or not).
      */
-    public Passenger( String firstName, String lastName, String flightReference, String bookingReference, Baggage baggage, boolean checkedIn) {
+    public Passenger(String firstName, String lastName, String flightReference, String bookingReference, Baggage baggage, boolean checkedIn) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.flightReference = flightReference;
@@ -74,7 +76,7 @@ public class Passenger {
         this.checkedIn = checkedIn;
     }
 
-    public Passenger( String firstName, String lastName, String flightReference, String bookingReference, boolean checkedIn) {
+    public Passenger(String firstName, String lastName, String flightReference, String bookingReference, boolean checkedIn) {
         this(firstName,lastName,flightReference,bookingReference,null,checkedIn);
     }
 
@@ -197,7 +199,48 @@ public class Passenger {
         return CheckinResult.DONE;
     }
 
+     /* =======================
+        OVERRIDDEN METHODS
+    ======================= */
+
+
+    /**
+     * Returns the textual representation of a passenger.
+     * @return string
+     *      Textual representation of a passenger
+     */
+    @Override
     public String toString(){
         return getFullName() + " with booking " + getBookingReference();
+    }
+
+    /**
+     * Test equality between a passenger and another object by comparing their attributes.
+     * @param o
+     *      The object to compare to the instance
+     * @return
+     *      True if they are the same, false otherwise.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Passenger passenger = (Passenger) o;
+        return checkedIn == passenger.checkedIn &&
+                Objects.equals(firstName, passenger.firstName) &&
+                Objects.equals(lastName, passenger.lastName) &&
+                Objects.equals(flightReference, passenger.flightReference) &&
+                Objects.equals(bookingReference, passenger.bookingReference) &&
+                Objects.equals(baggage, passenger.baggage);
+    }
+
+    /**
+     * Generates a correct hashcode with the object attributes.
+     * @return hash
+     *      The hashcode of the object
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstName, lastName, flightReference, bookingReference, baggage, checkedIn);
     }
 }

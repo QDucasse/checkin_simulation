@@ -3,6 +3,8 @@ package main;
 import main.exceptions.NegativeDimensionException;
 import main.exceptions.NullDimensionException;
 
+import java.util.Objects;
+
 public class Baggage {
 
     /* =======================
@@ -92,4 +94,36 @@ public class Baggage {
      *    The volume of the baggage
      */
     public int getVolume() { return length*width*height/1000; }
+
+    /* =======================
+       OVERRIDDEN METHODS
+   ======================= */
+
+    /**
+     * Test equality between a baggage and another object by comparing their attributes.
+     * @param o
+     *      The object to compare to the instance
+     * @return
+     *      True if they are the same, false otherwise.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Baggage baggage = (Baggage) o;
+        return length == baggage.length &&
+                height == baggage.height &&
+                width == baggage.width &&
+                weight == baggage.weight;
+    }
+
+    /**
+     * Generates a correct hashcode with the object attributes.
+     * @return hash
+     *      The hashcode of the object
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(length, height, width, weight);
+    }
 }

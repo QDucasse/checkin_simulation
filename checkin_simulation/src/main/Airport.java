@@ -4,6 +4,7 @@ import main.exceptions.BookingRefAndNameNoMatchException;
 import main.exceptions.FlightNotFoundException;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Observable;
 
 public class Airport extends Observable implements Runnable {
@@ -178,5 +179,49 @@ public class Airport extends Observable implements Runnable {
 
     public void run(){
 
+    }
+
+
+    /* =======================
+       OVERRIDDEN METHODS
+   ======================= */
+
+    /**
+     * Textual representation of an airport.
+     * @return output
+     *      The textual representation of the airport.
+     */
+    @Override
+    public String toString() {
+        return "Airport{" +
+                "passengerList=" + passengerList +
+                ", flightList=" + flightList +
+                '}';
+    }
+
+    /**
+     * Test equality between an airport and another object by comparing their attributes.
+     * @param o
+     *      The object to compare to the instance
+     * @return
+     *      True if they are the same, false otherwise.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Airport airport = (Airport) o;
+        return Objects.equals(passengerList, airport.passengerList) &&
+                Objects.equals(flightList, airport.flightList);
+    }
+
+    /**
+     * Generates a correct hashcode with the object attributes.
+     * @return hash
+     *      The hashcode of the object
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(passengerList, flightList);
     }
 }
