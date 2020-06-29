@@ -40,12 +40,14 @@ public class Desk implements Runnable {
          while (!passengerQueue.getDone()) {
              try {
                  // randomSign outputs either 1 or -1
-                 int randomSign = ThreadLocalRandom.current().nextInt(0, 1) * 2 - 1;
+                 int randomSign = ThreadLocalRandom.current().nextInt(0, 2) * 2 - 1;
                  // The random integer corresponds to 1000,2000 milliseconds
-                 int randomInt = ThreadLocalRandom.current().nextInt(1, 2) * 1000;
+                 int randomInt = ThreadLocalRandom.current().nextInt(0, 3) * 1000;
                  int randomMillis = randomSign * randomInt;
                  // The thread will sleep for a duration between 1 second (3000 - 2000) and 5 seconds (3000 + 2000)
-                 Thread.sleep(processingTime + randomMillis);
+                 int totalTime = processingTime + randomMillis;
+                 Thread.sleep(totalTime);
+                 System.out.println("Time took to check-in the client (in seconds): " + totalTime);
              }
              catch (InterruptedException e) { }
              Passenger passengerToCheckIn = passengerQueue.acceptNewPassenger();

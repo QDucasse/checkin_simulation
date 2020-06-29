@@ -196,4 +196,8 @@ public class Passenger {
         checkedIn = true;
         return CheckinResult.DONE;
     }
+
+    public String toString(){
+        return getFullName() + " with booking " + getBookingReference();
+    }
 }

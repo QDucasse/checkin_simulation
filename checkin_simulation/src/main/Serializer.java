@@ -2,6 +2,8 @@ package main;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonParser;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -126,7 +128,8 @@ public class Serializer {
      *    Airport with the passengers and flights loaded.
      */
     public static Airport defaultFileToAirport(){
-        return Serializer.fileToAirport("passengers.json","flights.json");
+        Airport airport = new Airport(defaultFileToPassengerList(), defaultFileToFlightList());
+        return airport;
     }
 
     /**
@@ -138,11 +141,15 @@ public class Serializer {
      */
     public static ArrayList<Passenger> fileToPassengerList(String filename){
         try {
-            ArrayList<Passenger> passengerList = new ArrayList<Passenger>();
+            ArrayList<Passenger> passengerList = new ArrayList<>();
             Gson gson = new Gson();
 
-            String text = new String(Files.readAllBytes(Paths.get(filename)), StandardCharsets.UTF_8);
-            passengerList = gson.fromJson(text, ArrayList.class);
+            String text = Files.readString(Paths.get(filename));
+            JsonArray array = JsonParser.parseString(text).getAsJsonArray();
+            for (int i = 0; i < array.size(); i=i+1){
+                Passenger passenger = gson.fromJson(array.get(i), Passenger.class);
+                passengerList.add(passenger);
+            }
             return passengerList;
         }
         catch(IOException e) {
@@ -172,8 +179,12 @@ public class Serializer {
             ArrayList<Flight> flightList = new ArrayList<Flight>();
             Gson gson = new Gson();
 
-            String text = new String(Files.readAllBytes(Paths.get(filename)), StandardCharsets.UTF_8);
-            flightList = gson.fromJson(text, ArrayList.class);
+            String text = Files.readString(Paths.get(filename));
+            JsonArray array = JsonParser.parseString(text).getAsJsonArray();
+            for (int i = 0; i < array.size(); i=i+1){
+                Flight flight = gson.fromJson(array.get(i), Flight.class);
+                flightList.add(flight);
+            }
             return flightList;
         }
         catch(IOException e) {

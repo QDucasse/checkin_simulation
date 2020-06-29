@@ -27,7 +27,7 @@ public class WaitingLine implements Runnable {
      * While the queue is not empty, the waiting line will propose passengers for check-in.
      */
      public void run() {
-         for (int i = 0; i < 8; i++) {
+         while(!passengerQueue.isEmpty()) {
              try {
                  Thread.sleep(50);
              } catch (InterruptedException e) {

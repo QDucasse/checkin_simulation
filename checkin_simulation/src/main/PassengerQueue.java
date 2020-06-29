@@ -38,8 +38,7 @@ public class PassengerQueue {
         if ((passengerList == null) && (passengerList.isEmpty())){
             throw new EmptyPassengerListException("Passenger list cannot be empty");
         }
-        this.passengerQueue = new LinkedList<Passenger>(passengerList);
-        this.firstPassenger = this.passengerQueue.remove();
+        this.passengerQueue = new LinkedList<>(passengerList);
         this.desksFull = desksFull;
         this.done = done;
         this.empty = false;
@@ -114,4 +113,16 @@ public class PassengerQueue {
         this.firstPassenger = passengerToCheckIn;
     }
 
+    /**
+     * Checks if the queue is empty
+     * @return isEmpty
+     *      True if the queue is empty, false otherwise.
+     */
+    public boolean isEmpty() {
+        return passengerQueue.isEmpty();
+    }
+
+    public String toString(){
+        return passengerQueue.toString();
+    }
 }
