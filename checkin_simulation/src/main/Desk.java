@@ -7,6 +7,7 @@ public class Desk implements Runnable {
 	======================= */
     private PassengerQueue passengerQueue;
     private int processingTime;
+    private int deskNumber;
 
     /* =======================
           CONSTRUCTORS
@@ -19,13 +20,14 @@ public class Desk implements Runnable {
      * @param processingTime
      *      The time this desk takes to process one passenger.
      */
-    public Desk(PassengerQueue passengerQueue, int processingTime){
+    public Desk(PassengerQueue passengerQueue, int processingTime, int deskNumber){
         this.passengerQueue = passengerQueue;
         this.processingTime = processingTime;
+        this.deskNumber = deskNumber;
     }
 
-    public Desk(PassengerQueue passengerQueue){
-        this(passengerQueue, 3000);
+    public Desk(PassengerQueue passengerQueue, int deskNumber){
+        this(passengerQueue, 3000, deskNumber);
     }
 
      /* =======================
@@ -39,6 +41,8 @@ public class Desk implements Runnable {
      public void run() {
          while (!passengerQueue.getDone()) {
              try {
+                 Passenger passengerToCheckIn = passengerQueue.acceptNewPassenger();
+                 System.out.println("Desk nº" + deskNumber + ": accepted to check-in the client " + passengerToCheckIn.getFullName());
                  // randomSign outputs either 1 or -1
                  int randomSign = ThreadLocalRandom.current().nextInt(0, 2) * 2 - 1;
                  // The random integer corresponds to 1000,2000 milliseconds
@@ -47,10 +51,9 @@ public class Desk implements Runnable {
                  // The thread will sleep for a duration between 1 second (3000 - 2000) and 5 seconds (3000 + 2000)
                  int totalTime = processingTime + randomMillis;
                  Thread.sleep(totalTime);
-                 System.out.println("Time took to check-in the client (in seconds): " + totalTime);
+                 System.out.println("Desk nº" + deskNumber + ": " + totalTime + "ms to check-in the client");
              }
              catch (InterruptedException e) { }
-             Passenger passengerToCheckIn = passengerQueue.acceptNewPassenger();
          }
      }
 }

@@ -12,10 +12,8 @@ public class PassengerQueue {
         INSTANCE VARIABLES
 	======================= */
     private Queue<Passenger> passengerQueue;
-    private Passenger firstPassenger;
     private boolean desksFull;
     private boolean done;
-    private boolean empty;
 
 
     /* =======================
@@ -41,7 +39,6 @@ public class PassengerQueue {
         this.passengerQueue = new LinkedList<>(passengerList);
         this.desksFull = desksFull;
         this.done = done;
-        this.empty = false;
     }
 
     public PassengerQueue(ArrayList<Passenger> passengerList) throws EmptyPassengerListException {
@@ -87,16 +84,15 @@ public class PassengerQueue {
                 e.printStackTrace();
             }
         }
-        System.out.println("Passenger accepted for check-in: " + firstPassenger.getFullName());
         desksFull = true;
         notifyAll();
-        return firstPassenger;
+        return passengerQueue.remove();
     }
 
     /**
      * While one desk is free, waits. When all the desks are occupied, a new first passenger is proposed to check-in.
      * This is done by putting the first passenger in the queue as the shared object.
-     * This method works as the shared object "put" equivalent (for the consumer).
+     * This method works as the shared object "put" equivalent (for the producer).
      */
     public synchronized void proposeNewPassenger() {
         while (!desksFull) {
@@ -106,11 +102,8 @@ public class PassengerQueue {
                 e.printStackTrace();
             }
         }
-        Passenger passengerToCheckIn = passengerQueue.remove();
-        System.out.println("Passenger waiting for check-in: " + passengerToCheckIn.getFullName());
         desksFull = false;
         notifyAll();
-        this.firstPassenger = passengerToCheckIn;
     }
 
     /**
@@ -119,9 +112,18 @@ public class PassengerQueue {
      *      True if the queue is empty, false otherwise.
      */
     public boolean isEmpty() {
-        return passengerQueue.isEmpty();
+        return (passengerQueue.isEmpty());
     }
 
+    /* =======================
+       OVERRIDDEN METHODS
+   ======================= */
+
+    /**
+     * Returns the textual representation of the passenger queue.
+     * @return string
+     *      Textual representation of the passenger queue.
+     */
     public String toString(){
         return passengerQueue.toString();
     }
