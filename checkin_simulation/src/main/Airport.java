@@ -163,15 +163,28 @@ public class Airport extends Observable implements Runnable {
      * Once the files are loaded with the serializer, the airport runs a check in order to delete all flights which
      * reference does not follow the rule defined at the beginning and all passengers which booking reference does not
      * follow the rule defined at the beginning.
+     * @throws FlightNotFoundException
+     *      Happens if an already checked-in passenger is checked-in on an unknown flight.
      */
-    public void checkLists(){
-        for (Flight flight : flightList){
-            if (!flight.getFlightRef().matches(PATTERN_FLIGHT)){
-                flightList.remove(flight);
-            }
-        }
+    public void checkLists() throws FlightNotFoundException {
+        // Remove passengers with wrong booking references and flights with wrong references
+        flightList.removeIf(flight -> !flight.getFlightRef().matches(PATTERN_FLIGHT));
+        passengerList.removeIf(passenger -> !passenger.getBookingReference().matches(PATTERN_BOOKING));
+        // Add the already checked-in passengers to their correct flights
+        checkAlreadyCheckedIn();
+    }
+
+    /**
+     * Runs through the list of passengers to check if some are already checked-in. If a passenger is already checked-in,
+     * they are added to the corresponding flight and removed from the list.
+     * @throws FlightNotFoundException
+     *      The flight a passenger is checked-in is unknown from the airport.
+     */
+    public void checkAlreadyCheckedIn() throws FlightNotFoundException {
         for (Passenger passenger : passengerList){
-            if (!passenger.getBookingReference().matches(PATTERN_BOOKING)){
+            if (passenger.getCheckedIn()) {
+                Flight correspondingFlight = getFlightFromRef(passenger.getFlightReference());
+                correspondingFlight.addPassenger(passenger);
                 passengerList.remove(passenger);
             }
         }
