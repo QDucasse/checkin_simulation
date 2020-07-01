@@ -1,6 +1,6 @@
 package main;
 import java.io.IOException;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Random;
 
 public class Desk implements Runnable {
     /* =======================
@@ -61,10 +61,11 @@ public class Desk implements Runnable {
                  AirportLogger.logDeskPassengerAccepted(this, passengerToCheckIn);
 
                  // Creation of a random time for the check-in to happen.
+                 Random random = new Random();
                  // The randomSign outputs either 1 or -1
-                 int randomSign = ThreadLocalRandom.current().nextInt(0, 2) * 2 - 1;
+                 int randomSign = random.nextInt(2) * 2 - 1;
                  // The random integer corresponds to 1000,2000 milliseconds
-                 int randomInt = ThreadLocalRandom.current().nextInt(0, 3) * 1000;
+                 int randomInt = random.nextInt(3) * 1000;
                  int randomMillis = randomSign * randomInt;
                  // The thread will sleep for a duration between 1 second (3000 - 2000) and 5 seconds (3000 + 2000)
                  int totalTime = processingTime + randomMillis;

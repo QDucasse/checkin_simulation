@@ -34,7 +34,7 @@ public class AirportDemo {
         /* ====================
              GUI LAUNCH
         ==================== */
-        AirportView mainWindow = new AirportView("airport.json");
+        AirportView mainWindow = new AirportView();
         mainWindow.setVisible(true);
 
         /* ====================

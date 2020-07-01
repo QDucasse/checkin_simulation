@@ -27,9 +27,9 @@ public class AirportController {
          ACTION LISTENERS
     ======================= */
 
-    class ProcessPassengersController implements ActionListener {
+    class StartSimulation implements ActionListener {
         public void actionPerformed(ActionEvent e){
-//            view.disableOpenDesksButton();
+//            view.disableStartSimulationButton();
             Thread thread = new Thread(airport);
             thread.start();
         }
