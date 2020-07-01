@@ -33,7 +33,7 @@ public class PassengerQueue {
      *      The list given to the constructor cannot be empty
      */
     public PassengerQueue(ArrayList<Passenger> passengerList, boolean desksFull, boolean done) throws EmptyPassengerListException {
-        if ((passengerList == null) && (passengerList.isEmpty())){
+        if ((passengerList == null) || (passengerList.isEmpty())){
             throw new EmptyPassengerListException("Passenger list cannot be empty");
         }
         this.passengerQueue = new LinkedList<>(passengerList);
@@ -113,6 +113,15 @@ public class PassengerQueue {
      */
     public boolean isEmpty() {
         return (passengerQueue.isEmpty());
+    }
+
+    /**
+     * Returns the first passenger in the queue (null if empty).
+     * @return firstPassenger
+     *      The first passenger in the queue (null if empty).
+     */
+    public Passenger peek(){
+        return passengerQueue.peek();
     }
 
     /* =======================

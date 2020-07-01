@@ -1,5 +1,7 @@
 package main;
 
+import java.io.IOException;
+
 public class WaitingLine implements Runnable {
     /* =======================
         INSTANCE VARIABLES
@@ -29,8 +31,9 @@ public class WaitingLine implements Runnable {
      public void run() {
          while(!passengerQueue.isEmpty()) {
              try {
-                 Thread.sleep(50);
-             } catch (InterruptedException e) {
+                 Thread.sleep(10);
+                 AirportLogger.logPassenger(passengerQueue.peek());
+             } catch (InterruptedException | IOException e) {
                  e.printStackTrace();
              }
              passengerQueue.proposeNewPassenger();

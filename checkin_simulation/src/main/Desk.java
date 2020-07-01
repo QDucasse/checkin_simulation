@@ -1,4 +1,5 @@
 package main;
+import java.io.IOException;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Desk implements Runnable {
@@ -30,6 +31,20 @@ public class Desk implements Runnable {
         this(passengerQueue, 3000, deskNumber);
     }
 
+    /* =======================
+           ACCESSORS
+    ======================= */
+
+    /**
+     * Output the actual desk number.
+     * @return deskNumber
+     *      Number of the desk.
+     */
+    public int getDeskNumber() {
+        return deskNumber;
+    }
+
+
      /* =======================
              METHODS
     ======================= */
@@ -42,8 +57,11 @@ public class Desk implements Runnable {
          while (!passengerQueue.getDone()) {
              try {
                  Passenger passengerToCheckIn = passengerQueue.acceptNewPassenger();
-                 System.out.println("Desk nº" + deskNumber + ": accepted to check-in the client " + passengerToCheckIn.getFullName());
-                 // randomSign outputs either 1 or -1
+                 // Log passenger accepted
+                 AirportLogger.logDeskPassengerAccepted(this, passengerToCheckIn);
+
+                 // Creation of a random time for the check-in to happen.
+                 // The randomSign outputs either 1 or -1
                  int randomSign = ThreadLocalRandom.current().nextInt(0, 2) * 2 - 1;
                  // The random integer corresponds to 1000,2000 milliseconds
                  int randomInt = ThreadLocalRandom.current().nextInt(0, 3) * 1000;
@@ -51,9 +69,12 @@ public class Desk implements Runnable {
                  // The thread will sleep for a duration between 1 second (3000 - 2000) and 5 seconds (3000 + 2000)
                  int totalTime = processingTime + randomMillis;
                  Thread.sleep(totalTime);
-                 System.out.println("Desk nº" + deskNumber + ": " + totalTime + "ms to check-in the client");
+
+                 AirportLogger.logDeskTimeTaken(this, totalTime);
              }
-             catch (InterruptedException e) { }
+             catch (InterruptedException | IOException e) { e.printStackTrace(); }
          }
      }
+
+
 }

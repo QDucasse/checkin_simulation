@@ -14,14 +14,24 @@ public class AirportLogger {
     /* =======================
          CLASS VARIABLES
     ======================= */
+
     private static Logger logger = null;
     private final static String LOGFILE = "logs.txt";
+    private final static boolean DRYRUN = false;
+
+    /* =======================
+          CONSTRUCTORS
+    ======================= */
 
     /**
      * The initialization can never be done outside of this class. This class is never initialized and simply uses the
      * singleton mechanics of its class variable logger.
      */
     private AirportLogger() { }
+
+    /* =======================
+            METHODS
+    ======================= */
 
     /**
      * Setup of the logger with a corresponding file handler and formatter (simple text here).
@@ -30,6 +40,7 @@ public class AirportLogger {
      * @param dryRun
      *      No console output if true.
      * @throws IOException
+     *      Issues getting or creating the logfile.
      */
     private static void setUp(String fileName, boolean dryRun) throws IOException {
         // Lazy instantiation
@@ -59,16 +70,24 @@ public class AirportLogger {
      */
     private static void log(String message) throws IOException {
         if (logger == null){
-            setUp(LOGFILE, false);
+            setUp(LOGFILE, DRYRUN);
         }
         logger.info(message);
     }
 
-    /**
-     * Main test
-     */
-    public static void main(String[] args) throws IOException {
-        AirportLogger.log("Zebi");
+    public static void logDeskPassengerAccepted(Desk desk, Passenger passenger) throws IOException {
+        String messageToLog = "Desk nº" + desk.getDeskNumber() + " accepted to check-in: " + passenger.getFullName();
+        log(messageToLog);
     }
 
+    public static void logDeskTimeTaken(Desk desk, int time) throws IOException {
+        String messageToLog = "Desk nº" + desk.getDeskNumber() + ": Check-in completed in " + time/1000 + "s";
+        log(messageToLog);
+    }
+
+    public static void logPassenger(Passenger passenger) throws IOException {
+        String messageToLog = "Passenger " + passenger.getFullName() + " with reservation " + passenger.getBookingReference()
+                                                    + " is waiting to check-in for flight " + passenger.getFlightReference();
+        log(messageToLog);
+    }
 }
