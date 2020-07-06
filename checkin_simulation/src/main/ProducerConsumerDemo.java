@@ -13,41 +13,12 @@ public class ProducerConsumerDemo {
             @Override
             public void run() {
 
-                Airport dummyAirport = Serializer.defaultFileToAirport();
-                ArrayList<Passenger> passengerList = dummyAirport.getPassengerList();
-                PassengerQueue passengerQueue = null;
-                try {
-                    passengerQueue = new PassengerQueue(passengerList);
-                } catch (EmptyPassengerListException e) {
-                    e.printStackTrace();
-                }
+                Airport model = new Airport();                                      // Model
+                AirportView view  = new AirportView(model);
+                AirportController controller = new AirportController(model, view);  // Controller
+                view.setVisible(true);
 
-                System.out.println(passengerQueue);
-                // Producer/Consumer Creation
-                Thread waitingLineThread = new Thread(new WaitingLine(passengerQueue));
-                waitingLineThread.start();
-                Thread deskThread1 = new Thread(new Desk(passengerQueue, 1));
-                deskThread1.start();
-                Thread deskThread2 = new Thread(new Desk(passengerQueue, 2));
-                deskThread2.start();
-
-                try {
-                    waitingLineThread.join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    deskThread1.join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    deskThread2.join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
             }
-
 
         });
     }

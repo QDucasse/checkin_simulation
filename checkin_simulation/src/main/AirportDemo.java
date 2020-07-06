@@ -34,8 +34,8 @@ public class AirportDemo {
         /* ====================
              GUI LAUNCH
         ==================== */
-        AirportView mainWindow = new AirportView();
-        mainWindow.setVisible(true);
+        //AirportView mainWindow = new AirportView();
+        //mainWindow.setVisible(true);
 
         /* ====================
              DEMO LAUNCH

@@ -1,10 +1,12 @@
 package main;
 
+import main.exceptions.EmptyPassengerListException;
 import main.exceptions.NegativeDimensionException;
 import main.exceptions.NullDimensionException;
 
 import java.awt.*;
 import java.util.List;
+import java.util.Observable;
 import java.util.Random;
 
 import javax.swing.*;
@@ -78,14 +80,15 @@ public class AirportView extends JFrame implements ActionListener {
         clients.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
         clients.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, Color.LIGHT_GRAY));
         startSimulation = new JButton("Start simulation");
-        clientPanel.add(startSimulation);
-        clientPanel.add(clients);
         startSimulation.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //threads();
                 start();
             }
         });
+        clientPanel.add(startSimulation);
+
         clientPanel.add(clients);
         return clientPanel;
     }
@@ -158,7 +161,9 @@ public class AirportView extends JFrame implements ActionListener {
    ======================= */
 
 
-    public void addListener(AirportController.StartSimulation startSimulation) {
+    public void addListener(ActionListener al) {
+
+    startSimulation.addActionListener(al);
     }
 
     @Override
@@ -166,41 +171,119 @@ public class AirportView extends JFrame implements ActionListener {
 
     }
 
+    /*public synchronized void update(Observable o, Object args) {
+        for (Passenger passenger : passengerList) {
+            String report = passenger.getFirstName() ;
+            clients.setText( report);
+            clients.setForeground(Color.BLACK);
+
+
+        }
+    }*/
+
     public void disableStartSimulationButton(){
         startSimulation.setEnabled(false);
     }
 
+    /*public void threads(){
+
+        Airport dummyAirport = Serializer.defaultFileToAirport();
+        ArrayList<Passenger> passengerList = dummyAirport.getPassengerList();
+
+
+        PassengerQueue passengerQueue = null;
+        try {
+            passengerQueue = new PassengerQueue(passengerList);
+        } catch (EmptyPassengerListException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(passengerQueue);
+        // Producer/Consumer Creation
+        Thread waitingLineThread = new Thread(new WaitingLine(passengerQueue));
+        waitingLineThread.start();
+        Thread deskThread1 = new Thread(new Desk(passengerQueue, 1));
+        deskThread1.start();
+        Thread deskThread2 = new Thread(new Desk(passengerQueue, 2));
+        deskThread2.start();
+
+        try {
+            waitingLineThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        try {
+            deskThread1.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        try {
+            deskThread2.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }*/
+
     public void start()
     {
-        SwingWorker<Boolean, Integer> worker = new SwingWorker<Boolean, Integer>() {
+        SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
 
             @Override
-            protected Boolean doInBackground() throws Exception {
+            protected Void doInBackground() throws Exception {
 
-                //threadsRunning();
-                clients.setText("test");
+                Airport dummyAirport = Serializer.defaultFileToAirport();
+                ArrayList<Passenger> passengerList = dummyAirport.getPassengerList();
 
 
-                return false;
+                PassengerQueue passengerQueue = null;
+                try {
+                    passengerQueue = new PassengerQueue(passengerList);
+                } catch (EmptyPassengerListException e) {
+                    e.printStackTrace();
+                }
+
+                System.out.println(passengerQueue);
+                // Producer/Consumer Creation
+                Thread waitingLineThread = new Thread(new WaitingLine(passengerQueue));
+                waitingLineThread.start();
+                Thread deskThread1 = new Thread(new Desk(passengerQueue, 1));
+                deskThread1.start();
+                Thread deskThread2 = new Thread(new Desk(passengerQueue, 2));
+                deskThread2.start();
+
+                try {
+                    waitingLineThread.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    deskThread1.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    deskThread2.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                publish(waitingLineThread.getStackTrace().toString());
+                return null;
+
             }
 
-            /*@Override
-            protected void process(List<Integer> chunks) {
-                Integer value = chunks.get(chunks.size() -1);
-                clients.setText("" + value);
-            }*/
+            @Override
+            protected void process(List<String> chunks) {
+                for (String line: chunks)
+                {
+                    clients.setText(line);
+                }
+            }
 
             @Override
             protected void done()
             {
-                try {
-                    Boolean status = get();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
-                clients.setText("Done");
+                //clients.setText("Done");
 
             }
         };
