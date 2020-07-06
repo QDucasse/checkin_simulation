@@ -38,11 +38,11 @@ public class AirportView extends JFrame implements ActionListener {
      * @param flightsFileName
      *      Name of the json file containing the flights information.
      */
-    public AirportView(String passengersFileName, String flightsFileName) {
+    public AirportView(Airport airport) {
         // Title of the window
         setTitle("Airport view");
         // Deserializing the passengers and flights into a new airport
-        this.airport = Serializer.fileToAirport(passengersFileName, flightsFileName);
+        //this.airport = Serializer.defaultFileToAirport();
         this.passengerList = airport.getPassengerList();
         this.flightList = airport.getFlightList();
         // Create the different panels
@@ -56,9 +56,9 @@ public class AirportView extends JFrame implements ActionListener {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
-    public AirportView() {
+    /*public AirportView() {
         this("passengers.json","flights.json");
-    }
+    }*/
 
     /* =======================
             METHODS

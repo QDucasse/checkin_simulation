@@ -6,7 +6,9 @@ import java.util.ArrayList;
 
 public class ProducerConsumerDemo {
     public static void main(String[] args) throws InterruptedException {
-        ArrayList<Passenger> passengerList = Serializer.defaultFileToPassengerList();
+
+        Airport dummyAirport = Serializer.defaultFileToAirport();
+        ArrayList<Passenger> passengerList = dummyAirport.getPassengerList();
         PassengerQueue passengerQueue = null;
         try {
             passengerQueue = new PassengerQueue(passengerList);
