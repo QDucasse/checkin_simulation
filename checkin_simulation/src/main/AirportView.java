@@ -33,10 +33,8 @@ public class AirportView extends JFrame implements ActionListener {
     /**
      * GUI constructor
      * Creates and configures main panel and closing event.
-     * @param passengersFileName
-     *      Name of the json file containing the passengers information.
-     * @param flightsFileName
-     *      Name of the json file containing the flights information.
+     * @param airport
+     *
      */
     public AirportView(Airport airport) {
         // Title of the window
@@ -50,7 +48,8 @@ public class AirportView extends JFrame implements ActionListener {
         contentPane.add(setupClientPanel(), BorderLayout.NORTH);
         contentPane.add(setupDeskPanel(), BorderLayout.CENTER);
         contentPane.add(setupFlightPanel(), BorderLayout.SOUTH);
-        setSize(500,600);
+        //setSize(500,600);
+        pack();
         setVisible(true);
         // Closing event
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -71,10 +70,20 @@ public class AirportView extends JFrame implements ActionListener {
      *      Panel containing the passenger waiting line
      */
     private JPanel setupClientPanel() {
-        JPanel clientPanel = new JPanel(new GridLayout(1,1));
+
+        JPanel clientPanel = new JPanel(new GridLayout(2,1));
         clients = new JTextArea(10,20);
         clients.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
         clients.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, Color.LIGHT_GRAY));
+        startSimulation = new JButton("Start simulation");
+        clientPanel.add(startSimulation);
+        clientPanel.add(clients);
+        startSimulation.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //start();
+            }
+        });
         clientPanel.add(clients);
         return clientPanel;
     }
@@ -146,11 +155,18 @@ public class AirportView extends JFrame implements ActionListener {
             METHODS
    ======================= */
 
+
+    public void addListener(AirportController.StartSimulation startSimulation) {
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
 
     }
 
+    public void disableStartSimulationButton(){
+        startSimulation.setEnabled(false);
+    }
 
 
     /**

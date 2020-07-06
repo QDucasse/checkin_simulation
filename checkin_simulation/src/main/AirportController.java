@@ -20,7 +20,7 @@ public class AirportController {
     public AirportController(Airport airport, AirportView view){
         this.airport = airport;
         this.view = view;
-
+        view.addListener(new StartSimulation());
     }
 
     /* =======================
@@ -29,7 +29,7 @@ public class AirportController {
 
     class StartSimulation implements ActionListener {
         public void actionPerformed(ActionEvent e){
-//            view.disableStartSimulationButton();
+            view.disableStartSimulationButton();
             Thread thread = new Thread(airport);
             thread.start();
         }
