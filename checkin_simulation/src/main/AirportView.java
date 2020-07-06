@@ -4,12 +4,14 @@ import main.exceptions.NegativeDimensionException;
 import main.exceptions.NullDimensionException;
 
 import java.awt.*;
+import java.util.List;
 import java.util.Random;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 public class AirportView extends JFrame implements ActionListener {
 
@@ -81,7 +83,7 @@ public class AirportView extends JFrame implements ActionListener {
         startSimulation.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //start();
+                start();
             }
         });
         clientPanel.add(clients);
@@ -166,6 +168,44 @@ public class AirportView extends JFrame implements ActionListener {
 
     public void disableStartSimulationButton(){
         startSimulation.setEnabled(false);
+    }
+
+    public void start()
+    {
+        SwingWorker<Boolean, Integer> worker = new SwingWorker<Boolean, Integer>() {
+
+            @Override
+            protected Boolean doInBackground() throws Exception {
+
+                //threadsRunning();
+                clients.setText("test");
+
+
+                return false;
+            }
+
+            /*@Override
+            protected void process(List<Integer> chunks) {
+                Integer value = chunks.get(chunks.size() -1);
+                clients.setText("" + value);
+            }*/
+
+            @Override
+            protected void done()
+            {
+                try {
+                    Boolean status = get();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+                clients.setText("Done");
+
+            }
+        };
+
+        worker.execute();
     }
 
 
