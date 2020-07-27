@@ -3,17 +3,19 @@ package main;
 import main.exceptions.EmptyPassengerListException;
 import main.exceptions.NegativeDimensionException;
 import main.exceptions.NullDimensionException;
+import java.util.Collections;
+
+import java.util.logging.Logger;
+
 
 import java.awt.*;
 import java.util.List;
-import java.util.Observable;
 import java.util.Random;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 public class AirportView extends JFrame implements ActionListener {
 
@@ -22,6 +24,7 @@ public class AirportView extends JFrame implements ActionListener {
 	======================= */
 
     private JButton startSimulation;
+    private static Logger logger = null;
     private JTextArea [] desks;
     private JTextArea [] flights;
     private JTextArea clients;
@@ -41,20 +44,22 @@ public class AirportView extends JFrame implements ActionListener {
      *
      */
     public AirportView(Airport airport) {
-        // Title of the window
+
         setTitle("Airport view");
-        // Deserializing the passengers and flights into a new airport
-        //this.airport = Serializer.defaultFileToAirport();
         this.passengerList = airport.getPassengerList();
         this.flightList = airport.getFlightList();
-        // Create the different panels
+
+
+
         Container contentPane = getContentPane();
         contentPane.add(setupClientPanel(), BorderLayout.NORTH);
         contentPane.add(setupDeskPanel(), BorderLayout.CENTER);
         contentPane.add(setupFlightPanel(), BorderLayout.SOUTH);
-        //setSize(500,600);
+
+
         pack();
         setVisible(true);
+
         // Closing event
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
@@ -66,6 +71,12 @@ public class AirportView extends JFrame implements ActionListener {
     /* =======================
             METHODS
    ======================= */
+
+
+   /* private ArrayList<Passenger> shufflePassengerList(ArrayList<Passenger> passengerList){
+        Collections.shuffle(passengerList);
+        return passengerList;
+    }*/
 
     /**
      * Method setting up the client panel (north panel) using Swing.
@@ -84,7 +95,7 @@ public class AirportView extends JFrame implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //threads();
-                start();
+                start(passengerList);
             }
         });
         clientPanel.add(startSimulation);
@@ -92,7 +103,7 @@ public class AirportView extends JFrame implements ActionListener {
         clientPanel.add(clients);
         return clientPanel;
     }
-    
+
     /**
      * Method setting up the flight panel (south panel) using Swing
      * Part of the view dedicated to flight check-in management.
@@ -163,7 +174,7 @@ public class AirportView extends JFrame implements ActionListener {
 
     public void addListener(ActionListener al) {
 
-    startSimulation.addActionListener(al);
+        startSimulation.addActionListener(al);
     }
 
     @Override
@@ -185,66 +196,35 @@ public class AirportView extends JFrame implements ActionListener {
         startSimulation.setEnabled(false);
     }
 
-    /*public void threads(){
-
-        Airport dummyAirport = Serializer.defaultFileToAirport();
-        ArrayList<Passenger> passengerList = dummyAirport.getPassengerList();
-
-
-        PassengerQueue passengerQueue = null;
-        try {
-            passengerQueue = new PassengerQueue(passengerList);
-        } catch (EmptyPassengerListException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println(passengerQueue);
-        // Producer/Consumer Creation
-        Thread waitingLineThread = new Thread(new WaitingLine(passengerQueue));
-        waitingLineThread.start();
-        Thread deskThread1 = new Thread(new Desk(passengerQueue, 1));
-        deskThread1.start();
-        Thread deskThread2 = new Thread(new Desk(passengerQueue, 2));
-        deskThread2.start();
-
-        try {
-            waitingLineThread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        try {
-            deskThread1.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        try {
-            deskThread2.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }*/
-
-    public void start()
+    public void start(ArrayList<Passenger> passengerList)
     {
         SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
 
             @Override
             protected Void doInBackground() throws Exception {
 
-                Airport dummyAirport = Serializer.defaultFileToAirport();
-                ArrayList<Passenger> passengerList = dummyAirport.getPassengerList();
+
+
+                //Airport dummyAirport = Serializer.defaultFileToAirport();
+                //ArrayList<Passenger> passengerList = dummyAirport.getPassengerList();
 
 
                 PassengerQueue passengerQueue = null;
+                Collections.shuffle(passengerList, new Random());
+
                 try {
                     passengerQueue = new PassengerQueue(passengerList);
                 } catch (EmptyPassengerListException e) {
                     e.printStackTrace();
                 }
 
+
+
+
                 System.out.println(passengerQueue);
                 // Producer/Consumer Creation
                 Thread waitingLineThread = new Thread(new WaitingLine(passengerQueue));
+                WaitingLine waitingLine = new WaitingLine(passengerQueue);
                 waitingLineThread.start();
                 Thread deskThread1 = new Thread(new Desk(passengerQueue, 1));
                 deskThread1.start();
@@ -267,7 +247,11 @@ public class AirportView extends JFrame implements ActionListener {
                     e.printStackTrace();
                 }
 
-                publish(waitingLineThread.getStackTrace().toString());
+
+
+
+
+
                 return null;
 
             }
@@ -356,6 +340,9 @@ public class AirportView extends JFrame implements ActionListener {
      * Call the checkIn method if the checkIn button is pressed on.
      * @param e
      */
+
+
+
 
 
 }

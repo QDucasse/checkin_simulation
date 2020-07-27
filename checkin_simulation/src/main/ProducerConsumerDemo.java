@@ -14,6 +14,7 @@ public class ProducerConsumerDemo {
             public void run() {
 
                 Airport model = new Airport();                                      // Model
+                model = Serializer.defaultFileToAirport();
                 AirportView view  = new AirportView(model);
                 AirportController controller = new AirportController(model, view);  // Controller
                 view.setVisible(true);
