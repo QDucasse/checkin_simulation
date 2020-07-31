@@ -130,19 +130,19 @@ public class Desk implements Runnable {
                 String fee = Integer.toString(targetFlight.getExcessFee());
                 switch(checkInResult){
                     case DONE:
-                        System.out.println(pName + ": this passenger is now checked-in with his baggage." + "\n");
+                        System.out.println(pName + ": this passenger is now checked-in with his baggage.");
                         break;
                     case ERR_FLIGHT_REFERENCE:
-                        System.out.println(pName + ": this flight reference associated to this passenger does not exist." + "\n");
+                        System.out.println(pName + ": this flight reference associated to this passenger does not exist.");
                         break;
                     case WARNING_ALREADY_DONE:
-                        System.out.println(pName + ": this passenger is already checked-in." + "\n");
+                        System.out.println(pName + ": this passenger is already checked-in.");
                         break;
                     case WARNING_BAGGAGE_VOLUME:
-                        System.out.println(pName + ": the dimensions are exceeded, the passenger has to pay: " + fee + "\n");
+                        System.out.println(pName + ": the dimensions are exceeded, the passenger has to pay: " + fee + "£");
                         break;
                     case WARNING_BAGGAGE_WEIGHT:
-                        System.out.println(pName + ": the weight is exceeded, the passenger has to pay: " + fee + "\n");
+                        System.out.println(pName + ": the weight is exceeded, the passenger has to pay: " + fee + "£");
                         break;
                 }
             } catch (NullDimensionException e) {
