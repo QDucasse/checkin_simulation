@@ -1,8 +1,7 @@
 package main;
 
-import main.exceptions.EmptyPassengerListException;
-import main.exceptions.NegativeDimensionException;
-import main.exceptions.NullDimensionException;
+import main.exceptions.*;
+
 import java.util.Collections;
 
 import java.util.logging.Logger;
@@ -24,7 +23,6 @@ public class AirportView extends JFrame implements ActionListener {
 	======================= */
 
     private JButton startSimulation;
-    private static Logger logger = null;
     private JTextArea [] desks;
     private JTextArea [] flights;
     private JTextArea clients;
@@ -46,10 +44,9 @@ public class AirportView extends JFrame implements ActionListener {
     public AirportView(Airport airport) {
 
         setTitle("Airport view");
+        this.airport=airport;
         this.passengerList = airport.getPassengerList();
         this.flightList = airport.getFlightList();
-
-
 
         Container contentPane = getContentPane();
         contentPane.add(setupClientPanel(), BorderLayout.NORTH);
@@ -64,19 +61,10 @@ public class AirportView extends JFrame implements ActionListener {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
-    /*public AirportView() {
-        this("passengers.json","flights.json");
-    }*/
 
     /* =======================
             METHODS
    ======================= */
-
-
-   /* private ArrayList<Passenger> shufflePassengerList(ArrayList<Passenger> passengerList){
-        Collections.shuffle(passengerList);
-        return passengerList;
-    }*/
 
     /**
      * Method setting up the client panel (north panel) using Swing.
@@ -142,31 +130,6 @@ public class AirportView extends JFrame implements ActionListener {
         return deskPanel;
     }
 
-    /**
-     * Method to associate random baggage dimension to every passenger in the passenger list
-     * Dimensions are included between 1 and 200
-     * @throws NegativeDimensionException
-     *      Baggage dimensions should not be negative.
-     * @throws NullDimensionException
-     *      Baggage dimensions should not be null.
-     */
-    public void randomBaggageToPassenger() throws NegativeDimensionException, NullDimensionException {
-        Random random = new Random();
-        for (Passenger passenger: passengerList) {
-            int bWeight = random.nextInt(200);
-            bWeight += 1;
-            int bLength = random.nextInt(200);
-            bLength += 1;
-            int bWidth = random.nextInt(200);
-            bWidth += 1;
-            int bHeight = random.nextInt(200);
-            bHeight += 1;
-            Baggage inputBaggage = new Baggage(bLength, bHeight, bWidth, bWeight);
-            passenger.setBaggage(inputBaggage);
-        }
-
-    }
-
     /* =======================
             METHODS
    ======================= */
@@ -182,15 +145,6 @@ public class AirportView extends JFrame implements ActionListener {
 
     }
 
-    /*public synchronized void update(Observable o, Object args) {
-        for (Passenger passenger : passengerList) {
-            String report = passenger.getFirstName() ;
-            clients.setText( report);
-            clients.setForeground(Color.BLACK);
-
-
-        }
-    }*/
 
     public void disableStartSimulationButton(){
         startSimulation.setEnabled(false);
@@ -203,15 +157,11 @@ public class AirportView extends JFrame implements ActionListener {
             @Override
             protected Void doInBackground() throws Exception {
 
-
-
-                //Airport dummyAirport = Serializer.defaultFileToAirport();
-                //ArrayList<Passenger> passengerList = dummyAirport.getPassengerList();
-
-
                 PassengerQueue passengerQueue = null;
-                Collections.shuffle(passengerList, new Random());
 
+                //Shuffle passengers in passengerList
+                Collections.shuffle(passengerList, new Random());
+                System.out.println(passengerList);
                 try {
                     passengerQueue = new PassengerQueue(passengerList);
                 } catch (EmptyPassengerListException e) {
@@ -219,16 +169,14 @@ public class AirportView extends JFrame implements ActionListener {
                 }
 
 
-
-
                 System.out.println(passengerQueue);
                 // Producer/Consumer Creation
                 Thread waitingLineThread = new Thread(new WaitingLine(passengerQueue));
                 WaitingLine waitingLine = new WaitingLine(passengerQueue);
                 waitingLineThread.start();
-                Thread deskThread1 = new Thread(new Desk(passengerQueue, 1));
+                Thread deskThread1 = new Thread(new Desk(airport, passengerQueue, 1));
                 deskThread1.start();
-                Thread deskThread2 = new Thread(new Desk(passengerQueue, 2));
+                Thread deskThread2 = new Thread(new Desk(airport, passengerQueue, 2));
                 deskThread2.start();
 
                 try {
@@ -249,18 +197,15 @@ public class AirportView extends JFrame implements ActionListener {
 
 
 
-
-
-
                 return null;
 
             }
 
             @Override
             protected void process(List<String> chunks) {
-                for (String line: chunks)
+                for (String i: chunks)
                 {
-                    clients.setText(line);
+                    clients.setText(i);
                 }
             }
 
@@ -274,76 +219,6 @@ public class AirportView extends JFrame implements ActionListener {
 
         worker.execute();
     }
-
-
-    /**
-     * Method used for the checkIn button
-     * Set the check-in value to true if the passenger last name and booking reference match.
-     * Set a baggage for a passenger, display excess fee if applied.
-     */
-    /*
-    private void checkIn() {
-        try {
-
-            // Baggage creation
-
-
-            int bWeight= Integer.parseInt(baggageWeight.getText().trim());
-            int bLength= Integer.parseInt(baggageLength.getText().trim());
-            int bWidth= Integer.parseInt(baggageWidth.getText().trim());
-            int bHeight= Integer.parseInt(baggageHeight.getText().trim());
-            Baggage inputBaggage = new Baggage(bLength,bHeight,bWidth,bWeight);
-            // Ref and name access
-            String bRef=bookingRef.getText().trim();
-            String pName=passengerName.getText().trim();
-            Passenger targetPassenger;
-
-            try {
-                targetPassenger = airport.getPassengerFromBookingRefAndName(bRef,pName);
-                targetPassenger.setBaggage(inputBaggage);
-                Passenger.CheckinResult checkInResult = targetPassenger.checkIn(airport);
-                String targetFlightRef = targetPassenger.getFlightReference();
-                Flight targetFlight = airport.getFlightFromRef(targetFlightRef);
-                String fee = Integer.toString(targetFlight.getExcessFee());
-                System.out.println(fee);
-                switch(checkInResult){
-                    case DONE:
-                        displayList.setText(displayList.getText() + "This passenger is now checked-in with his baggage." + "\n");
-                        break;
-                    case ERR_FLIGHT_REFERENCE:
-                        displayList.setText(displayList.getText() + "This flight reference associated to this passenger does not exist." + "\n");
-                        break;
-                    case WARNING_ALREADY_DONE:
-                        displayList.setText(displayList.getText() + "This passenger is already checked-in." + "\n");
-                        break;
-                    case WARNING_BAGGAGE_VOLUME:
-                        displayList.setText(displayList.getText() + "The dimensions are exceeded, the passenger has to pay: " + fee + "\n");
-                        break;
-                    case WARNING_BAGGAGE_WEIGHT:
-                        displayList.setText(displayList.getText() + "The weight is exceeded, the passenger has to pay: " + fee + "\n");
-                        break;
-                }
-            } catch (BookingRefAndNameNoMatchException e) {
-                displayList.setText(displayList.getText() + "This booking reference and name do not match" + "\n");;
-            } catch (FlightNotFoundException e) {
-                displayList.setText(displayList.getText() + "This flight reference associated to this passenger does not exist." + "\n");;
-            }
-
-        } catch(NumberFormatException | NullDimensionException | NegativeDimensionException e) {
-            System.out.println(e.getMessage());
-            displayList.setText(displayList.getText() + "Please insert valid values. "+ "\n");
-        }
-    }
-
-    /**
-     * Method for the button interaction.
-     * Call the checkIn method if the checkIn button is pressed on.
-     * @param e
-     */
-
-
-
-
 
 }
 
