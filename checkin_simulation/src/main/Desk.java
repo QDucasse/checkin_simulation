@@ -139,10 +139,13 @@ public class Desk implements Runnable {
                         System.out.println(pName + ": this passenger is already checked-in.");
                         break;
                     case WARNING_BAGGAGE_VOLUME:
-                        System.out.println(pName + ": the dimensions are exceeded, the passenger has to pay: " + fee + "Â£");
+                        System.out.println(pName + ": the dimensions are exceeded, the passenger has to pay: " + fee + "£");
                         break;
                     case WARNING_BAGGAGE_WEIGHT:
-                        System.out.println(pName + ": the weight is exceeded, the passenger has to pay: " + fee + "Â£");
+                        System.out.println(pName + ": the weight is exceeded, the passenger has to pay: " + fee + "£");
+                        break;
+                    case WARNING_FLIGH_IS_FULL:
+                        System.out.println(pName + ": this flight is full");
                         break;
                 }
             } catch (NullDimensionException e) {

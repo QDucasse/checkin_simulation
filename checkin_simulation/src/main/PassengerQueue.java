@@ -105,6 +105,15 @@ public class PassengerQueue {
         desksFull = false;
         notifyAll();
     }
+    
+    
+    /**
+     * Removes all remaining passengers of the queue 
+     */
+    public synchronized void deletePassengers() {
+    	while (!passengerQueue.isEmpty())
+    		passengerQueue.remove();
+    }
 
     /**
      * Checks if the queue is empty

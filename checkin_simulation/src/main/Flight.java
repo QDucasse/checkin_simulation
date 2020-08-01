@@ -221,6 +221,15 @@ public class Flight {
     public boolean checkPassengers(){
         return (passengerList.size() <= maxPassengers);
     }
+    
+    /**
+     * Run the total number of passengers against the maximum allowed.
+     * @return nbPassengersRespected
+     *    A boolean stating if there's still room for passengers on this flight.
+     */
+    public boolean checkRoomFree(){
+        return (passengerList.size() < maxPassengers);
+    }
 
     /* =======================
        OVERRIDDEN METHODS
