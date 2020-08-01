@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -140,7 +141,7 @@ public class Serializer {
      *    Passenger list with the loaded passengers.
      */
     public static ArrayList<Passenger> fileToPassengerList(String filename){
-        try {
+    	try {
             ArrayList<Passenger> passengerList = new ArrayList<>();
             Gson gson = new Gson();
 
@@ -152,8 +153,11 @@ public class Serializer {
             }
             return passengerList;
         }
-        catch(IOException e) {
-            System.err.println("Something went wrong while reading the file");
+        catch(IOException e1) {
+            System.err.println("Something went wrong while reading the file : " + e1);
+        }
+        catch(JsonSyntaxException e2) {
+            System.err.println("Something went wrong while reading the file : " + e2);
         }
         return null;
     }
@@ -175,7 +179,7 @@ public class Serializer {
      *    Flight list with the loaded flights.
      */
     public static ArrayList<Flight> fileToFlightList(String filename){
-        try {
+    	try {
             ArrayList<Flight> flightList = new ArrayList<Flight>();
             Gson gson = new Gson();
 
@@ -187,8 +191,11 @@ public class Serializer {
             }
             return flightList;
         }
-        catch(IOException e) {
-            System.err.println("Something went wrong while reading the file");
+        catch(IOException e1) {
+            System.err.println("Something went wrong while reading the file : " + e1);
+        }
+        catch(JsonSyntaxException e2) {
+            System.err.println("Something went wrong while reading the file : " + e2);
         }
         return null;
     }
