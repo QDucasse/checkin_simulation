@@ -68,7 +68,7 @@ public class AirportLogger {
      * @throws IOException
      *      An issue was encountered when opening or writing in the log file.
      */
-    private static void log(String message) throws IOException {
+    public static void log(String message) throws IOException {
         if (logger == null){
             setUp(LOGFILE, DRYRUN);
         }
@@ -107,11 +107,11 @@ public class AirportLogger {
      * Log to present the new passenger that is the first one in the queue.
      * LOG MESSAGE EXAMPLE: "Passenger John Doe with reservation AB1CD2 is waiting to check-in for flight EH145"
      * @param passenger
-     *      The passenger that is th first in the queue.
+     *      The passenger that is the first in the queue.
      * @throws IOException
      *      If the log file is not found.
      */
-    public static void logPassenger(Passenger passenger) throws IOException {
+    public static void logFirstPassengerInQueue(Passenger passenger) throws IOException {
         String messageToLog = String.format("%s with reservation %s is waiting to check-in for flight %s",
                 passenger.getFullName(), passenger.getBookingReference(), passenger.getFlightReference());
 
@@ -119,9 +119,12 @@ public class AirportLogger {
     }
 
     /**
-     *
+     * Log to display the correct processing of the check-in.
+     * LOG MESSAGE EXAMPLE: "Desk nº3: John Doe is now checked-in with their baggage!"
      * @param passenger
+     *      The passenger that checked-in.
      * @throws IOException
+     *      If the log file is not found.
      */
     public static void logCheckInComplete(Desk desk, Passenger passenger) throws IOException {
         String messageToLog = String.format("Desk nº%s: %s is now checked-in with their baggage!",
@@ -130,9 +133,12 @@ public class AirportLogger {
     }
 
     /**
-     *
+     * Log to display an error in the check-in with an erroneous flight reference.
+     * LOG MESSAGE EXAMPLE: "Desk nº3: John Doe has an erroneous flight reference."
      * @param passenger
+     *      The passenger that checked-in.
      * @throws IOException
+     *      If the log file is not found.
      */
     public static void logCheckInErrorFlight(Desk desk, Passenger passenger) throws IOException {
         String messageToLog = String.format("Desk nº%s: %s has an erroneous flight reference.",
@@ -142,21 +148,28 @@ public class AirportLogger {
     }
 
     /**
-     *
+     * Log to display an error in the check-in if it is already done.
+     * LOG MESSAGE EXAMPLE: "Desk nº3: John Doe is already checked-in."
      * @param passenger
+     *      The passenger that checked-in.
      * @throws IOException
+     *      If the log file is not found.
      */
     public static void logCheckInAlreadyDone(Desk desk, Passenger passenger) throws IOException {
-        String messageToLog = String.format("Desk nº%s: %s already checked-in.",
+        String messageToLog = String.format("Desk nº%s: %s is already checked-in.",
                                             desk.getDeskNumber(), passenger.getFullName());
         log(messageToLog);
     }
 
     /**
-     *
+     * Log to display an error in the check-in with a baggage that is too wide.
+     * LOG MESSAGE EXAMPLE: "Desk nº3: John Doe has a baggage too wide, the passenger has to pay: 30€."
      * @param passenger
+     *      The passenger that checked-in.
      * @param fee
+     *      The fee to pay if the volume is exceeded.
      * @throws IOException
+     *      If the log file is not found.
      */
     public static void logCheckInBaggageVolume(Desk desk, Passenger passenger, String fee) throws IOException {
         String messageToLog = String.format("Desk nº%s: %s has a baggage too wide, the passenger has to pay: %s€.",
@@ -165,10 +178,14 @@ public class AirportLogger {
     }
 
     /**
-     *
+     * Log to display an error in the check-in with a baggage that is too heavy.
+     * LOG MESSAGE EXAMPLE: "Desk nº3: John Doe has a baggage too heavy, the passenger has to pay: 30€."
      * @param passenger
+     *      The passenger that checked-in.
      * @param fee
+     *      The fee to pay if the weight is exceeded.
      * @throws IOException
+     *      If the log file is not found.
      */
     public static void logCheckInBaggageWeight(Desk desk, Passenger passenger, String fee) throws IOException {
         String messageToLog = String.format("Desk nº%s: %s has a baggage too heavy, the passenger has to pay: %s€.",
@@ -177,9 +194,12 @@ public class AirportLogger {
     }
 
     /**
-     *
+     * Log to display an error in the check-in when the flight is full.
+     * LOG MESSAGE EXAMPLE: "Desk nº3: John Doe could not check-in, this flight is full."
      * @param passenger
+     *      The passenger that checked-in.
      * @throws IOException
+     *      If the log file is not found.
      */
     public static void logCheckInFlightFull(Desk desk, Passenger passenger) throws IOException {
         String messageToLog = String.format("Desk nº%s: %s could not check-in, this flight is full.",

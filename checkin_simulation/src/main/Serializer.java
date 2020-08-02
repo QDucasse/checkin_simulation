@@ -153,11 +153,8 @@ public class Serializer {
             }
             return passengerList;
         }
-        catch(IOException e1) {
-            System.err.println("Something went wrong while reading the file : " + e1);
-        }
-        catch(JsonSyntaxException e2) {
-            System.err.println("Something went wrong while reading the file : " + e2);
+        catch(IOException | JsonSyntaxException e) {
+            System.err.println("Something went wrong while reading the file : " + e);
         }
         return null;
     }
@@ -191,11 +188,8 @@ public class Serializer {
             }
             return flightList;
         }
-        catch(IOException e1) {
-            System.err.println("Something went wrong while reading the file : " + e1);
-        }
-        catch(JsonSyntaxException e2) {
-            System.err.println("Something went wrong while reading the file : " + e2);
+        catch(IOException | JsonSyntaxException e) {
+            System.err.println("Something went wrong while reading the file : " + e);
         }
         return null;
     }

@@ -32,7 +32,7 @@ public class WaitingLine implements Runnable {
          while(!passengerQueue.isEmpty()) {
              try {
                  Thread.sleep(10);
-                 AirportLogger.logPassenger(passengerQueue.peek());
+                 AirportLogger.logFirstPassengerInQueue(passengerQueue.peek());
              } catch (InterruptedException | IOException e) {
                  e.printStackTrace();
              }
