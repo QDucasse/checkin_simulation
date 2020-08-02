@@ -101,15 +101,6 @@ public class AirportLoggerTest extends TestCase {
 
     }
 
-    /**
-     * After any test has been run, the file is deleted.
-     */
-    @After
-    public void tearDown() {
-        File logs = new File(LOG_FILE);
-        if (logs.exists())
-            logs.delete();
-    }
 
     /**
      * Compares a list of logs with the corresponding log file. In order to do so, it removes the date and time stamps

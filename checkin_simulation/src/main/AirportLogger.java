@@ -68,7 +68,7 @@ public class AirportLogger {
      * @throws IOException
      *      An issue was encountered when opening or writing in the log file.
      */
-    public static void log(String message) throws IOException {
+    public synchronized static void log(String message) throws IOException {
         if (logger == null){
             setUp(LOGFILE, DRYRUN);
         }

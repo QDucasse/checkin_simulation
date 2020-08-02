@@ -235,6 +235,16 @@ public class AirportView extends JFrame implements ActionListener {
                     e.printStackTrace();
                 }
                 try {
+                    waitingLineThread2.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    waitingLineThread3.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                try {
                     deskThreadEconomic.join();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
