@@ -224,11 +224,11 @@ public class Flight {
     
     /**
      * Run the total number of passengers against the maximum allowed.
-     * @return nbPassengersRespected
-     *    A boolean stating if there's still room for passengers on this flight.
+     * @return isFull
+     *    A boolean stating ifthe flight is full.
      */
-    public boolean checkRoomFree(){
-        return (passengerList.size() < maxPassengers);
+    public boolean isFull(){
+        return (passengerList.size() >= maxPassengers);
     }
 
     /* =======================

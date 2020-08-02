@@ -20,6 +20,7 @@ public class PassengerTest extends TestCase {
     private Passenger dummyPassenger3;
     private Passenger dummyPassenger4;
     private Passenger dummyPassenger5;
+    private Passenger dummyPassenger6;
     private Flight dummyFlight1;
     private Flight dummyFlight2;
 
@@ -61,16 +62,23 @@ public class PassengerTest extends TestCase {
         dummyPassenger4 = new Passenger( "George", "Clooney", "EH145", "1228", false);
         dummyPassenger4.setBaggage(dummyBaggage3);
         // Case 5: Working fine
-
         dummyPassenger5 = new Passenger( "Brad", "Pitt", "EH145", "1229", false);
         dummyPassenger5.setBaggage(dummyBaggage1);
 
-        dummyFlight1 = new Flight("Edinburgh", "RyanAir", 2, 100, 100, "EH145");
-        dummyFlight2 = new Flight("Paris", "RyanAir", 2, 100, 100, "FR145");
+        // Case 6: Flight Full
+        dummyPassenger6 = new Passenger( "Brad", "Pitt", "EH145", "1229", false);
+        dummyPassenger6.setBaggage(dummyBaggage1);
+
+        dummyFlight1 = new Flight("Edinburgh", "RyanAir", 1, 100, 100, "EH145");
+        dummyFlight2 = new Flight("Paris", "RyanAir", 1, 100, 100, "FR145");
 
         dummyAirport = new Airport();
         dummyAirport.addPassenger(dummyPassenger1);
         dummyAirport.addPassenger(dummyPassenger2);
+        dummyAirport.addPassenger(dummyPassenger3);
+        dummyAirport.addPassenger(dummyPassenger4);
+        dummyAirport.addPassenger(dummyPassenger5);
+        dummyAirport.addPassenger(dummyPassenger6);
         dummyAirport.addFlight(dummyFlight1);
         dummyAirport.addFlight(dummyFlight2);
     }
@@ -117,10 +125,21 @@ public class PassengerTest extends TestCase {
     }
 
     /**
+     * Checks the check-in result of a passenger in a full flight.
+     */
+    @Test
+    public void testCheckInFlightFull() {
+        dummyPassenger5.checkIn(dummyAirport);
+        assertEquals(Passenger.CheckinResult.WARNING_FLIGHT_IS_FULL,dummyPassenger6.checkIn(dummyAirport));
+    }
+
+    /**
      * Checks the check-in result of a passenger with no issues.
      */
     @Test
     public void testCheckInDone() {
         assertEquals(Passenger.CheckinResult.DONE,dummyPassenger5.checkIn(dummyAirport));
     }
+
+
 }

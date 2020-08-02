@@ -103,7 +103,7 @@ public class AirportTest extends TestCase {
     }
 
     /**
-     * Checks that a flight unknown from the airport cannot be found using its reference.
+     * Checks that a flight unknown from the airport can be found using its reference.
      * @throws BookingRefAndNameNoMatchException
      */
     @Test
@@ -116,7 +116,7 @@ public class AirportTest extends TestCase {
     }
 
     /**
-     * Checks that the report outputted from the airport is correct.
+     *
      */
     @Test
     public void testReport() {

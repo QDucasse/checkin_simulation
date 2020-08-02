@@ -192,7 +192,7 @@ public class Passenger {
                 checkedIn = true;
                 return CheckinResult.WARNING_BAGGAGE_VOLUME;
             }
-            if (targetFlight.checkRoomFree())
+            if (targetFlight.isFull())
                 return CheckinResult.WARNING_FLIGHT_IS_FULL;
         }
         catch (FlightNotFoundException e) {
