@@ -98,16 +98,13 @@ public class Desk implements Runnable {
 
     public void setRandomBaggageToPassenger(Passenger targetPassenger) throws NegativeDimensionException, NullDimensionException {
         Random random = new Random();
-        int bWeight = random.nextInt(200);
-        bWeight += 1;
-        int bLength = random.nextInt(200);
-        bLength += 1;
-        int bWidth = random.nextInt(200);
-        bWidth += 1;
-        int bHeight = random.nextInt(200);
-        bHeight += 1;
-        Baggage inputBaggage = new Baggage(bLength, bHeight, bWidth, bWeight);
-        targetPassenger.setBaggage(inputBaggage);
+        // All dimensions are integers between 20 and 200
+        int bWeight = random.nextInt(180) + 21;
+        int bLength = random.nextInt(180) + 21;
+        int bWidth = random.nextInt(180) + 21;
+        int bHeight = random.nextInt(180) + 21;
+        Baggage randomBaggage = new Baggage(bLength, bHeight, bWidth, bWeight);
+        targetPassenger.setBaggage(randomBaggage);
     }
 
     /**
@@ -116,7 +113,7 @@ public class Desk implements Runnable {
      * Set a baggage for a passenger, display excess fee if applied.
      */
 
-    private void checkIn(Passenger targetPassenger) {
+    public void checkIn(Passenger targetPassenger) {
 
             try {
                 String targetFlightRef = targetPassenger.getFlightReference();
