@@ -70,7 +70,7 @@ public class Desk extends Observable implements Runnable {
      * the desk will process it for a certain time (processing time ± 2s).
      */
      public void run() {
-         while (!passengerQueue.getDone()) {
+         while (!passengerQueue.isEmpty()) {
              try {
                  Passenger passengerToCheckIn = passengerQueue.acceptNewPassenger();
                  currentPassenger = passengerToCheckIn;
@@ -100,6 +100,11 @@ public class Desk extends Observable implements Runnable {
              }
              catch (InterruptedException | IOException | NullDimensionException | NegativeDimensionException e) { e.printStackTrace(); }
          }
+         currentPassenger = null;
+
+         setChanged();
+         notifyObservers();
+         clearChanged();
      }
 
 

@@ -21,6 +21,8 @@ public class AirportView extends JFrame implements Observer {
     private JTextArea[] desks = new JTextArea[3];
     private Airport airport;
 
+    private static final int MAX_CHECKIN_DESKS = 3;
+
 
     /* =======================
             CONSTRUCTORS
@@ -84,7 +86,7 @@ public class AirportView extends JFrame implements Observer {
     private JPanel setupFlightPanel() {
         JPanel flightPanel = new JPanel(new GridLayout(1,3));
         JTextArea[] flights = new JTextArea[3];
-        for (int i=0; i<3; i++)
+        for (int i=0; i< MAX_CHECKIN_DESKS; i++)
         {
             flights[i]=new JTextArea(10,20);
             flights[i].setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
@@ -102,9 +104,9 @@ public class AirportView extends JFrame implements Observer {
      */
     private JPanel setupDeskPanel() {
         JPanel deskPanel = new JPanel(new GridLayout(1,3));
-        for (int i=0; i<3; i++)
+        for (int i=0; i < MAX_CHECKIN_DESKS; i++)
         {
-            desks[i]=new JTextArea(10,20);
+            desks[i]=new JTextArea(10,25);
             desks[i].setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
             desks[i].setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, Color.LIGHT_GRAY));
             deskPanel.add(desks[i]);
@@ -142,7 +144,7 @@ public class AirportView extends JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < MAX_CHECKIN_DESKS; i++) {
             WaitingLine currentLine = airport.getWaitingLine();
             PassengerQueue currentQueue = currentLine.getPassengerQueue();
             clients.setText("There are currently " + currentQueue.getQueueSize() + " people waiting in the queue:\n" +
@@ -160,6 +162,9 @@ public class AirportView extends JFrame implements Observer {
                     desks[i].setText("Desk n°" + currentDesk.getDeskNumber() + "\n" + currentDesk.getCurrentPassenger().getFullName() + " has checked in");
                 }
 
+            }
+            else {
+                desks[i].setText("Desk n°" + currentDesk.getDeskNumber() + " empty");
             }
 
 
