@@ -88,6 +88,10 @@ public class Passenger {
         this(firstName,lastName,flightReference,bookingReference,null,checkedIn, priority);
     }
 
+    public Passenger(String firstName, String lastName, String flightReference, String bookingReference, boolean checkedIn) {
+        this(firstName,lastName,flightReference,bookingReference,null,checkedIn, "Economic");
+    }
+
     /* =======================
             ACCESSORS
     ======================= */
