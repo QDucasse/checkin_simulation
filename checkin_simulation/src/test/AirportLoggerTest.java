@@ -46,7 +46,7 @@ public class AirportLoggerTest extends TestCase {
      * Passengers 1 and 2 have the baggage 1. Passengers 3 and 4 the baggage 2. Passenger 5 has the baggage 3.
      */
     @Before
-    public void setUp() throws NullDimensionException, EmptyPassengerListException {
+    public void setUp() throws NullDimensionException, EmptyPassengerListException, InterruptedException {
         // Case 1: Already checked in
         try {
             dummyBaggage1 = new Baggage(10, 20, 30, 9);
@@ -100,7 +100,6 @@ public class AirportLoggerTest extends TestCase {
         dummyDesk = new Desk(dummyAirport, dummyPassengerQueue, 3);
 
     }
-
 
     /**
      * Compares a list of logs with the corresponding log file. In order to do so, it removes the date and time stamps
