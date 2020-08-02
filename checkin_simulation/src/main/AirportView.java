@@ -141,7 +141,10 @@ public class AirportView extends JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         for (int i = 0; i < 3; i++) {
-            desks[i].setText(airport.getDeskList().get(i).getCurrentPassenger().getFullName());
+            Desk currentDesk = airport.getDeskList().get(i);
+            if (currentDesk.getCurrentPassenger() != null) {
+                desks[i].setText(currentDesk.getCurrentPassenger().getFullName());
+            }
         }
     }
 }

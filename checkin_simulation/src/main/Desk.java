@@ -11,7 +11,7 @@ public class Desk extends Observable implements Runnable {
         INSTANCE VARIABLES
 	======================= */
     private PassengerQueue passengerQueue;
-    private Passenger currentPassenger;
+    private Passenger currentPassenger = null;
     private int processingTime;
     private int deskNumber;
     private Airport airport;
@@ -73,7 +73,7 @@ public class Desk extends Observable implements Runnable {
          while (!passengerQueue.getDone()) {
              try {
                  Passenger passengerToCheckIn = passengerQueue.acceptNewPassenger();
-                currentPassenger = passengerToCheckIn;
+                 currentPassenger = passengerToCheckIn;
 
                  setChanged();
                  notifyObservers();
