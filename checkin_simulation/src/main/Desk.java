@@ -1,9 +1,7 @@
 package main;
-import main.exceptions.BookingRefAndNameNoMatchException;
 import main.exceptions.FlightNotFoundException;
 import main.exceptions.NegativeDimensionException;
 import main.exceptions.NullDimensionException;
-
 import java.io.IOException;
 import java.util.Random;
 
@@ -14,7 +12,6 @@ public class Desk implements Runnable {
     private PassengerQueue passengerQueue;
     private int processingTime;
     private int deskNumber;
-    private int closingTimeDesk;
     private Airport airport;
 
     /* =======================
@@ -28,16 +25,15 @@ public class Desk implements Runnable {
      * @param processingTime
      *      The time this desk takes to process one passenger.
      */
-    public Desk(Airport airport, PassengerQueue passengerQueue, int processingTime, int deskNumber, int closingTimeDesk){
+    public Desk(Airport airport, PassengerQueue passengerQueue, int processingTime, int deskNumber){
         this.airport= airport;
         this.passengerQueue = passengerQueue;
         this.processingTime = processingTime;
         this.deskNumber = deskNumber;
-        this.closingTimeDesk = closingTimeDesk;
     }
 
     public Desk(Airport airport, PassengerQueue passengerQueue, int deskNumber){
-        this(airport, passengerQueue, 3000, deskNumber, 10000);
+        this(airport, passengerQueue, 3000, deskNumber);
     }
 
     /* =======================
@@ -67,6 +63,8 @@ public class Desk implements Runnable {
              try {
 
                  Passenger passengerToCheckIn = passengerQueue.acceptNewPassenger();
+                 //Set random baggage dimensions to passenger joining the queue
+                 setRandomBaggageToPassenger(passengerToCheckIn);
                  // Log passenger accepted
                  AirportLogger.logDeskPassengerAccepted(this, passengerToCheckIn);
                  //Check-in passenger
@@ -84,7 +82,7 @@ public class Desk implements Runnable {
 
                  AirportLogger.logDeskTimeTaken(this, totalTime);
              }
-             catch (InterruptedException | IOException e) { e.printStackTrace(); }
+             catch (InterruptedException | IOException | NullDimensionException | NegativeDimensionException e) { e.printStackTrace(); }
          }
      }
 
@@ -98,7 +96,7 @@ public class Desk implements Runnable {
      *      Baggage dimensions should not be null.
      */
 
-    public Baggage setRandomBaggage() throws NegativeDimensionException, NullDimensionException {
+    public void setRandomBaggageToPassenger(Passenger targetPassenger) throws NegativeDimensionException, NullDimensionException {
         Random random = new Random();
         int bWeight = random.nextInt(200);
         bWeight += 1;
@@ -109,7 +107,7 @@ public class Desk implements Runnable {
         int bHeight = random.nextInt(200);
         bHeight += 1;
         Baggage inputBaggage = new Baggage(bLength, bHeight, bWidth, bWeight);
-        return inputBaggage;
+        targetPassenger.setBaggage(inputBaggage);
     }
 
     /**
@@ -121,8 +119,6 @@ public class Desk implements Runnable {
     private void checkIn(Passenger targetPassenger) {
 
             try {
-                Baggage inputBaggage = setRandomBaggage();
-                targetPassenger.setBaggage(inputBaggage);
                 String pName = targetPassenger.getFullName();
                 String targetFlightRef = targetPassenger.getFlightReference();
                 Flight targetFlight = airport.getFlightFromRef(targetFlightRef);
@@ -148,11 +144,7 @@ public class Desk implements Runnable {
                         System.out.println(pName + ": this flight is full");
                         break;
                 }
-            } catch (NullDimensionException e) {
-            e.printStackTrace();
-        } catch (NegativeDimensionException e) {
-            e.printStackTrace();
-        } catch (FlightNotFoundException e) {
+            } catch (FlightNotFoundException e) {
                 e.printStackTrace();
             }
     }
