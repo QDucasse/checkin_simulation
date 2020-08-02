@@ -8,9 +8,10 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class PassengerQueue {
+
     /* =======================
-        INSTANCE VARIABLES
-	======================= */
+            INSTANCE VARIABLES
+        ======================= */
     private Queue<Passenger> passengerQueue;
     private boolean desksFull;
     private boolean done;
@@ -24,13 +25,13 @@ public class PassengerQueue {
      * Structure of the passengers waiting in the airport with an order. This object's first passenger is a shared object
      * between the Desk (consumer) and WaitingLine (producer).
      * @param passengerList
-     *      The list of the passengers present in the airport
+     *      The list of the passengers present in the airport.
      * @param desksFull
-     *      True if all the desks are occupied, false otherwise
+     *      True if all the desks are occupied, false otherwise.
      * @param done
-     *      True if the resource is not being used by a thread, false otherwise
+     *      True if the resource is not being used by a thread, false otherwise.
      * @throws EmptyPassengerListException
-     *      The list given to the constructor cannot be empty
+     *      The list given to the constructor cannot be empty.
      */
     public PassengerQueue(ArrayList<Passenger> passengerList, boolean desksFull, boolean done) throws EmptyPassengerListException {
         if ((passengerList == null) || (passengerList.isEmpty())){
@@ -64,6 +65,23 @@ public class PassengerQueue {
      */
     public boolean getDone() {
         return done;
+    }
+
+    /**
+     * Getter of desksFull.
+     * @return desksFull
+     *      All desks are full.
+     */
+    public boolean areDesksFull() {
+        return desksFull;
+    }
+
+    /**
+     * Setter of desksFull.
+     * TO BE USED IN UNIT TESTS ONLY
+     */
+    public void setDesksFull(boolean bool) {
+        desksFull = bool;
     }
 
      /* =======================
