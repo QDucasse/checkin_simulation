@@ -134,7 +134,7 @@ public class PassengerTest extends TestCase {
     @Test
     public void testCheckInFlightFull() {
         dummyPassenger5.checkIn(dummyAirport);
-        assertEquals(Passenger.CheckinResult.WARNING_FLIGHT_IS_FULL,dummyPassenger6.checkIn(dummyAirport));
+        assertEquals(Passenger.CheckinResult.ERR_FLIGHT_IS_FULL,dummyPassenger6.checkIn(dummyAirport));
     }
 
     /**

@@ -157,6 +157,9 @@ public class Flight {
      *    The passenger to add.
      */
     public void addPassenger(Passenger newPassenger){
+        if (isFull()) {
+            throw new RuntimeException("");
+        }
         passengerList.add(newPassenger);
     }
 
@@ -180,8 +183,13 @@ public class Flight {
      */
     public int totalVolume(){
         int total = 0;
+
+        if (passengerList.isEmpty())
+            return 0;
+
         for (Passenger passenger : passengerList){
-            total = total + passenger.getBaggage().getVolume();
+            if (passenger.getBaggage() != null)
+                 total = total + passenger.getBaggage().getVolume();
         }
         return total;
     }

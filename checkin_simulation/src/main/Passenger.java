@@ -38,7 +38,8 @@ public class Passenger {
         /**
          * Flight is full
          */
-        WARNING_FLIGHT_IS_FULL}
+        ERR_FLIGHT_IS_FULL
+    }
 
     /* =======================
         INSTANCE VARIABLES
@@ -198,6 +199,10 @@ public class Passenger {
         try {
             targetFlight = airport.getFlightFromRef(flightReference);
             // Baggage weight is exceeded -> Fee
+
+            if (targetFlight.isFull())
+                return CheckinResult.ERR_FLIGHT_IS_FULL;
+
             if (baggage.getWeight() > targetFlight.getBaggageMaxWeight()){
                 targetFlight.addPassenger(this);
                 checkedIn = true;
@@ -209,8 +214,7 @@ public class Passenger {
                 checkedIn = true;
                 return CheckinResult.WARNING_BAGGAGE_VOLUME;
             }
-            if (targetFlight.isFull())
-                return CheckinResult.WARNING_FLIGHT_IS_FULL;
+
         }
         catch (FlightNotFoundException e) {
             // Flight reference is wrong -> Abort

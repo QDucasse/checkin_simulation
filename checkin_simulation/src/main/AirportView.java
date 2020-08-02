@@ -23,6 +23,10 @@ public class AirportView extends JFrame implements Observer {
 
     private static final int MAX_CHECKIN_DESKS = 3;
 
+    public static final int UPDATE_DESKS = 0;
+    public static final int UPDATE_FLIGHT = 1;
+    private JTextArea[] flights;
+
 
     /* =======================
             CONSTRUCTORS
@@ -84,9 +88,12 @@ public class AirportView extends JFrame implements Observer {
      *      Flight panel containing the different flight information (here 3)
      */
     private JPanel setupFlightPanel() {
-        JPanel flightPanel = new JPanel(new GridLayout(1,3));
-        JTextArea[] flights = new JTextArea[3];
-        for (int i=0; i< MAX_CHECKIN_DESKS; i++)
+        int flightSize = airport.getFlightList().size();
+
+        JPanel flightPanel = new JPanel(new GridLayout(1, flightSize));
+        this.flights = new JTextArea[flightSize];
+
+        for (int i=0; i< flightSize; i++)
         {
             flights[i]=new JTextArea(10,20);
             flights[i].setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
@@ -143,7 +150,24 @@ public class AirportView extends JFrame implements Observer {
      */
     @Override
     public void update(Observable o, Object arg) {
+        updateDesks();
+        updateFlights();
+    }
 
+    private void updateFlights() {
+        for (int i = 0; i < airport.getFlightList().size(); i++) {
+            Flight f = airport.getFlightList().get(i);
+
+            StringBuilder builder = new StringBuilder();
+            builder.append("Flight ").append(f.getFlightRef()).append("\n");
+            builder.append("Destination ").append(f.getDestination()).append("\n");
+            builder.append("Passengers ").append(f.totalPassengers()).append("/").append(f.getMaxPassengers()).append("\n");
+            builder.append("Weight capacity ").append(f.totalVolume()).append("/ ").append(f.getMaxVolume()).append("\n");
+            this.flights[i].setText(builder.toString());
+        }
+    }
+
+    private void updateDesks() {
         for (int i = 0; i < MAX_CHECKIN_DESKS; i++) {
             WaitingLine currentLine = airport.getWaitingLine();
             PassengerQueue currentQueue = currentLine.getPassengerQueue();
@@ -159,7 +183,7 @@ public class AirportView extends JFrame implements Observer {
                             + currentDesk.getCurrentPassenger().getBaggage().getWeight() + "kg.");
                 }
                 else {
-                    desks[i].setText("Desk n°" + currentDesk.getDeskNumber() + "\n" + currentDesk.getCurrentPassenger().getFullName() + " has checked in");
+                    desks[i].setText("Desk n°" + currentDesk.getDeskNumber() + "\n" + currentDesk.getCurrentPassenger().getFullName() + " is checking in");
                 }
 
             }

@@ -76,7 +76,7 @@ public class Desk extends Observable implements Runnable {
                  currentPassenger = passengerToCheckIn;
 
                  setChanged();
-                 notifyObservers();
+                 notifyObservers(1);
                  clearChanged();
 
                  //Set random baggage dimensions to passenger joining the queue
@@ -157,7 +157,7 @@ public class Desk extends Observable implements Runnable {
                     case WARNING_BAGGAGE_WEIGHT:
                         AirportLogger.logCheckInBaggageWeight(this, targetPassenger, fee);
                         break;
-                    case WARNING_FLIGHT_IS_FULL:
+                    case ERR_FLIGHT_IS_FULL:
                         AirportLogger.logCheckInFlightFull(this, targetPassenger);
                         break;
                 }
