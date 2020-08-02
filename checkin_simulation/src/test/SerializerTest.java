@@ -255,7 +255,7 @@ public class SerializerTest {
     ========================== */
 
     /**
-     *
+     * Checks the deserialization of an airport from a file.
      */
     @Test
     public void testFileToAirport() throws IOException {
@@ -268,7 +268,7 @@ public class SerializerTest {
     }
 
     /**
-     *
+     * Checks the deserialization of a passenger list from a file.
      */
     @Test
     public void testfileToPassengerList() throws IOException {
@@ -280,7 +280,7 @@ public class SerializerTest {
     }
 
     /**
-     *
+     * Checks the deserialization of a flight list from a file.
      */
     @Test
     public void testfileToFlightsList() throws IOException {

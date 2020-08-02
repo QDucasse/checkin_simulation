@@ -24,7 +24,12 @@ public class PassengerTest extends TestCase {
     private Flight dummyFlight2;
 
     /**
-     *
+     * Sets up an environment before every test. Here, five passengers are going in two different flights within an
+     * airport. They all have their own baggage. The baggages are designed as follows:
+     * - baggage1: normal baggage
+     * - baggage2: super heavy baggage
+     * - baggage3: super wide baggage
+     * Passengers 1 and 2 have the baggage 1. Passengers 3 and 4 the baggage 2. Passenger 5 has the baggage 3.
      */
     @Before
     public void setUp() throws NullDimensionException {
@@ -72,7 +77,7 @@ public class PassengerTest extends TestCase {
 
 
     /**
-     * 
+     * Checks the last name of a passenger.
      */
     @Test
     public void testLastName() {
@@ -80,7 +85,7 @@ public class PassengerTest extends TestCase {
     }
 
     /**
-     * 
+     * Checks the check-in result of an already checked-in passenger.
      */
     @Test
     public void testCheckInAlreadyDone() {
@@ -88,7 +93,7 @@ public class PassengerTest extends TestCase {
     }
 
     /**
-     * 
+     * Checks the check-in result of a passenger with an erroneous flight reference.
      */
     @Test
     public void testCheckInFlightReferenceError() {
@@ -96,7 +101,7 @@ public class PassengerTest extends TestCase {
     }
 
     /**
-     * 
+     * Checks the check-in result of a passenger with a heavy baggage.
      */
     @Test
     public void testCheckInBaggageWeightWarning() {
@@ -104,7 +109,7 @@ public class PassengerTest extends TestCase {
     }
 
     /**
-     * 
+     * Checks the check-in result of a passenger with a wide baggage.
      */
     @Test
     public void testCheckInBaggageVolumeWarning() {
@@ -112,7 +117,7 @@ public class PassengerTest extends TestCase {
     }
 
     /**
-     * 
+     * Checks the check-in result of a passenger with no issues.
      */
     @Test
     public void testCheckInDone() {

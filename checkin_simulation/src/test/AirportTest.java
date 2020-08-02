@@ -24,7 +24,12 @@ public class AirportTest extends TestCase {
     private Flight dummyFlight2;
 
     /**
-     *
+     * Sets up an environment before every test. Here, five passengers are going in two different flights within an
+     * airport. They all have their own baggage. The baggages are designed as follows:
+     * - baggage1: normal baggage
+     * - baggage2: super heavy baggage
+     * - baggage3: super wide baggage
+     * Passengers 1 and 2 have the baggage 1. Passengers 3 and 4 the baggage 2. Passenger 5 has the baggage 3.
      */
     @Before
     public void setUp() throws NullDimensionException {
@@ -67,6 +72,7 @@ public class AirportTest extends TestCase {
     }
 
     /**
+     * Checks that a flight in the airport can be found using its reference.
      * @throws FlightNotFoundException
      */
     @Test
@@ -75,6 +81,7 @@ public class AirportTest extends TestCase {
     }
 
     /**
+     * Checks that a flight unknown from the airport cannot be found using its reference.
      * @throws FlightNotFoundException
      */
     @Test
@@ -87,6 +94,7 @@ public class AirportTest extends TestCase {
     }
 
     /**
+     * Checks that a passenger in the airport can be found using its reference.
      * @throws BookingRefAndNameNoMatchException
      */
     @Test
@@ -95,6 +103,7 @@ public class AirportTest extends TestCase {
     }
 
     /**
+     * Checks that a flight unknown from the airport cannot be found using its reference.
      * @throws BookingRefAndNameNoMatchException
      */
     @Test
@@ -107,7 +116,7 @@ public class AirportTest extends TestCase {
     }
 
     /**
-     *
+     * Checks that the report outputted from the airport is correct.
      */
     @Test
     public void testReport() {
