@@ -150,9 +150,15 @@ public class AirportView extends JFrame implements Observer {
 
             Desk currentDesk = airport.getDeskList().get(i);
             if (currentDesk.getCurrentPassenger() != null) {
+                Passenger passenger = currentDesk.getCurrentPassenger();
 
-                desks[i].setText("Desk n°" + currentDesk.getDeskNumber()+ "\n" + currentDesk.getCurrentPassenger().getFullName() + " is dropping off 1 baggage of "
-                        + currentDesk.getCurrentPassenger().getBaggage().getWeight() + "kg.");
+                if (passenger.getBaggage() != null ) {
+                    desks[i].setText("Desk n°" + currentDesk.getDeskNumber() + "\n" + currentDesk.getCurrentPassenger().getFullName() + " is dropping off 1 baggage of "
+                            + currentDesk.getCurrentPassenger().getBaggage().getWeight() + "kg.");
+                }
+                else {
+                    desks[i].setText("Desk n°" + currentDesk.getDeskNumber() + "\n" + currentDesk.getCurrentPassenger().getFullName() + " has checked in");
+                }
 
             }
 
