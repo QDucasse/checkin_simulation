@@ -1,6 +1,7 @@
 package main;
 
 import main.exceptions.EmptyPassengerListException;
+import main.exceptions.FlightNotFoundException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -140,10 +141,14 @@ public class AirportView extends JFrame implements Observer {
      */
     @Override
     public void update(Observable o, Object arg) {
+
         for (int i = 0; i < 3; i++) {
             Desk currentDesk = airport.getDeskList().get(i);
             if (currentDesk.getCurrentPassenger() != null) {
-                desks[i].setText(currentDesk.getCurrentPassenger().getFullName());
+
+                desks[i].setText("Desk n°" + currentDesk.getDeskNumber()+ "\n" + currentDesk.getCurrentPassenger().getFullName() + " is dropping off 1 baggage of "
+                        + currentDesk.getCurrentPassenger().getBaggage().getWeight() + "kg.");
+
             }
         }
     }
