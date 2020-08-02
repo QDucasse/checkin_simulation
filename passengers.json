@@ -4,20 +4,47 @@
     "lastName": "Doe",
     "flightReference": "EH145",
     "bookingReference": "AB1CD2",
-    "checkedIn": true
+    "checkedIn": true,
+    "priority": "First class"
   },
   {
     "firstName": "Jane",
     "lastName": "Doe",
     "flightReference": "FR145",
     "bookingReference": "AA0BB0",
-    "checkedIn": false
+    "checkedIn": false,
+    "priority": "Business"
   },
   {
     "firstName": "Bill",
     "lastName": "Murray",
     "flightReference": "FR145",
     "bookingReference": "AA1BB1",
-    "checkedIn": false
+    "checkedIn": false,
+    "priority": "First class"
+  },
+  {
+    "firstName": "Eddy",
+    "lastName": "Murphy",
+    "flightReference": "FR145",
+    "bookingReference": "AA2BB1",
+    "checkedIn": false,
+    "priority": "Economic"
+  },
+  {
+    "firstName": "Brad",
+    "lastName": "Pitt",
+    "flightReference": "FR145",
+    "bookingReference": "AA3BB1",
+    "checkedIn": false,
+    "priority": "Economic"
+  },
+  {
+    "firstName": "Ted",
+    "lastName": "Bundy",
+    "flightReference": "FR145",
+    "bookingReference": "AA4BB1",
+    "checkedIn": false,
+    "priority": "Business"
   }
 ]
