@@ -1,20 +1,15 @@
 package main;
 
-import main.exceptions.*;
-
-import java.util.Collections;
-
-import java.util.logging.Logger;
-
-
-import java.awt.*;
-import java.util.List;
-import java.util.Random;
+import main.exceptions.EmptyPassengerListException;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 public class AirportView extends JFrame implements ActionListener {
 
@@ -23,10 +18,7 @@ public class AirportView extends JFrame implements ActionListener {
 	======================= */
 
     private JButton startSimulation;
-    private JTextArea [] desks;
-    private JTextArea [] flights;
     private JTextArea clients;
-
     private Airport airport;
     private ArrayList<Passenger> passengerList;
     private ArrayList<Passenger> economicPassengerList;
@@ -42,7 +34,7 @@ public class AirportView extends JFrame implements ActionListener {
      * GUI constructor
      * Creates and configures main panel and closing event.
      * @param airport
-     *
+     *    Airport object
      */
     public AirportView(Airport airport) {
 
@@ -81,12 +73,9 @@ public class AirportView extends JFrame implements ActionListener {
         clients.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
         clients.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, Color.LIGHT_GRAY));
         startSimulation = new JButton("Start simulation");
-        startSimulation.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //threads();
-                start(passengerList);
-            }
+        startSimulation.addActionListener(e -> {
+            //threads();
+            start(passengerList);
         });
         clientPanel.add(startSimulation);
 
@@ -102,12 +91,12 @@ public class AirportView extends JFrame implements ActionListener {
      */
     private JPanel setupFlightPanel() {
         JPanel flightPanel = new JPanel(new GridLayout(1,3));
-        flights = new JTextArea[3];
+        JTextArea[] flights = new JTextArea[3];
         for (int i=0; i<3; i++)
         {
             flights[i]=new JTextArea(10,20);
             flights[i].setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
-            flights [i].setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, Color.LIGHT_GRAY));
+            flights[i].setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, Color.LIGHT_GRAY));
             flightPanel.add(flights[i]);
         }
         return flightPanel;
@@ -121,12 +110,12 @@ public class AirportView extends JFrame implements ActionListener {
      */
     private JPanel setupDeskPanel() {
         JPanel deskPanel = new JPanel(new GridLayout(1,3));
-        desks = new JTextArea[3];
+        JTextArea[] desks = new JTextArea[3];
         for (int i=0; i<3; i++)
         {
             desks[i]=new JTextArea(10,20);
             desks[i].setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
-            desks [i].setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, Color.LIGHT_GRAY));
+            desks[i].setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, Color.LIGHT_GRAY));
             deskPanel.add(desks[i]);
         }
         return deskPanel;
@@ -182,10 +171,10 @@ public class AirportView extends JFrame implements ActionListener {
 
     public void start(ArrayList<Passenger> passengerList)
     {
-        SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
+        SwingWorker<Void, String> worker = new SwingWorker<>() {
 
             @Override
-            protected Void doInBackground() throws Exception {
+            protected Void doInBackground() {
 
                 economicPassengerList = new ArrayList<>();
                 businessPassengerList = new ArrayList<>();
@@ -262,22 +251,19 @@ public class AirportView extends JFrame implements ActionListener {
                 }
 
 
-
                 return null;
 
             }
 
             @Override
             protected void process(List<String> chunks) {
-                for (String i: chunks)
-                {
+                for (String i : chunks) {
                     clients.setText(i);
                 }
             }
 
             @Override
-            protected void done()
-            {
+            protected void done() {
                 //clients.setText("Done");
 
             }
