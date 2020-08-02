@@ -1,7 +1,6 @@
 package main;
 
 import main.exceptions.EmptyPassengerListException;
-import main.exceptions.NullDimensionException;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -162,5 +161,10 @@ public class PassengerQueue {
      */
     public String toString(){
         return passengerQueue.toString();
+    }
+
+    public int getQueueSize() {
+        int size = passengerQueue.size();
+        return size;
     }
 }

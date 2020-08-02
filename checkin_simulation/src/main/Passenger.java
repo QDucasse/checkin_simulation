@@ -234,8 +234,10 @@ public class Passenger {
      */
     @Override
     public String toString(){
-        return getFullName() + " with booking " + getBookingReference();
+        return getFullName() + " with booking " + getBookingReference() + "\n";
     }
+
+
 
     /**
      * Test equality between a passenger and another object by comparing their attributes.

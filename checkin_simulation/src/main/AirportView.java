@@ -143,6 +143,11 @@ public class AirportView extends JFrame implements Observer {
     public void update(Observable o, Object arg) {
 
         for (int i = 0; i < 3; i++) {
+            WaitingLine currentLine = airport.getWaitingLine();
+            PassengerQueue currentQueue = currentLine.getPassengerQueue();
+            clients.setText("There are currently " + currentQueue.getQueueSize() + " people waiting in the queue:\n" +
+                    currentQueue.toString());
+
             Desk currentDesk = airport.getDeskList().get(i);
             if (currentDesk.getCurrentPassenger() != null) {
 
@@ -150,6 +155,8 @@ public class AirportView extends JFrame implements Observer {
                         + currentDesk.getCurrentPassenger().getBaggage().getWeight() + "kg.");
 
             }
+
+
         }
     }
 }

@@ -11,6 +11,9 @@ public class WaitingLine implements Runnable {
      /* =======================
           CONSTRUCTORS
 	======================= */
+
+
+
     /**
      * The waiting line is the "producer" of new passengers that need to check-in. It holds the actual passenger queue.
      *
@@ -40,6 +43,17 @@ public class WaitingLine implements Runnable {
          }
          passengerQueue.setDone();
      }
+
+
+    /**
+     * Getter for passenger queue
+     * @return passengerQueue
+     *      List of passenger waiting in the queue
+     */
+    public PassengerQueue getPassengerQueue() {
+        return passengerQueue;
+    }
+
 
 
 }
