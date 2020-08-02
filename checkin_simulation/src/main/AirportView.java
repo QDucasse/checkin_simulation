@@ -29,7 +29,10 @@ public class AirportView extends JFrame implements ActionListener {
 
     private Airport airport;
     private ArrayList<Passenger> passengerList;
-    private ArrayList<Flight> flightList;
+    private ArrayList<Passenger> economicPassengerList;
+    private ArrayList<Passenger> businessPassengerList;
+    private ArrayList<Passenger> firstClassPassengerList;
+
 
     /* =======================
             CONSTRUCTORS
@@ -46,7 +49,6 @@ public class AirportView extends JFrame implements ActionListener {
         setTitle("Airport view");
         this.airport=airport;
         this.passengerList = airport.getPassengerList();
-        this.flightList = airport.getFlightList();
 
         Container contentPane = getContentPane();
         contentPane.add(setupClientPanel(), BorderLayout.NORTH);
@@ -145,6 +147,34 @@ public class AirportView extends JFrame implements ActionListener {
 
     }
 
+    /**
+     * Method to sort passengers into different lists depending on their priority.
+     * @param passengerList
+     *      List of passengers
+     */
+    public void getPriorityLists(ArrayList<Passenger> passengerList)
+    {
+        for (Passenger passenger: passengerList)
+        {
+            String priority = passenger.getPriority();
+            switch (priority){
+                case "Economic":
+                    economicPassengerList.add(passenger);
+                    break;
+                case "Business":
+                    businessPassengerList.add(passenger);
+                    break;
+                case "First class":
+                    firstClassPassengerList.add(passenger);
+                    break;
+                default:
+                    System.out.println("No priority found for " + passenger.getFullName() + ": automatically set to economic class.");
+                    economicPassengerList.add(passenger);
+                    break;
+            }
+        }
+    }
+
 
     public void disableStartSimulationButton(){
         startSimulation.setEnabled(false);
@@ -157,27 +187,58 @@ public class AirportView extends JFrame implements ActionListener {
             @Override
             protected Void doInBackground() throws Exception {
 
-                PassengerQueue passengerQueue = null;
+                economicPassengerList = new ArrayList<>();
+                businessPassengerList = new ArrayList<>();
+                firstClassPassengerList = new ArrayList<>();
+
+                PassengerQueue passengerQueueEconomic = null;
+                PassengerQueue passengerQueueBusiness = null;
+                PassengerQueue passengerQueueFirstClass = null;
 
                 //Shuffle passengers in passengerList
                 Collections.shuffle(passengerList, new Random());
                 System.out.println(passengerList);
+
                 try {
-                    passengerQueue = new PassengerQueue(passengerList);
+                    getPriorityLists(passengerList);
+
+                    passengerQueueEconomic = new PassengerQueue(economicPassengerList);
+                    passengerQueueBusiness = new PassengerQueue(businessPassengerList);
+                    passengerQueueFirstClass = new PassengerQueue(firstClassPassengerList);
+
                 } catch (EmptyPassengerListException e) {
                     e.printStackTrace();
                 }
 
+                System.out.println("Economic queue: " + passengerQueueEconomic);
+                System.out.println("Business queue: " + passengerQueueBusiness);
+                System.out.println("First class queue: " + passengerQueueFirstClass);
 
-                System.out.println(passengerQueue);
                 // Producer/Consumer Creation
-                Thread waitingLineThread = new Thread(new WaitingLine(passengerQueue));
-                WaitingLine waitingLine = new WaitingLine(passengerQueue);
+                WaitingLine waitingLine = new WaitingLine(passengerQueueEconomic);
+                Thread waitingLineThread = new Thread(waitingLine);
                 waitingLineThread.start();
-                Thread deskThread1 = new Thread(new Desk(airport, passengerQueue, 1));
-                deskThread1.start();
-                Thread deskThread2 = new Thread(new Desk(airport, passengerQueue, 2));
-                deskThread2.start();
+
+                WaitingLine waitingLine2 = new WaitingLine(passengerQueueBusiness);
+                Thread waitingLineThread2 = new Thread(waitingLine2);
+                waitingLineThread2.start();
+
+                WaitingLine waitingLine3 = new WaitingLine(passengerQueueFirstClass);
+                Thread waitingLineThread3 = new Thread(waitingLine3);
+                waitingLineThread3.start();
+
+                Thread deskThreadEconomic = new Thread(new Desk(airport, passengerQueueEconomic, 1));
+                deskThreadEconomic.setPriority(Thread.MIN_PRIORITY);
+                deskThreadEconomic.start();
+
+                Thread deskThreadBusiness = new Thread(new Desk(airport, passengerQueueBusiness, 2));
+                deskThreadBusiness.setPriority(Thread.NORM_PRIORITY);
+                deskThreadBusiness.start();
+
+                Thread deskThreadFirstClass = new Thread(new Desk(airport, passengerQueueFirstClass, 3));
+                deskThreadFirstClass.setPriority(Thread.MAX_PRIORITY);
+                deskThreadFirstClass.start();
+
 
                 try {
                     waitingLineThread.join();
@@ -185,12 +246,17 @@ public class AirportView extends JFrame implements ActionListener {
                     e.printStackTrace();
                 }
                 try {
-                    deskThread1.join();
+                    deskThreadEconomic.join();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 try {
-                    deskThread2.join();
+                    deskThreadBusiness.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    deskThreadFirstClass.join();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

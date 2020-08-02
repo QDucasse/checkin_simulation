@@ -50,6 +50,7 @@ public class Passenger {
     private String bookingReference;
     private Baggage baggage;
     private boolean checkedIn;
+    private String priority;
 
     /* =======================
            CONSTRUCTORS
@@ -70,18 +71,21 @@ public class Passenger {
      *    The baggage the passenger travels with.
      * @param checkedIn
      *    Status of the check-in operation (done or not).
+     * @param priority
+     *     Passenger priority (Economic, Business or First class)
      */
-    public Passenger(String firstName, String lastName, String flightReference, String bookingReference, Baggage baggage, boolean checkedIn) {
+    public Passenger(String firstName, String lastName, String flightReference, String bookingReference, Baggage baggage, boolean checkedIn, String priority) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.flightReference = flightReference;
         this.bookingReference = bookingReference;
         this.baggage = baggage;
         this.checkedIn = checkedIn;
+        this.priority = priority;
     }
 
-    public Passenger(String firstName, String lastName, String flightReference, String bookingReference, boolean checkedIn) {
-        this(firstName,lastName,flightReference,bookingReference,null,checkedIn);
+    public Passenger(String firstName, String lastName, String flightReference, String bookingReference, boolean checkedIn, String priority) {
+        this(firstName,lastName,flightReference,bookingReference,null,checkedIn, priority);
     }
 
     /* =======================
@@ -157,6 +161,15 @@ public class Passenger {
      */
     public boolean getCheckedIn() {
         return checkedIn;
+    }
+
+    /**
+     * Getter for priority status
+     * @return priority
+     *     Status of the passenger priority class (Economic, Business, First class)
+     */
+    public String getPriority() {
+        return priority;
     }
 
     /* =======================
