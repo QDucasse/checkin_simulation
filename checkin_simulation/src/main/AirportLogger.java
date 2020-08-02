@@ -75,19 +75,115 @@ public class AirportLogger {
         logger.info(message);
     }
 
+    /**
+     * Log to display when a passenger has been accepted to check-in in a desk.
+     * LOG MESSAGE EXAMPLE: "Desk nº3 accepted to check-in: John Doe".
+     * @param desk
+     *      The desk that accepted the check-in.
+     * @param passenger
+     *      The passenger that will go through the check-in process.
+     * @throws IOException
+     *      If the log file is not found.
+     */
     public static void logDeskPassengerAccepted(Desk desk, Passenger passenger) throws IOException {
-        String messageToLog = "Desk nº" + desk.getDeskNumber() + " accepted to check-in: " + passenger.getFullName();
+        String messageToLog = String.format("Desk nº%d accepted to check-in: %s", desk.getDeskNumber(), passenger.getFullName());
         log(messageToLog);
     }
 
+    /**
+     * Log to display the time taken by a desk to check-in a given passenger.
+     * LOG MESSAGE EXAMPLE: "Desk nº3: Check-in completed in 5s".
+     * @param desk
+     *      The desk that accepted the check-in.
+     * @throws IOException
+     *      If the log file is not found.
+     */
     public static void logDeskTimeTaken(Desk desk, int time) throws IOException {
-        String messageToLog = "Desk nº" + desk.getDeskNumber() + ": Check-in completed in " + time/1000 + "s";
+        String messageToLog = String.format("Desk nº%d: Check-in completed in %ds", desk.getDeskNumber(), time / 1000);
         log(messageToLog);
     }
 
+    /**
+     * Log to present the new passenger that is the first one in the queue.
+     * LOG MESSAGE EXAMPLE: "Passenger John Doe with reservation AB1CD2 is waiting to check-in for flight EH145"
+     * @param passenger
+     *      The passenger that is th first in the queue.
+     * @throws IOException
+     *      If the log file is not found.
+     */
     public static void logPassenger(Passenger passenger) throws IOException {
-        String messageToLog = "Passenger " + passenger.getFullName() + " with reservation " + passenger.getBookingReference()
-                                                    + " is waiting to check-in for flight " + passenger.getFlightReference();
+        String messageToLog = String.format("%s with reservation %s is waiting to check-in for flight %s",
+                passenger.getFullName(), passenger.getBookingReference(), passenger.getFlightReference());
+
+        log(messageToLog);
+    }
+
+    /**
+     *
+     * @param passenger
+     * @throws IOException
+     */
+    public static void logCheckInComplete(Desk desk, Passenger passenger) throws IOException {
+        String messageToLog = String.format("Desk nº%s: %s is now checked-in with their baggage!",
+                                            desk.getDeskNumber(), passenger.getFullName());
+        log(messageToLog);
+    }
+
+    /**
+     *
+     * @param passenger
+     * @throws IOException
+     */
+    public static void logCheckInErrorFlight(Desk desk, Passenger passenger) throws IOException {
+        String messageToLog = String.format("Desk nº%s: %s has an erroneous flight reference.",
+                                            desk.getDeskNumber(), passenger.getFullName());
+        log(messageToLog);
+
+    }
+
+    /**
+     *
+     * @param passenger
+     * @throws IOException
+     */
+    public static void logCheckInAlreadyDone(Desk desk, Passenger passenger) throws IOException {
+        String messageToLog = String.format("Desk nº%s: %s already checked-in.",
+                                            desk.getDeskNumber(), passenger.getFullName());
+        log(messageToLog);
+    }
+
+    /**
+     *
+     * @param passenger
+     * @param fee
+     * @throws IOException
+     */
+    public static void logCheckInBaggageVolume(Desk desk, Passenger passenger, String fee) throws IOException {
+        String messageToLog = String.format("Desk nº%s: %s has a baggage too wide, the passenger has to pay: %s€.",
+                                            desk.getDeskNumber(), passenger.getFullName(), fee);
+        log(messageToLog);
+    }
+
+    /**
+     *
+     * @param passenger
+     * @param fee
+     * @throws IOException
+     */
+    public static void logCheckInBaggageWeight(Desk desk, Passenger passenger, String fee) throws IOException {
+        String messageToLog = String.format("Desk nº%s: %s has a baggage too heavy, the passenger has to pay: %s€.",
+                                            desk.getDeskNumber(), passenger.getFullName(), fee);
+        log(messageToLog);
+    }
+
+    /**
+     *
+     * @param passenger
+     * @throws IOException
+     */
+    public static void logCheckInFlightFull(Desk desk, Passenger passenger) throws IOException {
+        String messageToLog = String.format("Desk nº%s: %s could not check-in, this flight is full.",
+                                            desk.getDeskNumber(), passenger.getFullName());
         log(messageToLog);
     }
 }

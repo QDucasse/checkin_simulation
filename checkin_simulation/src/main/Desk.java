@@ -119,32 +119,31 @@ public class Desk implements Runnable {
     private void checkIn(Passenger targetPassenger) {
 
             try {
-                String pName = targetPassenger.getFullName();
                 String targetFlightRef = targetPassenger.getFlightReference();
                 Flight targetFlight = airport.getFlightFromRef(targetFlightRef);
                 Passenger.CheckinResult checkInResult = targetPassenger.checkIn(airport);
                 String fee = Integer.toString(targetFlight.getExcessFee());
                 switch(checkInResult){
                     case DONE:
-                        System.out.println(pName + ": this passenger is now checked-in with his baggage.");
+                        AirportLogger.logCheckInComplete(this, targetPassenger);
                         break;
                     case ERR_FLIGHT_REFERENCE:
-                        System.out.println(pName + ": this flight reference associated to this passenger does not exist.");
+                        AirportLogger.logCheckInErrorFlight(this, targetPassenger);
                         break;
                     case WARNING_ALREADY_DONE:
-                        System.out.println(pName + ": this passenger is already checked-in.");
+                        AirportLogger.logCheckInAlreadyDone(this, targetPassenger);
                         break;
                     case WARNING_BAGGAGE_VOLUME:
-                        System.out.println(pName + ": the dimensions are exceeded, the passenger has to pay: " + fee + "£");
+                        AirportLogger.logCheckInBaggageVolume(this, targetPassenger, fee);
                         break;
                     case WARNING_BAGGAGE_WEIGHT:
-                        System.out.println(pName + ": the weight is exceeded, the passenger has to pay: " + fee + "£");
+                        AirportLogger.logCheckInBaggageWeight(this, targetPassenger, fee);
                         break;
-                    case WARNING_FLIGH_IS_FULL:
-                        System.out.println(pName + ": this flight is full");
+                    case WARNING_FLIGHT_IS_FULL:
+                        AirportLogger.logCheckInFlightFull(this, targetPassenger);
                         break;
                 }
-            } catch (FlightNotFoundException e) {
+            } catch (FlightNotFoundException | IOException e) {
                 e.printStackTrace();
             }
     }

@@ -38,7 +38,7 @@ public class Passenger {
         /**
          * Flight is full
          */
-        WARNING_FLIGH_IS_FULL}
+        WARNING_FLIGHT_IS_FULL}
 
     /* =======================
         INSTANCE VARIABLES
@@ -193,7 +193,7 @@ public class Passenger {
                 return CheckinResult.WARNING_BAGGAGE_VOLUME;
             }
             if (targetFlight.checkRoomFree())
-                return CheckinResult.WARNING_FLIGH_IS_FULL;
+                return CheckinResult.WARNING_FLIGHT_IS_FULL;
         }
         catch (FlightNotFoundException e) {
             // Flight reference is wrong -> Abort
