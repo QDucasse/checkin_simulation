@@ -12,7 +12,7 @@ public class BaggageTest extends TestCase {
     private Baggage dummyBaggage;
 
     /**
-     *
+     * Before each test, an environment is created. Here, a simple baggage is instanciated.
      */
     @Before
     public void setUp() throws NullDimensionException {
@@ -24,20 +24,34 @@ public class BaggageTest extends TestCase {
     }
 
     /**
-     * 
+     * Checks the volume of the baggage.
      */
     @Test
     public void testVolume() {
         assertEquals(dummyBaggage.getVolume(),6);
     }
 
+    /**
+     * Checks that a baggage with null dimensions cannot be created
+     */
     @Test
-    public void testInitializationRaisesException() {
+    public void testNullInitializationRaisesException() {
         try{
             Baggage nullBaggage = new Baggage(0,0,0,1);
         } catch (NullDimensionException | NegativeDimensionException e) {
             assertEquals("Attributes cannot be 0",e.getMessage());
         }
+    }
 
+    /**
+     * Checks that a baggage with negative dimensions cannot be created
+     */
+    @Test
+    public void testNegativeInitializationRaisesException() {
+        try{
+            Baggage nullBaggage = new Baggage(-4,-1,-2,1);
+        } catch (NullDimensionException | NegativeDimensionException e) {
+            assertEquals("Attributes cannot be negative",e.getMessage());
+        }
     }
 }

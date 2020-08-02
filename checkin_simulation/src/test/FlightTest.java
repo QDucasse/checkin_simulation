@@ -18,7 +18,7 @@ public class FlightTest extends TestCase {
     private Baggage dummyBaggage2;
 
     /**
-     *
+     * Sets up an environment before every test. Here, one flight is created with two passengers with one baggage each.
      */
     @Before
     public void setUp() throws NullDimensionException {
@@ -42,7 +42,7 @@ public class FlightTest extends TestCase {
     }
 
     /**
-     * 
+     * Checks the total weight of the baggages.
      */
     @Test
     public void testTotalWeight() {
@@ -50,7 +50,7 @@ public class FlightTest extends TestCase {
     }
 
     /**
-     * 
+     * Checks the total volume of the baggages.
      */
     @Test
     public void testTotalVolume() {
@@ -58,7 +58,7 @@ public class FlightTest extends TestCase {
     }
 
     /**
-     * 
+     * Checks the total number of passengers
      */
     @Test
     public void testTotalPassengers() {
@@ -66,7 +66,7 @@ public class FlightTest extends TestCase {
     }
 
     /**
-     * 
+     * Checks that the total weight of the baggages does not exceed the maximum (max 100 here).
      */
     @Test
     public void testCheckWeightTrue() {
@@ -74,7 +74,7 @@ public class FlightTest extends TestCase {
     }
 
     /**
-     * 
+     * Adds a new passenger with a super heavy baggage and checks that the total weight exceeds the maximum allowed.
      */
     @Test
     public void testCheckWeightFalse() throws NullDimensionException, NegativeDimensionException {
@@ -86,7 +86,7 @@ public class FlightTest extends TestCase {
     }
 
     /**
-     * 
+     * Checks that the total volume of the baggages does not exceed the maximum (max 100 here).
      */
     @Test
     public void testCheckVolumeTrue() {
@@ -94,7 +94,7 @@ public class FlightTest extends TestCase {
     }
 
     /**
-     * 
+     * Adds a new passenger with a super wide baggage and checks that the total volume exceeds the maximum allowed.
      */
     @Test
     public void testCheckVolumeFalse() throws NullDimensionException, NegativeDimensionException {
@@ -106,7 +106,7 @@ public class FlightTest extends TestCase {
     }
 
     /**
-     * 
+     * Checks that the total number of passengers does not exceed the maximum (max 2 here).
      */
     @Test
     public void testCheckPassengersTrue() {
@@ -114,7 +114,7 @@ public class FlightTest extends TestCase {
     }
 
     /**
-     * 
+     * Adds a new passenger and checks that the maximum number of passengers is exceeded.
      */
     @Test
     public void testCheckPassengerseFalse() throws NullDimensionException, NegativeDimensionException {
