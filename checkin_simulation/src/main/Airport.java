@@ -1,6 +1,7 @@
 package main;
 
 import main.exceptions.BookingRefAndNameNoMatchException;
+import main.exceptions.EmptyPassengerListException;
 import main.exceptions.FlightNotFoundException;
 
 import java.util.ArrayList;
@@ -27,6 +28,10 @@ public class Airport extends Observable implements Runnable {
 
     private ArrayList<Passenger> passengerList;
     private ArrayList<Flight> flightList;
+    private ArrayList<Desk> deskList = new ArrayList<Desk>();
+    private Thread[] deskThreadList;
+    private WaitingLine waitingLine;
+    private PassengerQueue passengerQueue;
   
     /* =======================
           CONSTRUCTORS
@@ -40,14 +45,41 @@ public class Airport extends Observable implements Runnable {
      * @param flightList
      *    List of flights composing the airport.
      */
-    public Airport(ArrayList<Passenger> passengerList, ArrayList<Flight> flightList){
+    public Airport(ArrayList<Passenger> passengerList, ArrayList<Flight> flightList) throws FlightNotFoundException, EmptyPassengerListException {
+        // Load lists
         this.passengerList = passengerList;
         this.flightList = flightList;
+        this.checkLists();
+        this.passengerQueue = new PassengerQueue(this.passengerList);
+        // Setup Desks
+        Desk desk1 = new Desk(this, this.passengerQueue, 1);
+        Desk desk2 = new Desk(this, this.passengerQueue, 2);
+        Desk desk3 = new Desk(this, this.passengerQueue, 3);
+        this.deskList.add(desk1);
+        this.deskList.add(desk2);
+        this.deskList.add(desk3);
+        // Setup waiting line
+        this.waitingLine = new WaitingLine(this.passengerQueue);
     }
 
-    public Airport(){
-        this.passengerList = new ArrayList<Passenger>();
-        this.flightList = new ArrayList<Flight>();
+    public Airport() throws EmptyPassengerListException, FlightNotFoundException {
+        // Load both lists from files
+        ArrayList<Passenger> passengerList = Serializer.defaultFileToPassengerList();
+        ArrayList<Flight> flightList = Serializer.defaultFileToFlightList();
+        // Load lists
+        this.passengerList = passengerList;
+        this.flightList = flightList;
+        this.checkLists();
+        this.passengerQueue = new PassengerQueue(this.passengerList);
+        // Setup Desks
+        Desk desk1 = new Desk(this, this.passengerQueue, 1);
+        Desk desk2 = new Desk(this, this.passengerQueue, 2);
+        Desk desk3 = new Desk(this, this.passengerQueue, 3);
+        this.deskList.add(desk1);
+        this.deskList.add(desk2);
+        this.deskList.add(desk3);
+        // Setup waiting line
+        this.waitingLine = new WaitingLine(this.passengerQueue);
     }
 
     /* =======================
@@ -70,7 +102,15 @@ public class Airport extends Observable implements Runnable {
         return passengerList;
     }
 
-    
+    /**
+     * Getter of the DeskList instance variable
+     * @return The instance variable DeskList
+     */
+    public ArrayList<Desk> getDeskList() {
+        return deskList;
+    }
+
+
     /**
      * Look for a flight that has the given flight reference.
      * @param flightReference
@@ -181,17 +221,41 @@ public class Airport extends Observable implements Runnable {
      *      The flight a passenger is checked-in is unknown from the airport.
      */
     public void checkAlreadyCheckedIn() throws FlightNotFoundException {
+        ArrayList<Passenger> newPassengerList = new ArrayList<Passenger>();
         for (Passenger passenger : passengerList){
+            // If passenger already checked-in, add them to the flight and remove them from the list
             if (passenger.getCheckedIn()) {
                 Flight correspondingFlight = getFlightFromRef(passenger.getFlightReference());
                 correspondingFlight.addPassenger(passenger);
-                passengerList.remove(passenger);
+            }
+            // Else (passenger not checked-in) keep it in the list
+            else {
+                newPassengerList.add(passenger);
             }
         }
+        this.passengerList = newPassengerList;
     }
 
     public void run(){
+        // Desk thread creation
+        deskThreadList = new Thread[deskList.size()];
+        for (int i = 0; i < deskList.size(); i++){
+            deskThreadList[i] = new Thread(deskList.get(i));
+            deskThreadList[i].start();
+        }
+        // Waiting line thread creation
+        Thread waitingLineThread = new Thread(waitingLine);
+        waitingLineThread.start();
 
+        // Joining the different threads
+        try {
+            for (int i = 0; i < deskList.size(); i++){
+                deskThreadList[i].join();
+            }
+            waitingLineThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 

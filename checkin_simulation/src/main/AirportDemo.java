@@ -1,6 +1,7 @@
 package main;
 
 import main.exceptions.EmptyPassengerListException;
+import main.exceptions.FlightNotFoundException;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -13,8 +14,14 @@ public class AirportDemo {
             @Override
             public void run() {
 
-                Airport model = new Airport();                                      // Model
-                model = Serializer.defaultFileToAirport();
+                Airport model = null;                                      // Model
+                try {
+                    model = new Airport();
+                } catch (EmptyPassengerListException e) {
+                    e.printStackTrace();
+                } catch (FlightNotFoundException e) {
+                    e.printStackTrace();
+                }
                 AirportView view  = new AirportView(model);
                 AirportController controller = new AirportController(model, view);  // Controller
                 view.setVisible(true);

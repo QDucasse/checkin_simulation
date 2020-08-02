@@ -5,6 +5,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+import main.exceptions.EmptyPassengerListException;
+import main.exceptions.FlightNotFoundException;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -116,7 +118,7 @@ public class Serializer {
      * @return airport
      *    Airport with the passengers and flights loaded.
      */
-    public static Airport fileToAirport(String passengersFileName, String flightsFileName){
+    public static Airport fileToAirport(String passengersFileName, String flightsFileName) throws EmptyPassengerListException, FlightNotFoundException {
         ArrayList<Passenger> passengerList = fileToPassengerList(passengersFileName);
         ArrayList<Flight> flightList = fileToFlightList(flightsFileName);
         Airport airport = new Airport(passengerList,flightList);
@@ -128,7 +130,7 @@ public class Serializer {
      * @return airport
      *    Airport with the passengers and flights loaded.
      */
-    public static Airport defaultFileToAirport(){
+    public static Airport defaultFileToAirport() throws EmptyPassengerListException, FlightNotFoundException {
         Airport airport = new Airport(defaultFileToPassengerList(), defaultFileToFlightList());
         return airport;
     }

@@ -1,16 +1,12 @@
 package test;
 
 import junit.framework.TestCase;
-import main.Airport;
-import main.Baggage;
-import main.Flight;
-import main.Passenger;
-import main.exceptions.BookingRefAndNameNoMatchException;
-import main.exceptions.FlightNotFoundException;
-import main.exceptions.NegativeDimensionException;
-import main.exceptions.NullDimensionException;
+import main.*;
+import main.exceptions.*;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 public class AirportTest extends TestCase {
     private Airport dummyAirport;
@@ -32,7 +28,7 @@ public class AirportTest extends TestCase {
      * Passengers 1 and 2 have the baggage 1. Passengers 3 and 4 the baggage 2. Passenger 5 has the baggage 3.
      */
     @Before
-    public void setUp() throws NullDimensionException {
+    public void setUp() throws NullDimensionException, EmptyPassengerListException, FlightNotFoundException {
         try {
             dummyBaggage1 = new Baggage(10, 20, 30, 9);
         } catch (NegativeDimensionException e) {
@@ -64,11 +60,16 @@ public class AirportTest extends TestCase {
         dummyFlight2.addPassenger(dummyPassenger2);
         dummyFlight2.addPassenger(dummyPassenger3);
 
-        dummyAirport = new Airport();
-        dummyAirport.addPassenger(dummyPassenger1);
-        dummyAirport.addPassenger(dummyPassenger2);
-        dummyAirport.addFlight(dummyFlight1);
-        dummyAirport.addFlight(dummyFlight2);
+        ArrayList<Passenger> passengerList = new ArrayList<Passenger>();
+        passengerList.add(dummyPassenger1);
+        passengerList.add(dummyPassenger2);
+        passengerList.add(dummyPassenger3);
+
+        ArrayList<Flight> flightList = new ArrayList<Flight>();
+        flightList.add(dummyFlight1);
+        flightList.add(dummyFlight2);
+
+        dummyAirport = new Airport(passengerList, flightList);
     }
 
     /**

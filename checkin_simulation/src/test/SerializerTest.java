@@ -1,6 +1,8 @@
 package test;
 
 import main.*;
+import main.exceptions.EmptyPassengerListException;
+import main.exceptions.FlightNotFoundException;
 import main.exceptions.NegativeDimensionException;
 import main.exceptions.NullDimensionException;
 import org.junit.After;
@@ -164,7 +166,7 @@ public class SerializerTest {
      * The setup of this test class corresponds to three passengers and two flights contained in an airport.
      */
     @Before
-    public void setUp() throws NullDimensionException, NegativeDimensionException {
+    public void setUp() throws NullDimensionException, NegativeDimensionException, EmptyPassengerListException, FlightNotFoundException {
         dummyBaggage1 = new Baggage(10, 20, 30, 9);
         dummyPassenger1 = new Passenger("John", "Doe", "EH145", "AB1CD2", true, "Economic");
         dummyPassenger1.setBaggage(dummyBaggage1);
@@ -184,12 +186,17 @@ public class SerializerTest {
         dummyFlight2.addPassenger(dummyPassenger2);
         dummyFlight2.addPassenger(dummyPassenger3);
 
-        dummyAirport = new Airport();
-        dummyAirport.addPassenger(dummyPassenger1);
-        dummyAirport.addPassenger(dummyPassenger2);
-        dummyAirport.addPassenger(dummyPassenger3);
-        dummyAirport.addFlight(dummyFlight1);
-        dummyAirport.addFlight(dummyFlight2);
+        ArrayList<Passenger> passengerList = new ArrayList<Passenger>();
+        passengerList.add(dummyPassenger1);
+        passengerList.add(dummyPassenger2);
+        passengerList.add(dummyPassenger3);
+
+
+        ArrayList<Flight> flightList = new ArrayList<Flight>();
+        flightList.add(dummyFlight1);
+        flightList.add(dummyFlight2);
+
+        dummyAirport = new Airport(passengerList, flightList);
     }
 
     /**
@@ -258,7 +265,7 @@ public class SerializerTest {
      * Checks the deserialization of an airport from a file.
      */
     @Test
-    public void testFileToAirport() throws IOException {
+    public void testFileToAirport() throws IOException, EmptyPassengerListException, FlightNotFoundException {
         // Write the dummy json files
         writeFile(FILE_NAME_FLIGHTS, expectedFlights);
         writeFile(FILE_NAME_PASSENGERS, expectedPassengers);

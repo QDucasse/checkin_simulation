@@ -1,14 +1,15 @@
 package test;
 
 import junit.framework.TestCase;
-import main.Airport;
-import main.Baggage;
-import main.Flight;
-import main.Passenger;
+import main.*;
+import main.exceptions.EmptyPassengerListException;
+import main.exceptions.FlightNotFoundException;
 import main.exceptions.NegativeDimensionException;
 import main.exceptions.NullDimensionException;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 public class PassengerTest extends TestCase {
     private Airport dummyAirport;
@@ -33,7 +34,7 @@ public class PassengerTest extends TestCase {
      * Passengers 1 and 2 have the baggage 1. Passengers 3 and 4 the baggage 2. Passenger 5 has the baggage 3.
      */
     @Before
-    public void setUp() throws NullDimensionException {
+    public void setUp() throws NullDimensionException, EmptyPassengerListException, FlightNotFoundException {
         // Case 1: Already checked in
         try {
             dummyBaggage1 = new Baggage(10, 20, 30, 9);
@@ -72,15 +73,18 @@ public class PassengerTest extends TestCase {
         dummyFlight1 = new Flight("Edinburgh", "RyanAir", 1, 100, 100, "EH145");
         dummyFlight2 = new Flight("Paris", "RyanAir", 1, 100, 100, "FR145");
 
-        dummyAirport = new Airport();
-        dummyAirport.addPassenger(dummyPassenger1);
-        dummyAirport.addPassenger(dummyPassenger2);
-        dummyAirport.addPassenger(dummyPassenger3);
-        dummyAirport.addPassenger(dummyPassenger4);
-        dummyAirport.addPassenger(dummyPassenger5);
-        dummyAirport.addPassenger(dummyPassenger6);
-        dummyAirport.addFlight(dummyFlight1);
-        dummyAirport.addFlight(dummyFlight2);
+        ArrayList<Passenger> passengerList = new ArrayList<Passenger>();
+        passengerList.add(dummyPassenger1);
+        passengerList.add(dummyPassenger2);
+        passengerList.add(dummyPassenger3);
+        passengerList.add(dummyPassenger4);
+        passengerList.add(dummyPassenger5);
+
+        ArrayList<Flight> flightList = new ArrayList<Flight>();
+        flightList.add(dummyFlight1);
+        flightList.add(dummyFlight2);
+
+        dummyAirport = new Airport(passengerList, flightList);
     }
 
 

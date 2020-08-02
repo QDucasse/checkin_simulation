@@ -3,6 +3,7 @@ package test;
 import junit.framework.TestCase;
 import main.*;
 import main.exceptions.EmptyPassengerListException;
+import main.exceptions.FlightNotFoundException;
 import main.exceptions.NegativeDimensionException;
 import main.exceptions.NullDimensionException;
 import org.junit.After;
@@ -46,7 +47,7 @@ public class AirportLoggerTest extends TestCase {
      * Passengers 1 and 2 have the baggage 1. Passengers 3 and 4 the baggage 2. Passenger 5 has the baggage 3.
      */
     @Before
-    public void setUp() throws NullDimensionException, EmptyPassengerListException, InterruptedException {
+    public void setUp() throws NullDimensionException, EmptyPassengerListException, InterruptedException, FlightNotFoundException {
         // Case 1: Already checked in
         try {
             dummyBaggage1 = new Baggage(10, 20, 30, 9);
