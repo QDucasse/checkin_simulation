@@ -38,7 +38,7 @@ public class AirportTest extends TestCase {
         } catch (NegativeDimensionException e) {
             e.printStackTrace();
         }
-        dummyPassenger1 = new Passenger("John", "Doe", "EH145", "AB1CD2", true);
+        dummyPassenger1 = new Passenger("John", "Doe", "EH145", "AB1CD2", true, "Economic");
         dummyPassenger1.setBaggage(dummyBaggage1);
 
         try {
@@ -46,7 +46,7 @@ public class AirportTest extends TestCase {
         } catch (NegativeDimensionException e) {
             e.printStackTrace();
         }
-        dummyPassenger2 = new Passenger( "Jane", "Doe", "FR145", "AA0BB0", false);
+        dummyPassenger2 = new Passenger( "Jane", "Doe", "FR145", "AA0BB0", false, "Business");
         dummyPassenger2.setBaggage(dummyBaggage2);
 
         try {
@@ -54,7 +54,7 @@ public class AirportTest extends TestCase {
         } catch (NegativeDimensionException e) {
             e.printStackTrace();
         }
-        dummyPassenger3 = new Passenger( "Bill", "Murray", "FR145", "12345", false);
+        dummyPassenger3 = new Passenger( "Bill", "Murray", "FR145", "12345", false, "First class");
         dummyPassenger3.setBaggage(dummyBaggage3);
 
         dummyFlight1 = new Flight("Edinburgh", "RyanAir", 2, 100, 100, "EH145");

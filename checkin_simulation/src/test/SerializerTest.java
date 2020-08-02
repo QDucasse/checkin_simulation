@@ -166,15 +166,15 @@ public class SerializerTest {
     @Before
     public void setUp() throws NullDimensionException, NegativeDimensionException {
         dummyBaggage1 = new Baggage(10, 20, 30, 9);
-        dummyPassenger1 = new Passenger("John", "Doe", "EH145", "AB1CD2", true);
+        dummyPassenger1 = new Passenger("John", "Doe", "EH145", "AB1CD2", true, "Economic");
         dummyPassenger1.setBaggage(dummyBaggage1);
 
         dummyBaggage2 = new Baggage(40, 40, 40, 30);
-        dummyPassenger2 = new Passenger( "Jane", "Doe", "FR145", "AA0BB0", false);
+        dummyPassenger2 = new Passenger( "Jane", "Doe", "FR145", "AA0BB0", false, "Business");
         dummyPassenger2.setBaggage(dummyBaggage2);
 
         dummyBaggage3 = new Baggage(10, 20, 30, 80);
-        dummyPassenger3 = new Passenger( "Bill", "Murray", "FR145", "12345", false);
+        dummyPassenger3 = new Passenger( "Bill", "Murray", "FR145", "12345", false, "First class");
         dummyPassenger3.setBaggage(dummyBaggage3);
 
         dummyFlight1 = new Flight("Edinburgh", "RyanAir", 2, 100, 100, "EH145");

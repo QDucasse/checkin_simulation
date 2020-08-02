@@ -33,8 +33,8 @@ public class FlightTest extends TestCase {
         } catch (NegativeDimensionException e) {
             e.printStackTrace();
         }
-        dummyPassenger1 = new Passenger( "John", "Doe", "EH145", "1225", true);
-        dummyPassenger2 = new Passenger( "Jane", "Doe", "EH146", "1244", true);
+        dummyPassenger1 = new Passenger( "John", "Doe", "EH145", "1225", true, "Economic");
+        dummyPassenger2 = new Passenger( "Jane", "Doe", "EH146", "1244", true, "Business");
         dummyPassenger1.setBaggage(dummyBaggage1);
         dummyPassenger2.setBaggage(dummyBaggage2);
         dummyFlight.addPassenger(dummyPassenger1);
@@ -79,7 +79,7 @@ public class FlightTest extends TestCase {
     @Test
     public void testCheckWeightFalse() throws NullDimensionException, NegativeDimensionException {
         Baggage dummyBaggage3 = new Baggage(1000, 1000, 1000, 300);
-        Passenger dummyPassenger3 = new Passenger( "Bill", "Murray", "EH146", "1233", true);
+        Passenger dummyPassenger3 = new Passenger( "Bill", "Murray", "EH146", "1233", true, "First class");
         dummyPassenger3.setBaggage(dummyBaggage3);
         dummyFlight.addPassenger(dummyPassenger3);
         assertFalse(dummyFlight.checkWeight());
@@ -99,7 +99,7 @@ public class FlightTest extends TestCase {
     @Test
     public void testCheckVolumeFalse() throws NullDimensionException, NegativeDimensionException {
         Baggage dummyBaggage3 = new Baggage(1000, 1000, 1000, 300);
-        Passenger dummyPassenger3 = new Passenger( "Bill" ,"Murray", "EH146", "1233", true);
+        Passenger dummyPassenger3 = new Passenger( "Bill" ,"Murray", "EH146", "1233", true, "Business");
         dummyPassenger3.setBaggage(dummyBaggage3);
         dummyFlight.addPassenger(dummyPassenger3);
         assertFalse(dummyFlight.checkVolume());
@@ -119,7 +119,7 @@ public class FlightTest extends TestCase {
     @Test
     public void testCheckPassengerseFalse() throws NullDimensionException, NegativeDimensionException {
         Baggage dummyBaggage3 = new Baggage(10, 20, 30, 9);
-        Passenger dummyPassenger3 = new Passenger( "Bill" ,"Murray", "EH146", "1233", true);
+        Passenger dummyPassenger3 = new Passenger( "Bill" ,"Murray", "EH146", "1233", true, "Economic");
         dummyPassenger3.setBaggage(dummyBaggage3);
         dummyFlight.addPassenger(dummyPassenger3);
         assertFalse(dummyFlight.checkPassengers());
