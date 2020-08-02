@@ -3,9 +3,10 @@ import main.exceptions.FlightNotFoundException;
 import main.exceptions.NegativeDimensionException;
 import main.exceptions.NullDimensionException;
 import java.io.IOException;
+import java.util.Observable;
 import java.util.Random;
 
-public class Desk implements Runnable {
+public class Desk extends Observable implements Runnable {
     /* =======================
         INSTANCE VARIABLES
 	======================= */
@@ -61,8 +62,12 @@ public class Desk implements Runnable {
      public void run() {
          while (!passengerQueue.getDone()) {
              try {
-
                  Passenger passengerToCheckIn = passengerQueue.acceptNewPassenger();
+
+                 setChanged();
+                 notifyObservers();
+                 clearChanged();
+
                  //Set random baggage dimensions to passenger joining the queue
                  setRandomBaggageToPassenger(passengerToCheckIn);
                  // Log passenger accepted

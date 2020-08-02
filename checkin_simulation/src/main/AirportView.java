@@ -6,12 +6,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
 
-public class AirportView extends JFrame implements ActionListener {
+public class AirportView extends JFrame implements ActionListener, Observer {
 
     /* =======================
         INSTANCE VARIABLES
@@ -19,6 +17,7 @@ public class AirportView extends JFrame implements ActionListener {
 
     private JButton startSimulation;
     private JTextArea clients;
+    private JTextArea[] desks = new JTextArea[3];
     private Airport airport;
     private ArrayList<Passenger> passengerList;
     private ArrayList<Passenger> economicPassengerList;
@@ -110,7 +109,6 @@ public class AirportView extends JFrame implements ActionListener {
      */
     private JPanel setupDeskPanel() {
         JPanel deskPanel = new JPanel(new GridLayout(1,3));
-        JTextArea[] desks = new JTextArea[3];
         for (int i=0; i<3; i++)
         {
             desks[i]=new JTextArea(10,20);
@@ -282,6 +280,12 @@ public class AirportView extends JFrame implements ActionListener {
         worker.execute();
     }
 
+    @Override
+    public void update(Observable o, Object arg) {
+        for (int i = 0; i < 3; i++) {
+            desks[i].setText("Bloub");
+        }
+    }
 }
 
 
