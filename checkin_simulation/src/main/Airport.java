@@ -96,7 +96,7 @@ public class Airport extends Observable implements Runnable {
 
     /**
      * Getter of the PassengerList instance variable
-     * @return The instance variable FlightList
+     * @return The instance variable PassengerList
      */
     public ArrayList<Passenger> getPassengerList() {
         return passengerList;
@@ -108,6 +108,15 @@ public class Airport extends Observable implements Runnable {
      */
     public ArrayList<Desk> getDeskList() {
         return deskList;
+    }
+
+
+    /**
+     * Getter of the waitingLine instance variable
+     * @return The instance variable waitingLine
+     */
+    public WaitingLine getWaitingLine() {
+        return waitingLine;
     }
 
 
