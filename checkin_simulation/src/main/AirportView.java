@@ -97,6 +97,7 @@ public class AirportView extends JFrame implements Observer {
         {
             flights[i]=new JTextArea(10,20);
             flights[i].setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 12));
+            flights[i].setLineWrap(true);
             flights[i].setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, Color.LIGHT_GRAY));
             flightPanel.add(flights[i]);
         }
@@ -153,8 +154,8 @@ public class AirportView extends JFrame implements Observer {
      */
     @Override
     public void update(Observable o, Object arg) {
-        updateDesks();
         updateFlights();
+        updateDesks();
     }
 
     private void updateFlights() {
@@ -164,6 +165,7 @@ public class AirportView extends JFrame implements Observer {
             StringBuilder builder = new StringBuilder();
             builder.append(f.getFlightRef()).append(" ").append(f.getDestination()).append("\n");
             builder.append(f.totalPassengers()).append(" checked in of ").append(f.getMaxPassengers()).append("\n");
+            builder.append("Volume is ").append(f.totalVolume()).append("\n");
             builder.append("Hold is ").append(f.getHold()).append("%\n");
             this.flights[i].setText(builder.toString());
         }
@@ -224,7 +226,6 @@ public class AirportView extends JFrame implements Observer {
             else {
                 desks[i].setText("Desk n°" + currentDesk.getDeskNumber() + " empty");
             }
-
 
         }
     }

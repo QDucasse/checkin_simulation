@@ -206,4 +206,19 @@ public class AirportLogger {
                                             desk.getDeskNumber(), passenger.getFullName());
         log(messageToLog);
     }
+
+
+    /**
+     * Log to display an error in the check-in when the hold is full.
+     * LOG MESSAGE EXAMPLE: "Desk nº3: John Doe could not check-in, this flight's hold is full."
+     * @param targetPassenger
+     *      The passenger that checked-in.
+     * @throws IOException
+     *      If the log file is not found.
+     */
+    public static void logCheckInHoldFull(Desk desk, Passenger targetPassenger) throws IOException {
+        String messageToLog = String.format("Desk nº%s: %s could not check-in, this flight's hold is full.",
+                desk.getDeskNumber(), targetPassenger.getFullName());
+        log(messageToLog);
+    }
 }

@@ -85,7 +85,7 @@ public class Desk extends Observable implements Runnable {
                      //Check-in passenger
                      checkIn(passengerToCheckIn);
 
-
+                    System.out.println(passengerToCheckIn.getResult());
                      setChanged();
                      notifyObservers();
                      clearChanged();
@@ -145,10 +145,10 @@ public class Desk extends Observable implements Runnable {
             try {
                 String targetFlightRef = targetPassenger.getFlightReference();
                 Flight targetFlight = airport.getFlightFromRef(targetFlightRef);
-                targetPassenger.checkIn(airport);
+                Passenger.CheckinResult result = targetPassenger.checkIn(airport);
 
                 String fee = Integer.toString(targetFlight.getExcessFee());
-                switch(targetPassenger.getResult()){
+                switch(result){
                     case DONE:
                         AirportLogger.logCheckInComplete(this, targetPassenger);
                         break;
@@ -167,6 +167,8 @@ public class Desk extends Observable implements Runnable {
                     case ERR_FLIGHT_IS_FULL:
                         AirportLogger.logCheckInFlightFull(this, targetPassenger);
                         break;
+                    case ERR_HOLD_FULL:
+                        AirportLogger.logCheckInHoldFull(this, targetPassenger);
                 }
             } catch (FlightNotFoundException | IOException e) {
                 e.printStackTrace();

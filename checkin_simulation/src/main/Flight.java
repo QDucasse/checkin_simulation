@@ -157,9 +157,6 @@ public class Flight {
      *    The passenger to add.
      */
     public void addPassenger(Passenger newPassenger){
-        if (isFull()) {
-            throw new RuntimeException("");
-        }
         passengerList.add(newPassenger);
     }
 
@@ -290,6 +287,7 @@ public class Flight {
     }
 
     public int getHold() {
-       return ((totalVolume() / getMaxVolume()) * 100);
+        float k = (float) totalVolume() /  (float) getMaxVolume();
+       return (int) (k * 100);
     }
 }
