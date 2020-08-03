@@ -87,7 +87,6 @@ public class Desk extends Observable implements Runnable {
 					// Check-in passenger
 					checkIn(passengerToCheckIn);
 
-					System.out.println(passengerToCheckIn.getResult());
 					setChanged();
 					notifyObservers();
 					clearChanged();
