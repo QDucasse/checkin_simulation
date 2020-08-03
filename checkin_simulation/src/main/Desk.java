@@ -90,7 +90,6 @@ public class Desk extends Observable implements Runnable {
                      notifyObservers();
                      clearChanged();
 
-                     checkIn(passengerToCheckIn);
                      // Creation of a random time for the check-in to happen.
                      Random random = new Random();
                      // The randomSign outputs either 1 or -1

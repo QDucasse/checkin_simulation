@@ -199,7 +199,6 @@ public class Passenger {
 
         if (checkedIn) {
             // Check in is already done -> Abort
-            this.result = CheckinResult.WARNING_ALREADY_DONE;
             return result;
         }
 

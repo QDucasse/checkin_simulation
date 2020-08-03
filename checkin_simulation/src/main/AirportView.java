@@ -72,7 +72,7 @@ public class AirportView extends JFrame implements Observer {
 
         JPanel clientPanel = new JPanel(new GridLayout(2,1));
         clients = new JTextArea(10,20);
-        clients.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
+        clients.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 12));
         clients.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, Color.LIGHT_GRAY));
         startSimulation = new JButton("Start simulation");
         clientPanel.add(startSimulation);
@@ -96,7 +96,7 @@ public class AirportView extends JFrame implements Observer {
         for (int i=0; i< flightSize; i++)
         {
             flights[i]=new JTextArea(10,20);
-            flights[i].setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
+            flights[i].setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 12));
             flights[i].setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, Color.LIGHT_GRAY));
             flightPanel.add(flights[i]);
         }
@@ -111,10 +111,13 @@ public class AirportView extends JFrame implements Observer {
      */
     private JPanel setupDeskPanel() {
         JPanel deskPanel = new JPanel(new GridLayout(1,3));
+
+
         for (int i=0; i < MAX_CHECKIN_DESKS; i++)
         {
-            desks[i]=new JTextArea(10,25);
-            desks[i].setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
+            desks[i]=new JTextArea(10,20);
+            desks[i].setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 12));
+            desks[i].setLineWrap(true);
             desks[i].setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, Color.LIGHT_GRAY));
             deskPanel.add(desks[i]);
         }
