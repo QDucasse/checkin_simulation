@@ -125,7 +125,7 @@ public class Desk extends Observable implements Runnable {
     public void setRandomBaggageToPassenger(Passenger targetPassenger) throws NegativeDimensionException, NullDimensionException {
         Random random = new Random();
         // All dimensions are integers between 20 and 200
-        int bWeight = random.nextInt(20) + 1;
+        int bWeight = random.nextInt(30) + 10;
         int bLength = random.nextInt(50) + 10;
         int bWidth = random.nextInt(70) + 20;
         int bHeight = random.nextInt(100) + 40;
