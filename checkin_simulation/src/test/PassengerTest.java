@@ -41,10 +41,10 @@ public class PassengerTest extends TestCase {
         } catch (NegativeDimensionException e) {
             e.printStackTrace();
         }
-        dummyPassenger1 = new Passenger("John", "Doe", "EH145", "1225", true, "Economic");
+        dummyPassenger1 = new Passenger("John", "Doe", "EH145", "AB1CD2", true, "Economic");
         dummyPassenger1.setBaggage(dummyBaggage1);
         // Case 2: Wrong flight reference
-        dummyPassenger2 = new Passenger( "Jane", "Doe", "AA000", "1226", false, "Business");
+        dummyPassenger2 = new Passenger( "Jane", "Doe", "AA000", "AB3CD4", false, "Business");
         dummyPassenger2.setBaggage(dummyBaggage1);
         // Case 3: Warning weight
         try {
@@ -52,7 +52,7 @@ public class PassengerTest extends TestCase {
         } catch (NegativeDimensionException e) {
             e.printStackTrace();
         }
-        dummyPassenger3 = new Passenger( "Bill", "Murray", "EH145", "1227", false, "First class");
+        dummyPassenger3 = new Passenger( "Bill", "Murray", "EH145", "AB5CD6", false, "First class");
         dummyPassenger3.setBaggage(dummyBaggage2);
         // Case 4: Warning volume
         try {
@@ -60,25 +60,27 @@ public class PassengerTest extends TestCase {
         } catch (NegativeDimensionException e) {
             e.printStackTrace();
         }
-        dummyPassenger4 = new Passenger( "George", "Clooney", "EH145", "1228", false, "Economic");
+        dummyPassenger4 = new Passenger( "George", "Clooney", "EH145", "AB7CD8", false, "Economic");
         dummyPassenger4.setBaggage(dummyBaggage3);
         // Case 5: Working fine
-        dummyPassenger5 = new Passenger( "Brad", "Pitt", "EH145", "1229", false, "Business");
+        dummyPassenger5 = new Passenger( "Brad", "Pitt", "EH145", "AB19CD0", false, "Business");
         dummyPassenger5.setBaggage(dummyBaggage1);
 
         // Case 6: Flight Full
-        dummyPassenger6 = new Passenger( "Brad", "Pitt", "EH145", "1229", false, "First class");
+        dummyPassenger6 = new Passenger( "Brad", "Pitt", "EH145", "AB1CD3", false, "First class");
         dummyPassenger6.setBaggage(dummyBaggage1);
 
-        dummyFlight1 = new Flight("Edinburgh", "RyanAir", 1, 100, 100, "EH145");
-        dummyFlight2 = new Flight("Paris", "RyanAir", 1, 100, 100, "FR145");
+        dummyFlight1 = new Flight("Edinburgh", "RyanAir", 3, 100, 100, "EH145");
+        dummyFlight2 = new Flight("Paris", "RyanAir", 3, 100, 100, "FR145");
+
+        dummyFlight1.addPassenger(dummyPassenger1);
+        dummyFlight2.addPassenger(dummyPassenger2);
+        dummyFlight2.addPassenger(dummyPassenger3);
 
         ArrayList<Passenger> passengerList = new ArrayList<Passenger>();
         passengerList.add(dummyPassenger1);
         passengerList.add(dummyPassenger2);
         passengerList.add(dummyPassenger3);
-        passengerList.add(dummyPassenger4);
-        passengerList.add(dummyPassenger5);
 
         ArrayList<Flight> flightList = new ArrayList<Flight>();
         flightList.add(dummyFlight1);

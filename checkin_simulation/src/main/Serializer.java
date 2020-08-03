@@ -39,8 +39,11 @@ public class Serializer {
     }
 
     /**
+     * Above method with the default flights and passenger files.
      * @param airport
+     *      Airport to serialize.
      * @throws IOException
+     *      In case there is an issue when opening the file.
      */
     public static void defaultAirportToFile(Airport airport) throws IOException {
         Serializer.defaultFlightsToFile(airport.getFlightList());
