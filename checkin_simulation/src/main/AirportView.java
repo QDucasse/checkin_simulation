@@ -1,5 +1,6 @@
 package main;
 
+import main.Passenger.CheckinResult;
 import main.exceptions.EmptyPassengerListException;
 import main.exceptions.FlightNotFoundException;
 
@@ -175,8 +176,11 @@ public class AirportView extends JFrame implements Observer {
         for (int i = 0; i < MAX_CHECKIN_DESKS; i++) {
             WaitingLine currentLine = airport.getWaitingLine();
             PassengerQueue currentQueue = currentLine.getPassengerQueue();
-            clients.setText("There are currently " + currentQueue.getQueueSize() + " people waiting in the queue:\n" +
-                    currentQueue.toString());
+            if (currentQueue == null || currentQueue.getQueueSize() == 0)
+            	clients.setText("There are currently 0 people waiting in the queue.");
+            else {
+            	clients.setText("There are currently " + currentQueue.getQueueSize() + " people waiting in the queue:\n" + currentQueue.toString());
+            }
 
             Desk currentDesk = airport.getDeskList().get(i);
             if (currentDesk.getCurrentPassenger() != null) {
@@ -184,7 +188,7 @@ public class AirportView extends JFrame implements Observer {
                 Baggage baggage = passenger.getBaggage();
 
                 StringBuilder builder = new StringBuilder();
-                builder.append("Desk nÂ°").append(currentDesk.getDeskNumber()).append("\n");
+                builder.append("Desk n°").append(currentDesk.getDeskNumber()).append("\n");
                 builder.append(passenger.getFullName()).append(" ");
                 Flight f = null;
 
@@ -194,37 +198,43 @@ public class AirportView extends JFrame implements Observer {
                     e.printStackTrace();
                 }
 
-
-                switch (passenger.getResult()) {
-                    case WARNING_BAGGAGE_WEIGHT:
-                        builder.append("has checked in with a baggage of " + baggage.getWeight() + "kg.\n A fee of " + f.getExcessFee() +" has been paid due to the weight");
-                        break;
-                    case WARNING_BAGGAGE_VOLUME:
-                        builder.append("has checked in with a baggage of " + baggage.getWeight() + "kg.\n A fee of " + f.getExcessFee() +" has been paid due to the volume");
-                        break;
-                    case WARNING_ALREADY_DONE:
-                        builder.append("is already checked in, he moved to his flight");
-                        break;
-                    case ERR_HOLD_FULL:
-                        builder.append("cannot enter flight with his bag of ").append(baggage.getWeight()).append("since the hold is full");
-                        break;
-                    case ERR_FLIGHT_IS_FULL:
-                        builder.append("cannot enter flight, it is full");
-                        break;
-                    case DONE:
-                        builder.append("has checked in with a baggage of ").append(baggage.getWeight()).append("kg.");
-                        break;
-
-                    case ERR_FLIGHT_REFERENCE:
-                        builder.append("has a wrong flight reference");
-                        break;
-                }
+                CheckinResult currentPassengerResult = passenger.getResult();
+                if (currentPassengerResult == null)
+                	builder.append("Something went wrong : CheckinResult is null");
+				else {
+					switch (currentPassengerResult) {
+					case WARNING_BAGGAGE_WEIGHT:
+						builder.append("has checked in with a baggage of " + baggage.getWeight() + "kg.\n A fee of "
+								+ f.getExcessFee() + " has been paid due to the weight");
+						break;
+					case WARNING_BAGGAGE_VOLUME:
+						builder.append("has checked in with a baggage of " + baggage.getWeight() + "kg.\n A fee of "
+								+ f.getExcessFee() + " has been paid due to the volume");
+						break;
+					case WARNING_ALREADY_DONE:
+						builder.append("is already checked in, he moved to his flight");
+						break;
+					case ERR_HOLD_FULL:
+						builder.append("cannot enter flight with his bag of ").append(baggage.getWeight())
+								.append("since the hold is full");
+						break;
+					case ERR_FLIGHT_IS_FULL:
+						builder.append("cannot enter flight, it is full");
+						break;
+					case DONE:
+						builder.append("has checked in with a baggage of ").append(baggage.getWeight()).append("kg.");
+						break;
+					case ERR_FLIGHT_REFERENCE:
+						builder.append("has a wrong flight reference");
+						break;
+					}
+				}
 
                desks[i].setText(builder.toString());
 
             }
             else {
-                desks[i].setText("Desk nÂ°" + currentDesk.getDeskNumber() + " empty");
+                desks[i].setText("Desk n°" + currentDesk.getDeskNumber() + " empty");
             }
 
         }

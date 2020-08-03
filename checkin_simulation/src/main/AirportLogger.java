@@ -86,7 +86,7 @@ public class AirportLogger {
      *      If the log file is not found.
      */
     public static void logDeskPassengerAccepted(Desk desk, Passenger passenger) throws IOException {
-        String messageToLog = String.format("Desk nÂº%d accepted to check-in: %s", desk.getDeskNumber(), passenger.getFullName());
+        String messageToLog = String.format("Desk nº%d accepted to check-in: %s", desk.getDeskNumber(), passenger.getFullName());
         log(messageToLog);
     }
 
@@ -99,7 +99,20 @@ public class AirportLogger {
      *      If the log file is not found.
      */
     public static void logDeskTimeTaken(Desk desk, int time) throws IOException {
-        String messageToLog = String.format("Desk nÂº%d: Check-in completed in %ds", desk.getDeskNumber(), time / 1000);
+        String messageToLog = String.format("Desk nº%d: Check-in completed in %ds", desk.getDeskNumber(), time / 1000);
+        log(messageToLog);
+    }
+    
+    /**
+     * Log to display the time taken by a desk to timeout.
+     * LOG MESSAGE EXAMPLE: "Desk nº3: Timout in 5s".
+     * @param desk
+     *      The desk that accepted the check-in.
+     * @throws IOException
+     *      If the log file is not found.
+     */
+    public static void logDeskTimeout(Desk desk, long time) throws IOException {
+        String messageToLog = String.format("Desk nº%d: Timeout in %ds", desk.getDeskNumber(), time / 1000);
         log(messageToLog);
     }
 
@@ -127,7 +140,7 @@ public class AirportLogger {
      *      If the log file is not found.
      */
     public static void logCheckInComplete(Desk desk, Passenger passenger) throws IOException {
-        String messageToLog = String.format("Desk nÂº%s: %s is now checked-in with their baggage!",
+        String messageToLog = String.format("Desk nº%s: %s is now checked-in with their baggage!",
                                             desk.getDeskNumber(), passenger.getFullName());
         log(messageToLog);
     }
@@ -141,7 +154,7 @@ public class AirportLogger {
      *      If the log file is not found.
      */
     public static void logCheckInErrorFlight(Desk desk, Passenger passenger) throws IOException {
-        String messageToLog = String.format("Desk nÂº%s: %s has an erroneous flight reference.",
+        String messageToLog = String.format("Desk nº%s: %s has an erroneous flight reference.",
                                             desk.getDeskNumber(), passenger.getFullName());
         log(messageToLog);
 
@@ -156,7 +169,7 @@ public class AirportLogger {
      *      If the log file is not found.
      */
     public static void logCheckInAlreadyDone(Desk desk, Passenger passenger) throws IOException {
-        String messageToLog = String.format("Desk nÂº%s: %s is already checked-in.",
+        String messageToLog = String.format("Desk nº%s: %s is already checked-in.",
                                             desk.getDeskNumber(), passenger.getFullName());
         log(messageToLog);
     }
@@ -172,14 +185,14 @@ public class AirportLogger {
      *      If the log file is not found.
      */
     public static void logCheckInBaggageVolume(Desk desk, Passenger passenger, String fee) throws IOException {
-        String messageToLog = String.format("Desk nÂº%s: %s has a baggage too wide, the passenger has to pay: %sâ‚¬.",
+        String messageToLog = String.format("Desk nº%s: %s has a baggage too wide, the passenger has to pay: %s.",
                                             desk.getDeskNumber(), passenger.getFullName(), fee);
         log(messageToLog);
     }
 
     /**
      * Log to display an error in the check-in with a baggage that is too heavy.
-     * LOG MESSAGE EXAMPLE: "Desk nÂº3: John Doe has a baggage too heavy, the passenger has to pay: 30â‚¬."
+     * LOG MESSAGE EXAMPLE: "Desk nÂº3: John Doe has a baggage too heavy, the passenger has to pay: 30."
      * @param passenger
      *      The passenger that checked-in.
      * @param fee
@@ -188,7 +201,7 @@ public class AirportLogger {
      *      If the log file is not found.
      */
     public static void logCheckInBaggageWeight(Desk desk, Passenger passenger, String fee) throws IOException {
-        String messageToLog = String.format("Desk nÂº%s: %s has a baggage too heavy, the passenger has to pay: %sâ‚¬.",
+        String messageToLog = String.format("Desk nº%s: %s has a baggage too heavy, the passenger has to pay: %s.",
                                             desk.getDeskNumber(), passenger.getFullName(), fee);
         log(messageToLog);
     }
@@ -202,7 +215,7 @@ public class AirportLogger {
      *      If the log file is not found.
      */
     public static void logCheckInFlightFull(Desk desk, Passenger passenger) throws IOException {
-        String messageToLog = String.format("Desk nÂº%s: %s could not check-in, this flight is full.",
+        String messageToLog = String.format("Desk nº%s: %s could not check-in, this flight is full.",
                                             desk.getDeskNumber(), passenger.getFullName());
         log(messageToLog);
     }
@@ -217,7 +230,7 @@ public class AirportLogger {
      *      If the log file is not found.
      */
     public static void logCheckInHoldFull(Desk desk, Passenger targetPassenger) throws IOException {
-        String messageToLog = String.format("Desk nÂº%s: %s could not check-in, this flight's hold is full.",
+        String messageToLog = String.format("Desk nº%s: %s could not check-in, this flight's hold is full.",
                 desk.getDeskNumber(), targetPassenger.getFullName());
         log(messageToLog);
     }

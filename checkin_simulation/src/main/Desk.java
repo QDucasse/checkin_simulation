@@ -69,49 +69,61 @@ public class Desk extends Observable implements Runnable {
      * While the queue is not empty, the desk will accept passengers for check-in. Each time a passenger is accepted,
      * the desk will process it for a certain time (processing time ± 2s).
      */
-     public void run() {
-         while (!passengerQueue.isEmpty()) {
-             try {
-                 Passenger passengerToCheckIn = passengerQueue.acceptNewPassenger();
-                 currentPassenger = passengerToCheckIn;
-                 if (currentPassenger != null) {
+	public void run() {
+		long startTime = System.currentTimeMillis();
+		long currentTime;
+		boolean isTimeOut = false;
+		while (!passengerQueue.isEmpty() && !isTimeOut) {
+			try {
+				Passenger passengerToCheckIn = passengerQueue.acceptNewPassenger();
+				currentPassenger = passengerToCheckIn;
+				if (currentPassenger != null) {
 
-                     //Set random baggage dimensions to passenger joining the queue
-                     // Log passenger accepted
-                     setRandomBaggageToPassenger(passengerToCheckIn);
+					// Set random baggage dimensions to passenger joining the queue
+					// Log passenger accepted
+					setRandomBaggageToPassenger(passengerToCheckIn);
 
+					AirportLogger.logDeskPassengerAccepted(this, passengerToCheckIn);
+					// Check-in passenger
+					checkIn(passengerToCheckIn);
 
-                     AirportLogger.logDeskPassengerAccepted(this, passengerToCheckIn);
-                     //Check-in passenger
-                     checkIn(passengerToCheckIn);
+					System.out.println(passengerToCheckIn.getResult());
+					setChanged();
+					notifyObservers();
+					clearChanged();
 
-                    System.out.println(passengerToCheckIn.getResult());
-                     setChanged();
-                     notifyObservers();
-                     clearChanged();
+					// Creation of a random time for the check-in to happen.
+					Random random = new Random();
+					// The randomSign outputs either 1 or -1
+					int randomSign = random.nextInt(2) * 2 - 1;
+					// The random integer corresponds to 1000,2000 milliseconds
+					int randomInt = random.nextInt(3) * 1000;
+					int randomMillis = randomSign * randomInt;
+					
+					//set Desk timeout (10sec)
+					currentTime = System.currentTimeMillis();
+					if ((currentTime - startTime) / 1000 >= 10) {
+						isTimeOut = true;
+						AirportLogger.logDeskTimeout(this, currentTime - startTime);
+					}
+					else {
+						// The thread will sleep for a duration between 1 second (3000 - 2000) and 5
+						// seconds (3000 + 2000)
+						int totalTime = processingTime + randomMillis;
+						Thread.sleep(totalTime);
+						AirportLogger.logDeskTimeTaken(this, totalTime);
+					}
+				}
+			} catch (InterruptedException | IOException | NullDimensionException | NegativeDimensionException e) {
+				e.printStackTrace();
+			}
+		}
+		currentPassenger = null;
 
-                     // Creation of a random time for the check-in to happen.
-                     Random random = new Random();
-                     // The randomSign outputs either 1 or -1
-                     int randomSign = random.nextInt(2) * 2 - 1;
-                     // The random integer corresponds to 1000,2000 milliseconds
-                     int randomInt = random.nextInt(3) * 1000;
-                     int randomMillis = randomSign * randomInt;
-                     // The thread will sleep for a duration between 1 second (3000 - 2000) and 5 seconds (3000 + 2000)
-                     int totalTime = processingTime + randomMillis;
-                     Thread.sleep(totalTime);
-
-                     AirportLogger.logDeskTimeTaken(this, totalTime);
-                 }
-             }
-             catch (InterruptedException | IOException | NullDimensionException | NegativeDimensionException e) { e.printStackTrace(); }
-         }
-         currentPassenger = null;
-
-         setChanged();
-         notifyObservers();
-         clearChanged();
-     }
+		setChanged();
+		notifyObservers();
+		clearChanged();
+	}
 
 
     /**
@@ -127,8 +139,8 @@ public class Desk extends Observable implements Runnable {
         Random random = new Random();
         // All dimensions are integers between 20 and 200
         int bWeight = random.nextInt(20) + 1;
-        int bLength = random.nextInt(50) + 10;
-        int bWidth = random.nextInt(70) + 20;
+        int bLength = random.nextInt(50) + 1;
+        int bWidth = random.nextInt(70) + 1;
         int bHeight = random.nextInt(100) + 40;
         Baggage randomBaggage = new Baggage(bLength, bHeight, bWidth, bWeight);
         targetPassenger.setBaggage(randomBaggage);
