@@ -103,7 +103,10 @@ public class PassengerQueue {
         }
         desksFull = true;
         notifyAll();
-        return passengerQueue.remove();
+        if (!passengerQueue.isEmpty())
+        	return passengerQueue.remove();
+        else
+        	return null;
     }
 
     /**
