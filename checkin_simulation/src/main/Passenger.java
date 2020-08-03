@@ -34,7 +34,11 @@ public class Passenger {
          * Check-in is already done.
          */
         WARNING_ALREADY_DONE,
-        
+
+        /**
+         * Hold is full, cannot accept passenger and the luggage
+         */
+        ERR_HOLD_FULL,
         /**
          * Flight is full
          */
@@ -52,6 +56,8 @@ public class Passenger {
     private Baggage baggage;
     private boolean checkedIn;
     private String priority;
+    private CheckinResult result;
+
 
     /* =======================
            CONSTRUCTORS
@@ -193,7 +199,8 @@ public class Passenger {
 
         if (checkedIn) {
             // Check in is already done -> Abort
-            return CheckinResult.WARNING_ALREADY_DONE;
+            this.result = CheckinResult.WARNING_ALREADY_DONE;
+            return result;
         }
 
         try {
@@ -201,32 +208,42 @@ public class Passenger {
             // Baggage weight is exceeded -> Fee
 
             if (targetFlight.isFull())
-                return CheckinResult.ERR_FLIGHT_IS_FULL;
+                this.result = CheckinResult.ERR_FLIGHT_IS_FULL;
 
-            if (baggage.getWeight() > targetFlight.getBaggageMaxWeight()){
+            else if (targetFlight.totalVolume() + baggage.getVolume() > targetFlight.getMaxVolume()) {
+                this.result = CheckinResult.ERR_HOLD_FULL;
+            }
+
+            else if (baggage.getWeight() > targetFlight.getBaggageMaxWeight()){
                 targetFlight.addPassenger(this);
                 checkedIn = true;
-                return CheckinResult.WARNING_BAGGAGE_WEIGHT;
+                this.result = CheckinResult.WARNING_BAGGAGE_WEIGHT;
             }
             // Baggage volume is exceeded -> Fee
-            if (baggage.getVolume() > targetFlight.getBaggageMaxVolume()){
+            else if (baggage.getVolume() > targetFlight.getBaggageMaxVolume()){
                 targetFlight.addPassenger(this);
                 checkedIn = true;
-                return CheckinResult.WARNING_BAGGAGE_VOLUME;
+                this.result = CheckinResult.WARNING_BAGGAGE_VOLUME;
+            }
+            else {
+                targetFlight.addPassenger(this);
+                checkedIn = true;
+                this.result = CheckinResult.DONE;
             }
 
         }
         catch (FlightNotFoundException e) {
             // Flight reference is wrong -> Abort
-            return CheckinResult.ERR_FLIGHT_REFERENCE;
+            this.result = CheckinResult.ERR_FLIGHT_REFERENCE;
         }
-
-        targetFlight.addPassenger(this);
-        checkedIn = true;
-        return CheckinResult.DONE;
+        return result;
     }
 
-     /* =======================
+    public CheckinResult getResult() {
+        return result;
+    }
+
+    /* =======================
         OVERRIDDEN METHODS
     ======================= */
 

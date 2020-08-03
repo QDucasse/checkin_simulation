@@ -17,7 +17,7 @@ public class Flight {
     private String flightRef;
     private int baggageMaxWeight;
     private int baggageMaxVolume;
-    private int excessFee;
+    private int excessFee = 50;
     private ArrayList<Passenger> passengerList;
 
     /* =======================
@@ -287,5 +287,9 @@ public class Flight {
     @Override
     public int hashCode() {
         return Objects.hash(destination, carrier, maxPassengers, maxWeight, maxVolume, flightRef, baggageMaxWeight, baggageMaxVolume, excessFee, passengerList);
+    }
+
+    public int getHold() {
+       return ((totalVolume() / getMaxVolume()) * 100);
     }
 }

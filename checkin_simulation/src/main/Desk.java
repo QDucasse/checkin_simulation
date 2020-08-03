@@ -75,15 +75,21 @@ public class Desk extends Observable implements Runnable {
                  Passenger passengerToCheckIn = passengerQueue.acceptNewPassenger();
                  currentPassenger = passengerToCheckIn;
 
-                 setChanged();
-                 notifyObservers(1);
-                 clearChanged();
-
                  //Set random baggage dimensions to passenger joining the queue
-                 setRandomBaggageToPassenger(passengerToCheckIn);
                  // Log passenger accepted
+                 setRandomBaggageToPassenger(passengerToCheckIn);
+
+
                  AirportLogger.logDeskPassengerAccepted(this, passengerToCheckIn);
                  //Check-in passenger
+                 checkIn(passengerToCheckIn);
+
+
+
+                 setChanged();
+                 notifyObservers();
+                 clearChanged();
+
                  checkIn(passengerToCheckIn);
                  // Creation of a random time for the check-in to happen.
                  Random random = new Random();
@@ -120,10 +126,10 @@ public class Desk extends Observable implements Runnable {
     public void setRandomBaggageToPassenger(Passenger targetPassenger) throws NegativeDimensionException, NullDimensionException {
         Random random = new Random();
         // All dimensions are integers between 20 and 200
-        int bWeight = random.nextInt(180) + 21;
-        int bLength = random.nextInt(180) + 21;
-        int bWidth = random.nextInt(180) + 21;
-        int bHeight = random.nextInt(180) + 21;
+        int bWeight = random.nextInt(20) + 1;
+        int bLength = random.nextInt(50) + 10;
+        int bWidth = random.nextInt(70) + 20;
+        int bHeight = random.nextInt(100) + 40;
         Baggage randomBaggage = new Baggage(bLength, bHeight, bWidth, bWeight);
         targetPassenger.setBaggage(randomBaggage);
     }
@@ -139,9 +145,10 @@ public class Desk extends Observable implements Runnable {
             try {
                 String targetFlightRef = targetPassenger.getFlightReference();
                 Flight targetFlight = airport.getFlightFromRef(targetFlightRef);
-                Passenger.CheckinResult checkInResult = targetPassenger.checkIn(airport);
+                targetPassenger.checkIn(airport);
+
                 String fee = Integer.toString(targetFlight.getExcessFee());
-                switch(checkInResult){
+                switch(targetPassenger.getResult()){
                     case DONE:
                         AirportLogger.logCheckInComplete(this, targetPassenger);
                         break;

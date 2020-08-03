@@ -159,10 +159,9 @@ public class AirportView extends JFrame implements Observer {
             Flight f = airport.getFlightList().get(i);
 
             StringBuilder builder = new StringBuilder();
-            builder.append("Flight ").append(f.getFlightRef()).append("\n");
-            builder.append("Destination ").append(f.getDestination()).append("\n");
-            builder.append("Passengers ").append(f.totalPassengers()).append("/").append(f.getMaxPassengers()).append("\n");
-            builder.append("Weight capacity ").append(f.totalVolume()).append("/ ").append(f.getMaxVolume()).append("\n");
+            builder.append(f.getFlightRef()).append(" ").append(f.getDestination()).append("\n");
+            builder.append(f.totalPassengers()).append(" checked in of ").append(f.getMaxPassengers()).append("\n");
+            builder.append("Hold is ").append(f.getHold()).append("%\n");
             this.flights[i].setText(builder.toString());
         }
     }
@@ -177,14 +176,46 @@ public class AirportView extends JFrame implements Observer {
             Desk currentDesk = airport.getDeskList().get(i);
             if (currentDesk.getCurrentPassenger() != null) {
                 Passenger passenger = currentDesk.getCurrentPassenger();
+                Baggage baggage = passenger.getBaggage();
 
-                if (passenger.getBaggage() != null ) {
-                    desks[i].setText("Desk n°" + currentDesk.getDeskNumber() + "\n" + currentDesk.getCurrentPassenger().getFullName() + " is dropping off 1 baggage of "
-                            + currentDesk.getCurrentPassenger().getBaggage().getWeight() + "kg.");
+                StringBuilder builder = new StringBuilder();
+                builder.append("Desk n°").append(currentDesk.getDeskNumber()).append("\n");
+                builder.append(passenger.getFullName()).append(" ");
+                Flight f = null;
+
+                try {
+                    f = airport.getFlightFromRef(passenger.getFlightReference());
+                } catch (FlightNotFoundException e) {
+                    e.printStackTrace();
                 }
-                else {
-                    desks[i].setText("Desk n°" + currentDesk.getDeskNumber() + "\n" + currentDesk.getCurrentPassenger().getFullName() + " is checking in");
+
+
+                switch (passenger.getResult()) {
+                    case WARNING_BAGGAGE_WEIGHT:
+                        builder.append("has checked in with a baggage of " + baggage.getWeight() + "kg.\n A fee of " + f.getExcessFee() +" has been paid due to the weight");
+                        break;
+                    case WARNING_BAGGAGE_VOLUME:
+                        builder.append("has checked in with a baggage of " + baggage.getWeight() + "kg.\n A fee of " + f.getExcessFee() +" has been paid due to the volume");
+                        break;
+                    case WARNING_ALREADY_DONE:
+                        builder.append("is already checked in, he moved to his flight");
+                        break;
+                    case ERR_HOLD_FULL:
+                        builder.append("cannot enter flight with his bag of ").append(baggage.getWeight()).append("since the hold is full");
+                        break;
+                    case ERR_FLIGHT_IS_FULL:
+                        builder.append("cannot enter flight, it is full");
+                        break;
+                    case DONE:
+                        builder.append("has checked in with a baggage of ").append(baggage.getWeight()).append("kg.");
+                        break;
+
+                    case ERR_FLIGHT_REFERENCE:
+                        builder.append("has a wrong flight reference");
+                        break;
                 }
+
+               desks[i].setText(builder.toString());
 
             }
             else {
