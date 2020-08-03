@@ -166,6 +166,7 @@ public class AirportView extends JFrame implements Observer {
             StringBuilder builder = new StringBuilder();
             builder.append(f.getFlightRef()).append(" ").append(f.getDestination()).append("\n");
             builder.append(f.totalPassengers()).append(" checked in of ").append(f.getMaxPassengers()).append("\n");
+            builder.append("Volume is ").append(f.totalVolume()).append("\n");
             builder.append("Hold is ").append(f.getHold()).append("%\n");
             this.flights[i].setText(builder.toString());
         }
